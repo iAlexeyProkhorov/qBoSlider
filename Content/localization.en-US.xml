@@ -1,0 +1,177 @@
+<Language Name="English">
+  <LocaleResource Name="plugins.widgets.qboslider.clearcache">
+    <Value>&lt;strong&gt;Clear nopCommerce cache after changes in slide collection.&lt;/strong&gt; &lt;/br&gt; &lt;/br&gt;</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.WidgetZoneName">
+    <Value>Widget zone</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.WidgetZoneName.Hint">
+    <Value>Name of widget zone where slider will displays</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.arrowdisplaynavigationtype">
+    <Value>Arrow display navigation type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.ArrowDisplayNavigationType.Hint">
+    <Value>Slider arrow navigation display type.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.bulletdisplaynavigationtype">
+    <Value>Bullet navigation display type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.BulletDisplayNavigationType.Hint">
+    <Value>Slider bullet navigation display type.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.AutoPlayInterval">
+    <Value>Auto play interval</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.AutoPlayInterval.Hint">
+    <Value>Time between slide changing.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlideDuration">
+    <Value>Slide duration</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlideDuration.Hint">
+    <Value>How much do slide shows.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.MinDragOffsetToSlide">
+    <Value>Minimum drag offset for slide changing</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.MinDragOffsetToSlide.Hint">
+    <Value>Minimum drag offset to trigger slide.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlideSpacing">
+    <Value>Slide spacing</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlideSpacing.Hint">
+    <Value>Space between each slides in pixels.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.AutoPlay">
+    <Value>Auto play</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.AutoPlay.Hint">
+    <Value>Slider autoplay slides.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Info">
+    <Value>General information</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Picture">
+    <Value>Slide picture</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Picture.Hint">
+    <Value>Select slide picture here.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Description">
+    <Value>Description</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Description.Hint">
+    <Value>Here you can set your slide HTML content</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Hyperlink.Hint">
+    <Value>Slide hyperlink.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.DisplayOrder">
+    <Value>Display order</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.DisplayOrder.Hint">
+    <Value>Slide display order.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.storemappings">
+    <Value>Store mappings</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.LimitedToStores">
+    <Value>Limited to stores</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.LimitedToStores.Hint">
+    <Value>Limit slide store availability.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.hyperlink">
+    <Value>Hyperlink</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AvailableStores">
+    <Value>Available stores</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.NoStoresAvailable">
+    <Value>No available stores</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AvailableStores.Hint">
+    <Value>Here you can select stores, where current slider will be available.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlideInfo">
+    <Value>Information</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.SlidePictureIsRequired">
+    <Value>Slide picture is required information for slide saving.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.EndDateMustBeLaterThanStartDate">
+    <Value>End publication date must be later than publication start date.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.picture">
+    <Value>Picture</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createorupdate.displayorder">
+    <Value>Display order</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidersettings">
+    <Value>Settings</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidecollection">
+    <Value>Slide collection</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createorupdate.addnew">
+    <Value>Add new</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DisplayNavigation.None">
+    <Value>None</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DisplayNavigation.OnMouseDrag">
+    <Value>On mouse drag</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DisplayNavigation.Always">
+    <Value>Always</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.TransitionPlay.Random">
+    <Value>Random</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.TransitionPlay.Sequence">
+    <Value>Sequence</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.None">
+    <Value>None</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Vertical">
+    <Value>Vertical</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Horizontal">
+    <Value>Horizontal</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Both">
+    <Value>Both</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc">
+    <Value>Start date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc.Hint">
+    <Value>Slide will be published from this date.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc">
+    <Value>End date</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc.Hint">
+    <Value>Slide will not published after this date.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Published">
+    <Value>Published</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Published.Hint">
+    <Value>Mark slide like published.</Value>
+  </LocaleResource>
+  <!--1.0.5-->
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.acl">
+    <Value>Access controll list</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles">
+    <Value>Limited to customer roles</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles.Hint">
+    <Value>Select customer roles for which the slide will be shown. Leave empty if you want this slide to be visible to all users.</Value>
+  </LocaleResource>
+</Language>

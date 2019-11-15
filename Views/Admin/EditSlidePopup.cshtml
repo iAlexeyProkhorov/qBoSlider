@@ -1,0 +1,25 @@
+﻿@model SlideModel
+
+@{
+    Layout = "_AdminPopupLayout";
+}
+
+@using Nop.Plugin.Widgets.qBoSlider.Models;
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Common.Edit")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    
+    @Html.Partial("~/Plugins/Widgets.qBoSlider/Views/Admin/_CreateOrUpdate.cshtml", Model)
+}
