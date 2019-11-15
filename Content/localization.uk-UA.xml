@@ -1,0 +1,177 @@
+﻿<Language Name="Ukranian">
+  <LocaleResource Name="plugins.widgets.qboslider.clearcache">
+    <Value>&lt;strong&gt;Очистіть кеш сайту після того як завершите роботу зі слайдами&lt;/strong&gt; &lt;/br&gt; &lt;/br&gt;</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.WidgetZoneName">
+    <Value>Вiджет</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.WidgetZoneName.Hint">
+    <Value>Назва зони вiджета, де буде вiдображатися слайдер.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.arrowdisplaynavigationtype">
+    <Value>Відображення стрілочної навігації</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.arrowdisplaynavigationtype.hint">
+    <Value>Тип відображення стрілочної навігації.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.bulletdisplaynavigationtype">
+    <Value>Кнопочна навігація</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.bulletdisplaynavigationtype.hint">
+    <Value>Тип відображення кнопочної навігації</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.autoplayinterval">
+    <Value>Інтервал</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.autoplayinterval.hint">
+    <Value>Час між слайдами(мілісекунди)</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slideduration">
+    <Value>Тривалість одного слайду</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slideduration.hint">
+    <Value>Тривалість одного слайду(мілісекунди)</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.mindragoffsettoslide">
+    <Value>Мінімальний крок зміщення для зміни слайду(пікселі)</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.mindragoffsettoslide.hint">
+    <Value>Мінімальний крок зміщення для зміни слайду(пікселі)</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidespacing">
+    <Value>Інтервал між слайдами</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidespacing.hint">
+    <Value>Простір між кожним слайдом(пікселі)</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.autoplay">
+    <Value>Програвати автоматично</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.autoplay.hint">
+    <Value>Програвати слайди автоматично.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Info">
+    <Value>Основна iнформацiя</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.picture">
+    <Value>Зображення</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.picture.hint">
+    <Value>Оберіть фонове зображення слайду тут.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.description">
+    <Value>Зміст</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.description.hint">
+    <Value>Тут Ви можете записати HTML код змісту слайду.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.hyperlink.hint">
+    <Value>Гіперпосилання</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.displayorder">
+    <Value>Порядок відображення</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.displayorder.hint">
+    <Value>Порядок відображення слайду.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.limitedtostores">
+    <Value>Доступ в магазинах</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.limitedtostores.hint">
+    <Value>Доступ до слайду тільки у вказаних магазинах.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.hyperlink">
+    <Value>Гіперпосилання</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.availablestores">
+    <Value>Доступні магазини</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.storemappings">
+    <Value>Магазини</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.NoStoresAvailable">
+    <Value>Сайт не має доступних магазинiв.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createoredit.availablestores.hint">
+    <Value>Тут Ви можете обрати магазини де слайд буде доступний.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slideinfo">
+    <Value>Інформація</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidepictureisrequired">
+    <Value>Фонове зображення слайду є обов'язковим для збереження параметром.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.EndDateMustBeLaterThanStartDate">
+    <Value>Дата завершення публікації слайду повинна бути піздніше дати початку публікації.</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.picture">
+    <Value>Зображення</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createorupdate.displayorder">
+    <Value>Порядок відображення</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidersettings">
+    <Value>Параметри</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.slidecollection">
+    <Value>Колекція слайдів</Value>
+  </LocaleResource>
+  <LocaleResource Name="plugins.widgets.qboslider.createorupdate.addnew">
+    <Value>Додати новий</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.displaynavigation.none">
+    <Value>Ні</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.displaynavigation.onmousedrag">
+    <Value>Рух курсору миші</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.displaynavigation.always">
+    <Value>Завжди</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.transitionplay.random">
+    <Value>Випадкове</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.transitionplay.sequence">
+    <Value>Послідовність</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.dragorientation.none">
+    <Value>Ні</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.dragorientation.vertical">
+    <Value>Вертикально</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.dragorientation.horizontal">
+    <Value>Горизонтально</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.nop.plugin.widgets.qboslider.dragorientation.both">
+    <Value>Обидва напрямки</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc">
+    <Value>Початок публікації</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc.Hint">
+    <Value>Дата початку публікації слайду.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc">
+    <Value>Завершення публікації</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc.Hint">
+    <Value>Дата завершення публікації слайду.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Published">
+    <Value>Опублікован</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.Published.Hint">
+    <Value>Помітити слайд як побулікованний.</Value>
+  </LocaleResource>
+  <!--1.0.5-->
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles">
+    <Value>Контроль доступу</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles">
+    <Value>Використовуэться з цими ролями користувача</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles.Hint">
+    <Value>Слайд буде відображатися тільки для користувачів відповідно обраним ролям. Залиште поле порожнім, якщо ви хочете, щоби всі користувачі сайту бачили цей слайд.</Value>
+  </LocaleResource>
+</Language>

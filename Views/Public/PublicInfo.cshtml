@@ -1,0 +1,175 @@
+﻿@model PublicInfoModel
+@{
+    Layout = "";
+    //Html.AddScriptParts(ResourceLocation.Footer, "~/lib/jquery/jquery-1.10.2.js");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.js");
+
+
+    Html.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
+
+    string autoPlay = Model.AutoPlay ? "True" : string.Empty;
+}
+@using Nop.Web.Framework.UI
+@using Nop.Plugin.Widgets.qBoSlider.Models;
+
+
+<div id="slider-container">
+
+    <div u="loading" id="slider-loading">
+        <div id="slider-loading-background">
+        </div>
+        <div id="loading">
+        </div>
+    </div>
+
+    <div u="slides" style="cursor: pointer; position: absolute; left: 0px; top: 0px; width: 600px; height: 300px; overflow: hidden;">
+        @foreach (var slide in Model.Slides)
+        {
+            <div>
+                @if (!string.IsNullOrEmpty(slide.Hyperlink))
+                {
+                    <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
+                        <img u="image" src="@slide.Picture" />
+                        <div class="slide-description">
+                            @Html.Raw(slide.Description)
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <img u="image" src="@slide.Picture" />
+                    <div class="slide-description">
+                        @Html.Raw(slide.Description)
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
+        <div u="prototype"></div>
+    </div>
+
+
+    <span u="arrowleft" class="jssora12l">
+    </span>
+    <span u="arrowright" class="jssora12r">
+    </span>
+</div>
+
+<script asp-location="Footer">
+    jQuery(document).ready(function ($) {
+
+        var _SlideshowTransitions = [
+        {
+            $Duration: 1200,
+            $Opacity: 2
+        }
+        ];
+
+        var options = {
+            $FillMode: 2,
+            $AutoPlay: Boolean('@autoPlay'),                                
+            $AutoPlaySteps: 1,                                
+            $AutoPlayInterval: @Model.AutoPlayInterval,                           
+            $PauseOnHover: 1,                               
+
+            $ArrowKeyNavigation: true,   			            
+            $SlideDuration: @Model.SlideDuration,                               
+            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,                
+            //$SlideHeight: 300,                             
+            $SlideSpacing: @Model.SlideSpacing, 					       
+            $DisplayPieces: 1,                                
+            $ParkingPosition: 0,                               
+            $UISearchMode: 1,                                  
+            $PlayOrientation: 1,                                
+            $DragOrientation: 1,                                
+
+            $SlideshowOptions: {                                
+                $Class: $JssorSlideshowRunner$,                
+                $Transitions: _SlideshowTransitions,            
+                $TransitionsOrder: 1,                          
+                $ShowLink: true                                    
+            },
+
+            $BulletNavigatorOptions: {                                
+                $Class: $JssorBulletNavigator$,                       
+                $ChanceToShow: @Model.BulletNavigation,                              
+                $AutoCenter: 1,                                 
+                $Steps: 1,                                      
+                $Lanes: 1,                                      
+                $SpacingX: 10,                                   
+                $SpacingY: 10,                                   
+                $Orientation: 1,                               
+                $Scale: false
+            },
+
+            $ArrowNavigatorOptions: {
+                $Class: $JssorArrowNavigator$,             
+                $ChanceToShow: @Model.ArrowNavigation,                               
+                $Steps: 1,                                      
+                $Scale: false,
+                $AutoCenter: 2
+            }
+        };
+        var jssor_slider1 = new $JssorSlider$("slider-container", options);
+
+        //responsive code begin
+        //you can remove responsive code if you don't want the slider scales while window resizes
+        function ScaleSlider() {
+
+            //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
+            var paddingWidth = 0;
+
+            //minimum width should reserve for text
+            var minReserveWidth = 125;
+
+            var parentElement = jssor_slider1.$Elmt.parentNode;
+
+            //evaluate parent container width
+            var parentWidth = parentElement.clientWidth;
+
+            if (parentWidth) {
+
+                //exclude blank width
+                var availableWidth = parentWidth - paddingWidth;
+
+                //calculate slider width as 100% of available width
+                var sliderWidth = availableWidth;
+
+                //slider width is maximum 1920
+                sliderWidth = Math.min(sliderWidth, 1200);
+
+                //slider width is minimum 200
+                sliderWidth = Math.max(sliderWidth, 200);
+                var clearFix = "none";
+
+                //evaluate free width for text, if the width is less than minReserveWidth then fill parent container
+                if (availableWidth - sliderWidth < minReserveWidth) {
+
+                    //set slider width to available width
+                    sliderWidth = availableWidth;
+
+                    //slider width is minimum 200
+                    sliderWidth = Math.max(sliderWidth, 200);
+
+                    clearFix = "both";
+                }
+
+                //clear fix for safari 3.1, chrome 3
+                //$('#clearFixDiv').css('clear', clearFix);
+
+                jssor_slider1.$ScaleWidth(sliderWidth);
+            }
+            else
+                window.setTimeout(ScaleSlider, 30);
+        }
+        ScaleSlider();
+
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
+        //responsive code end
+    });
+</script>
