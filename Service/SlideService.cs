@@ -7,35 +7,32 @@ using Nop.Services.Media;
 using Nop.Services.Stores;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Localization;
+using Nop.Services.Events;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
+    /// <summary>
+    /// Represents qBoSlider slide service
+    /// </summary>
     public partial class SlideService : ISlideService
     {
         #region Fields
 
+        private readonly IEventPublisher _eventPublisher;
         private readonly IRepository<Slide> _slideRepository;
 
-        private readonly ILanguageService _languageService;
-        private readonly ILocalizedEntityService _localizedEntityService;
-        private readonly IPictureService _pictureService;
         private readonly IStoreMappingService _storeMappingService;
 
         #endregion
 
         #region Constructor
 
-        public SlideService(IRepository<Slide> slideRepository,
-            ILanguageService languageService,
-            ILocalizedEntityService localizedEntityService,
-            IPictureService pictureSerivce,
+        public SlideService(IEventPublisher eventPublisher,
+            IRepository<Slide> slideRepository,
             IStoreMappingService storeMappingService)
         {
+            this._eventPublisher = eventPublisher;
             this._slideRepository = slideRepository;
-
-            this._languageService = languageService;
-            this._localizedEntityService = localizedEntityService;
-            this._pictureService = pictureSerivce;
             this._storeMappingService = storeMappingService;
         }
 
@@ -95,6 +92,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         public virtual void InsertSlide(Slide slide)
         {
             _slideRepository.Insert(slide);
+
+            _eventPublisher.EntityInserted(slide);
         }
 
         /// <summary>
@@ -104,6 +103,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         public virtual void UpdateSlide(Slide slide)
         {
             _slideRepository.Update(slide);
+
+            _eventPublisher.EntityUpdated(slide);
         }
 
         /// <summary>
@@ -112,37 +113,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="slide">Deleting slide</param>
         public virtual void DeleteSlide(Slide slide)
         {
-            var allLanguages = _languageService.GetAllLanguages(true);
-
-            //delete slide localized pictures and values
-            foreach (var language in allLanguages)
-            {
-                int pictureId = 0;
-                var pictureIdLocalizaedValue = _localizedEntityService.GetLocalizedValue(language.Id, slide.Id, "Slide", "PictureId");
-                if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && int.TryParse(pictureIdLocalizaedValue, out pictureId))
-                {
-                    var localizedPicture = _pictureService.GetPictureById(pictureId);
-
-                    //go to next picture if current picture aren't exist
-                    if (localizedPicture == null)
-                        continue;
-
-                    _pictureService.DeletePicture(localizedPicture);
-
-                    //delete localized value
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, language.Id);
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, language.Id);
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, language.Id);
-                }
-            }
-
-            //delete slide base picture
-            var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-            if (picture != null)
-                _pictureService.DeletePicture(picture);
-
             //delete slide entity
             _slideRepository.Delete(slide);
+
+            _eventPublisher.EntityDeleted(slide);
         }
 
         #endregion

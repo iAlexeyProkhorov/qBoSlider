@@ -28,6 +28,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.qBoSlider</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\jssor.js" />
+    <None Remove="Scripts\jssor.slider.js" />
+    <None Remove="Scripts\slideshow-transition-builder-controller.min.js" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -78,33 +84,33 @@
     <None Update="logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Scripts\jssor.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\jssor.slider.js">
+    <None Update="Scripts\jssor.slider.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Admin\Configure.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Admin\CreateSlidePopup.cshtml">
+    <None Update="Views\Admin\Slide\CreateSlidePopup.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Admin\EditSlidePopup.cshtml">
+    <None Update="Views\Admin\Slide\EditSlidePopup.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Admin\_CreateOrUpdate.cshtml">
+    <None Update="Views\Admin\Slide\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Admin\_PluginSettings.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Admin\_SlideCollection.cshtml">
+    <None Update="Views\Admin\Slide\_SlideCollection.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Public\PublicInfo.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Admin\WidgetZone\" />
   </ItemGroup>
   <!-- This target execute after "Build" target -->
   <Target Name="NopTarget" AfterTargets="Build">

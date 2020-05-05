@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Plugin.Widgets.qBoSlider.Validators;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Models
+namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
 {
     public partial class SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
     {

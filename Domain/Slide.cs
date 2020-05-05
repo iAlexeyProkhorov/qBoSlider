@@ -6,39 +6,43 @@ using System;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Domain
 {
+    /// <summary>
+    /// Represents slide entity
+    /// </summary>
     public partial class Slide : BaseEntity, ILocalizedEntity, IStoreMappingSupported, IAclSupported
     {
         /// <summary>
-        /// Slide picture id
+        /// Gets or sets slide name.
+        /// Using only for administrator needs
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets slide picture id
         /// </summary>
         public int? PictureId { get; set; }
 
         /// <summary>
-        /// Slide HTML content
+        /// Gets or sets slide HTML content
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Slide href
+        /// Gets or sets slide href
         /// </summary>
         public string HyperlinkAddress { get; set; }
 
-        ///version 1.0.5
         /// <summary>
-        /// Start publication date
+        /// Gets or sets start publication date.
+        /// Available from version 1.0.5
         /// </summary>
         public DateTime? StartDateUtc { get; set; }
 
-        ///version 1.0.5
         /// <summary>
-        /// End publication date
+        /// Gets or sets end publication date.
+        /// Available from version 1.0.5
         /// </summary>
         public DateTime? EndDateUtc { get; set; }
-
-        /// <summary>
-        /// Slide display order
-        /// </summary>
-        public int DisplayOrder { get; set; }
 
         /// <summary>
         /// Gets or sets published parameter
@@ -46,13 +50,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public bool Published { get; set; }
 
         /// <summary>
-        /// Slide limited to store
+        /// Gets or sets slide store limitations
         /// </summary>
         public bool LimitedToStores { get; set; }
 
-        ///1.0.5
         /// <summary>
-        /// Gets or sets a value indicating whether the entity is subject to ACL
+        /// Gets or sets a value indicating whether the entity is subject to ACL.
+        /// Available from version 1.0.5
         /// </summary>
         public bool SubjectToAcl { get; set; }
     }

@@ -3,7 +3,7 @@
     Layout = "";
     //Html.AddScriptParts(ResourceLocation.Footer, "~/lib/jquery/jquery-1.10.2.js");
     Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
-    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.js");
+    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.min.js");
 
 
     Html.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
@@ -15,7 +15,6 @@
 
 
 <div id="slider-container">
-
     <div u="loading" id="slider-loading">
         <div id="slider-loading-background">
         </div>
@@ -61,11 +60,11 @@
 <script asp-location="Footer">
     jQuery(document).ready(function ($) {
 
-        var _SlideshowTransitions = [
-        {
-            $Duration: 1200,
-            $Opacity: 2
-        }
+        var _slideshowTransitions = [
+            //{ $Duration: 800, x: 0.3, $Rows: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Row: 3 }, $Easing: { $Left: $Jease$.$InCubic, $Opacity: $Jease$.$Linear }, $Opacity: 2 },
+            //{ $Duration: 1200, $Opacity: 2 },
+            //{ $Duration: 1200, $Opacity: 2 },
+            { $Duration: 1200, $Opacity: 2 },
         ];
 
         var options = {
@@ -88,7 +87,7 @@
 
             $SlideshowOptions: {                                
                 $Class: $JssorSlideshowRunner$,                
-                $Transitions: _SlideshowTransitions,            
+                $Transitions: _slideshowTransitions,            
                 $TransitionsOrder: 1,                          
                 $ShowLink: true                                    
             },

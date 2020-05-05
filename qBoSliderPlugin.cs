@@ -26,7 +26,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
-
         private readonly IWebHelper _webHelper;
 
         private readonly IStoreContext _storeContext;
@@ -76,8 +75,15 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <returns>Widget zones</returns>
         public IList<string> GetWidgetZones()
         {
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
-            return new List<string> { settings.WidgetZoneName };
+            //need to prepare all available widget zone names, but we can't call widget zone service in plugin constructor
+            //that's why we use here 'EngineContext'
+            var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
+
+            //get active widget zones system names
+            var activeWidgetZones = widgetZoneService.GetWidgetZones();
+            var widgetZoneSystemNames = activeWidgetZones.Select(x => x.SystemName).ToList();
+
+            return widgetZoneSystemNames;
         }
 
         /// <summary>
@@ -139,17 +145,25 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //settings
             var settings = new qBoSliderSettings
             {
+            };
+
+            _settingService.SaveSetting(settings);
+
+            var widgetContext = _sliderContext.Set<WidgetZone>();
+            var widgetZone = new WidgetZone()
+            {
                 AutoPlay = true,
                 AutoPlayInterval = 3000,
                 SlideDuration = 500,
                 MinDragOffsetToSlide = 20,
                 SlideSpacing = 0,
-                BulletNavigationDisplay = 2,
-                ArrowNavigationDisplay = 1,
-                WidgetZoneName = "home_page_top"
+                BulletNavigationDisplayingTypeId = 2,
+                ArrowNavigationDisplayingTypeId = 1,
+                Name = "Main home page slider",
+                SystemName = "home_page_top",
+                Published = true
             };
-
-            _settingService.SaveSetting(settings);
+            widgetContext.Add(widgetZone);
 
             //install simple data
             //get sample pictures path
@@ -198,6 +212,28 @@ namespace Nop.Plugin.Widgets.qBoSlider
             };
             slides.Add(slide3);
 
+            var widgetSlidesContext = _sliderContext.Set<WidgetZoneSlide>();
+            widgetSlidesContext.Add(new WidgetZoneSlide()
+            {
+                Slide = slide1,
+                WidgetZone = widgetZone,
+                DisplayOrder = 0
+            });
+
+            widgetSlidesContext.Add(new WidgetZoneSlide()
+            {
+                Slide = slide2,
+                WidgetZone = widgetZone,
+                DisplayOrder = 5
+            });
+
+            widgetSlidesContext.Add(new WidgetZoneSlide()
+            {
+                Slide = slide3,
+                WidgetZone = widgetZone,
+                DisplayOrder = 10
+            });
+
             _sliderContext.SaveChanges();
             base.Install();
         }
@@ -212,15 +248,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();
-
-            //remove slides from database
-            while (allSlides.Any())
-            {
-                var slide = allSlides[0];
-
-                sliderService.DeleteSlide(slide);
-                allSlides.Remove(slide);
-            }
 
             //uninstall slider table
             _sliderContext.Uninstall();

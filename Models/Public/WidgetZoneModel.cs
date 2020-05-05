@@ -1,23 +1,16 @@
 ﻿using System.Collections.Generic;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Models
+namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
 {
-    public class PublicInfoModel : BaseNopModel
+    /// <summary>
+    /// Represents slider configuration for current widget zone
+    /// </summary>
+    public class WidgetZoneModel : BaseNopModel
     {
-        #region Arrow navigation
-
         public int ArrowNavigation { get; set; }
 
-        #endregion
-
-        #region Bullet navigation
-
         public int BulletNavigation { get; set; }
-
-        #endregion
-
-        #region Main options
 
         public int AutoPlayInterval { get; set; }
 
@@ -29,24 +22,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models
 
         public bool AutoPlay { get; set; }
 
-        #endregion
-
-        public IList<PublicSlideModel> Slides { get; set; }
-
-        #region Constructor
-
-        public PublicInfoModel()
-        {
-            Slides = new List<PublicSlideModel>();
-        }
-
-        #endregion
+        public IList<SlideModel> Slides { get; set; } = new List<SlideModel>();
 
         #region Nested classes
 
-        public class PublicSlideModel
+        public class SlideModel
         {
-            public string Picture { get; set; }
+            public string PictureUrl { get; set; }
 
             public string Hyperlink { get; set; }
 

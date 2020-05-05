@@ -8,11 +8,15 @@ using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Controllers;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Plugin.Widgets.qBoSlider.Factories;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Web.Framework.Infrastructure.Extensions;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
 {
+    /// <summary>
+    /// Represents plugin dependencies
+    /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
         public const string ContextName = "nop_object_context_slide";
@@ -22,14 +26,28 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             //data context
             builder.RegisterPluginDataContext<qBoSliderContext>(ContextName);
 
-            //associate services
-            builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
-
-
+            //repositories
+            builder.RegisterType<EfRepository<WidgetZone>>()
+                .As<IRepository<WidgetZone>>()
+                .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
+                .InstancePerLifetimeScope();
             builder.RegisterType<EfRepository<Slide>>()
                 .As<IRepository<Slide>>()
                 .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
                 .InstancePerLifetimeScope();
+            builder.RegisterType<EfRepository<WidgetZoneSlide>>()
+                .As<IRepository<WidgetZoneSlide>>()
+                .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
+                .InstancePerLifetimeScope();
+
+            //associate services
+            builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneSlideService>().As<IWidgetZoneSlideService>().InstancePerLifetimeScope();
+
+            //factories
+            builder.RegisterType<AdminModelFactory>().As<IAdminModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<PublicModelFactory>().As<IPublicModelFactory>().InstancePerLifetimeScope();
 
             //cache manager
             builder.RegisterType<qBoSliderController>()

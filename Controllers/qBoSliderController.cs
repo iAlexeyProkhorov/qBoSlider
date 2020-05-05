@@ -223,20 +223,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var model = new ConfigurationModel()
             {
-                AutoPlay = qBoSliderSettings.AutoPlay,
-                AutoPlayInterval = qBoSliderSettings.AutoPlayInterval,
-                MinDragOffsetToSlide = qBoSliderSettings.MinDragOffsetToSlide,
-                SlideDuration = qBoSliderSettings.SlideDuration,
-                SlideSpacing = qBoSliderSettings.SlideSpacing,
-                ActiveStoreScopeConfiguration = storeScope,
-                ArrowNavigation = qBoSliderSettings.ArrowNavigationDisplay,
-                AvailableArrowNavigations = DisplayNavigation.OnMouseDrag.ToSelectList().ToList(),
-                BulletNavigation = qBoSliderSettings.BulletNavigationDisplay,
-                AvailableBulletNavigations = DisplayNavigation.Always.ToSelectList().ToList(),
-                WidgetZoneName = qBoSliderSettings.WidgetZoneName
+                ActiveStoreScopeConfiguration = storeScope
             };
-
-            model.SearchModel.SetGridPageSize();
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Configure.cshtml", model);
         }
@@ -246,15 +234,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         {
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
-
-            qBoSliderSettings.AutoPlay = model.AutoPlay;
-            qBoSliderSettings.AutoPlayInterval = model.AutoPlayInterval;
-            qBoSliderSettings.MinDragOffsetToSlide = model.MinDragOffsetToSlide;
-            qBoSliderSettings.SlideDuration = model.SlideDuration;
-            qBoSliderSettings.SlideSpacing = model.SlideSpacing;
-            qBoSliderSettings.ArrowNavigationDisplay = model.ArrowNavigation;
-            qBoSliderSettings.BulletNavigationDisplay = model.BulletNavigation;
-            qBoSliderSettings.WidgetZoneName = model.WidgetZoneName;
 
             _settingService.SaveSetting(qBoSliderSettings, storeScope);
 
@@ -285,7 +264,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
-                        DisplayOrder = slide.DisplayOrder,
                         Published = slide.Published
                     };
                 });
@@ -321,7 +299,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                     Description = model.Description,
                     HyperlinkAddress = model.Hyperlink,
                     PictureId = model.PictureId,
-                    DisplayOrder = model.DisplayOrder,
                     StartDateUtc = model.StartDateUtc,
                     EndDateUtc = model.EndDateUtc,
                     Published = model.Published,
@@ -374,7 +351,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             model.StartDateUtc = slide.StartDateUtc;
             model.EndDateUtc = slide.EndDateUtc;
             model.Published = slide.Published;
-            model.DisplayOrder = slide.DisplayOrder;
 
             //process store mapping
             PrepareStoreMapping(slide, model);
@@ -412,7 +388,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 slide.StartDateUtc = model.StartDateUtc;
                 slide.EndDateUtc = model.EndDateUtc;
                 slide.Published = model.Published;
-                slide.DisplayOrder = model.DisplayOrder;
                 slide.LimitedToStores = model.SelectedStoreIds.Any();
 
                 //1.0.5 all with Alc
@@ -449,7 +424,41 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var slide = _slideService.GetSlideById(id);
 
             if (slide != null)
+            {
+                var allLanguages = _languageService.GetAllLanguages(true);
+
+                //delete slide localized resources
+                if (allLanguages.Count > 1)
+                    foreach (var language in allLanguages)
+                    {
+                        var pictureIdLocalizaedValue = _localizedEntityService.GetLocalizedValue(language.Id, slide.Id, "Slide", "PictureId");
+                        var isPictureValid = int.TryParse(pictureIdLocalizaedValue, out int localizePictureId);
+
+                        //delete localized values
+                        _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, language.Id);
+                        _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, language.Id);
+                        _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, language.Id);
+
+                        //remove localized picture
+                        if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && isPictureValid)
+                        {
+                            var localizedPicture = _pictureService.GetPictureById(localizePictureId);
+
+                            //go to next picture if current picture aren't exist
+                            if (localizedPicture == null)
+                                continue;
+
+                            _pictureService.DeletePicture(localizedPicture);
+                        }
+                    }
+
+                //delete slide base picture
+                var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+                if (picture != null)
+                    _pictureService.DeletePicture(picture);
+
                 _slideService.DeleteSlide(slide);
+            }
 
             return new NullJsonResult();
         }

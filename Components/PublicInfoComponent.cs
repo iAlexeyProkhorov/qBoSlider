@@ -58,7 +58,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         #region Methods
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string widgetZone, object additionalData)
         {
             var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
 

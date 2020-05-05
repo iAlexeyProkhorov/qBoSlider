@@ -1,9 +1,21 @@
 ﻿namespace Nop.Plugin.Widgets.qBoSlider
 {
-    public enum DisplayNavigation : int
+    /// <summary>
+    /// Represents navigation elements displaying type
+    /// </summary>
+    public enum NavigationType : int
     {
+        /// <summary>
+        /// Never display navigation element
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// Display element on slider mouse drag event
+        /// </summary>
         OnMouseDrag = 1,
+        /// <summary>
+        /// Always display navigation element
+        /// </summary>
         Always = 2
     }
 

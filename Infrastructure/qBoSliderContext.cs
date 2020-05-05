@@ -1,13 +1,10 @@
-﻿using Nop.Data;
-using Nop.Plugin.Widgets.qBoSlider.Mapping;
+﻿using Microsoft.EntityFrameworkCore;
 using Nop.Core;
-using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Nop.Data;
 using Nop.Data.Extensions;
-using Nop.Plugin.Widgets.qBoSlider.Infrastructure;
-using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Plugin.Widgets.qBoSlider.Data;
+using System;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider
 {
@@ -31,7 +28,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
 		/// <param name="modelBuilder">Model muilder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.ApplyConfiguration(new qBoSliderRecordMap());
+            modelBuilder.ApplyConfiguration(new WidgetZoneMap());
+			modelBuilder.ApplyConfiguration(new SlideMap());
+            modelBuilder.ApplyConfiguration(new WidgetZoneSlideMap());
 			base.OnModelCreating(modelBuilder);
 		}
 
@@ -125,9 +124,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
 		/// </summary>
 		public void Uninstall()
 		{
-			//drop the table
-			this.DropPluginTable(nameof(Slide));
-		}
+            //drop the table
+            this.DropPluginTable("Baroque_qBoSlider_WidgetZone");
+			this.DropPluginTable("Baroque_qBoSlider_Slide");
+            this.DropPluginTable("Baroque_qBoSlider_WidgetZone_Slide_Mapping");
+        }
 
 		#endregion
 	}

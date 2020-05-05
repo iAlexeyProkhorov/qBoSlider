@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nop.Data.Mapping;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
+namespace Nop.Plugin.Widgets.qBoSlider.Data
 {
-    public partial class qBoSliderRecordMap: NopEntityTypeConfiguration<Slide>
+    /// <summary>
+    /// Represents slide entity configuration
+    /// </summary>
+    public partial class SlideMap: NopEntityTypeConfiguration<Slide>
 	{
 		#region Methods
 
@@ -15,7 +18,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
 		/// <param name="builder">The builder to be used to configure the entity</param>
 		public override void Configure(EntityTypeBuilder<Slide> builder)
 		{
-			builder.ToTable(nameof(Slide));
+			builder.ToTable("Baroque_qBoSlider_Slide");
 			builder.HasKey(record => record.Id);
 		}
 
