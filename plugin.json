@@ -2,7 +2,7 @@
   "Group": "Widgets",
   "FriendlyName": "qBoSlider",
   "SystemName": "Widgets.qBoSlider",
-  "Version": "1.0.7",
+  "Version": "1.0.8",
   "SupportedVersions": [ "4.20" ],
   "Author": "Alvaar",
   "DisplayOrder": 1,

@@ -34,6 +34,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         IPagedList<WidgetZone> GetWidgetZones(string name = null, string systemName = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue);
 
         /// <summary>
+        /// Get widget zone slides
+        /// </summary>
+        /// <param name="widgetZoneId">Widget zone id number</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>Widget zone slides</returns>
+        IPagedList<Slide> GetWidgetZoneSlides(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
         /// Insert new widget zone in database
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>

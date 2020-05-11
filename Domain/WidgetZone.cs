@@ -1,5 +1,6 @@
 ﻿using Nop.Core;
 using Nop.Core.Domain.Security;
+using Nop.Core.Domain.Stores;
 using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Domain
@@ -7,7 +8,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
     /// <summary>
     /// Represents slider widget zone
     /// </summary>
-    public class WidgetZone : BaseEntity, IAclSupported
+    public class WidgetZone : BaseEntity, IAclSupported, IStoreMappingSupported
     {
         private ICollection<WidgetZoneSlide> _widgetZoneSlides;
 
@@ -83,6 +84,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         /// Gets or sets a value indicating whether the entity is subject to ACL
         /// </summary>
         public bool SubjectToAcl { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the entity is limited/restricted to certain stores
+        /// </summary>
+        public bool LimitedToStores { get; set; }
 
         /// <summary>
         /// Gets or sets widget zone slides collection

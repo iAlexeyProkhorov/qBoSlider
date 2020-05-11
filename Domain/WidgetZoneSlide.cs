@@ -1,11 +1,12 @@
 ﻿using Nop.Core;
+using Nop.Core.Domain.Localization;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Domain
 {
     /// <summary>
     /// Represents widget zone slide relation
     /// </summary>
-    public class WidgetZoneSlide : BaseEntity
+    public class WidgetZoneSlide : BaseEntity, ILocalizedEntity
     {
         /// <summary>
         /// Gets or sets the widget zone id number

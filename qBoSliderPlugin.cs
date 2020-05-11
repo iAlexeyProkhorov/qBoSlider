@@ -6,6 +6,7 @@ using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Media;
 using Nop.Services.Security;
+using Nop.Services.Stores;
 using Nop.Web.Framework.Menu;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         private readonly qBoSliderContext _sliderContext;
 
+        private readonly IAclService _aclService;
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly IStoreMappingService _storeMappingService;
         private readonly IWebHelper _webHelper;
 
         private readonly IStoreContext _storeContext;
@@ -35,18 +38,22 @@ namespace Nop.Plugin.Widgets.qBoSlider
         #region Constructor
 
         public qBoSliderPlugin(qBoSliderContext sliderContext,
+            IAclService aclService,
             IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            IStoreMappingService storeMappingService,
             IWebHelper webHelper,
             IStoreContext storeContext)
         {
             this._sliderContext = sliderContext;
 
+            this._aclService = aclService;
             this._permissionService = permissionService;
             this._pictureService = pictureService;
             this._settingService = settingService;
-            
+            this._storeMappingService = storeMappingService;
+
             this._webHelper = webHelper;
 
             this._storeContext = storeContext;
@@ -81,7 +88,10 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             //get active widget zones system names
             var activeWidgetZones = widgetZoneService.GetWidgetZones();
-            var widgetZoneSystemNames = activeWidgetZones.Select(x => x.SystemName).ToList();
+            var widgetZoneSystemNames = activeWidgetZones
+                //process only authorized widget zones 
+                .Where(widgetZone => _aclService.Authorize(widgetZone) && _storeMappingService.Authorize(widgetZone))
+                .Select(x => x.SystemName).Distinct().ToList();
 
             return widgetZoneSystemNames;
         }

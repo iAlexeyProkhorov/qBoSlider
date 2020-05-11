@@ -15,16 +15,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         #region Fields
 
         private readonly IEventPublisher _eventPublisher;
+        private readonly IRepository<Slide> _slideRepository;
         private readonly IRepository<WidgetZone> _widgetZoneRepository;
+        private readonly IRepository<WidgetZoneSlide> _widgetZoneSlideRepository;
 
         #endregion
 
         #region Constructor
 
         public WidgetZoneService(IEventPublisher eventPublisher,
+            IRepository<Slide> slideRepository,
             IRepository<WidgetZone> widgetZoneRepository)
         {
             this._eventPublisher = eventPublisher;
+            this._slideRepository = slideRepository;
             this._widgetZoneRepository = widgetZoneRepository;
         }
 
@@ -80,6 +84,25 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             query = query.OrderBy(x => x.Id);
 
             return new PagedList<WidgetZone>(query, pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// Get widget zone slides
+        /// </summary>
+        /// <param name="widgetZoneId">Widget zone id number</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>Widget zone slides</returns>
+        public virtual IPagedList<Slide> GetWidgetZoneSlides(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from zoneSlide in _widgetZoneSlideRepository.Table
+                        join slide in _slideRepository.Table on zoneSlide.SlideId equals slide.Id
+                        join zone in _widgetZoneRepository.Table on zoneSlide.WidgetZoneId equals zone.Id
+                        where zoneSlide.WidgetZoneId == widgetZoneId && slide.Published && zone.Published
+                        orderby zoneSlide.DisplayOrder
+                        select slide;
+
+            return new PagedList<Slide>(query, pageIndex, pageSize);
         }
 
         /// <summary>

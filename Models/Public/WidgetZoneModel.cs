@@ -4,9 +4,9 @@ using Nop.Web.Framework.Models;
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
 {
     /// <summary>
-    /// Represents slider configuration for current widget zone
+    /// Represents slider parameters and widgets for current widget zone
     /// </summary>
-    public class WidgetZoneModel : BaseNopModel
+    public class WidgetZoneModel : BaseNopEntityModel
     {
         public int ArrowNavigation { get; set; }
 
@@ -26,7 +26,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
 
         #region Nested classes
 
-        public class SlideModel
+        /// <summary>
+        /// Represents slide model
+        /// </summary>
+        public class SlideModel : BaseNopEntityModel
         {
             public string PictureUrl { get; set; }
 
