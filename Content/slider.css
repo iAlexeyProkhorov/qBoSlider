@@ -52,8 +52,8 @@
     .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
         position: absolute;
         /* size of bullet elment */
-        width: 16px;
-        height: 16px;
+        width: 10px;
+        height: 10px;
         /*background: url(../Content/Images/b14.png) no-repeat;*/
         background:#4ab2f1;
         overflow: hidden;

@@ -97,7 +97,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         public void ManageSiteMap(SiteMapNode rootNode)
         {
             //do nothing if customer can't manage plugins
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManagePlugins))
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return;
 
             //do nothing if menu item not found

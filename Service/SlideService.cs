@@ -117,22 +117,21 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             //delete slide localized pictures and values
             foreach (var language in allLanguages)
             {
-                int pictureId = 0;
                 var pictureIdLocalizaedValue = _localizedEntityService.GetLocalizedValue(language.Id, slide.Id, "Slide", "PictureId");
-                if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && int.TryParse(pictureIdLocalizaedValue, out pictureId))
+                if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && int.TryParse(pictureIdLocalizaedValue, out int pictureId))
                 {
-                    var localizedPicture = _pictureService.GetPictureById(pictureId);
+                    //delete localized values
+                    _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, language.Id);
+                    _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, language.Id);
+                    _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, language.Id);
 
+
+                    var localizedPicture = _pictureService.GetPictureById(pictureId);
                     //go to next picture if current picture aren't exist
                     if (localizedPicture == null)
                         continue;
 
                     _pictureService.DeletePicture(localizedPicture);
-
-                    //delete localized value
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, language.Id);
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, language.Id);
-                    _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, language.Id);
                 }
             }
 

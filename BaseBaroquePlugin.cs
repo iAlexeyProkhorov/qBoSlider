@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
-using Nop.Core;
-using Nop.Core.Infrastructure;
+﻿using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 
 namespace Nop.Plugin.Widgets.qBoSlider
 {
+    /// <summary>
+    /// Base Baroque plugin
+    /// </summary>
     public abstract class BaseBaroquePlugin : BasePlugin
     {
         #region Fields
@@ -19,13 +19,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
 
-        #endregion
-
-        #region Additional fields
-
-        public static FileInfo _originalAssemblyFile { get; private set; }
-
-        public static PluginDescriptor BaroquePluginDescriptor { get; private set; }
+        private readonly FileInfo _originalAssemblyFile;
 
         #endregion
 
@@ -33,61 +27,13 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         public BaseBaroquePlugin()
         {
+            //get plugin descriptor
+            var pluginsInfo = Singleton<IPluginsInfo>.Instance;
+            var descriptor = pluginsInfo.PluginDescriptors.FirstOrDefault(x => x.PluginType == this.GetType());
+            //intialize varialbes
             this._localizationService = EngineContext.Current.Resolve<ILocalizationService>();
             this._languageService = EngineContext.Current.Resolve<ILanguageService>();
-
-            //get current plugin location in file system
-            string pluginLibraryLocationPath = Assembly.GetExecutingAssembly().Location;
-
-            //get plugin library name
-            string pluginLibraryName = Path.GetFileName(pluginLibraryLocationPath);
-        }
-
-        static BaseBaroquePlugin()
-        {
-            //get current plugin location in file system
-            string pluginLibraryLocationPath = Assembly.GetExecutingAssembly().Location;
-
-            //get plugin library name
-            string pluginLibraryName = Path.GetFileName(pluginLibraryLocationPath);
-
-            //get plugin library folder
-            string pluginLibraryFolder = Path.GetDirectoryName(pluginLibraryLocationPath);
-            var parentFolder = Directory.GetParent(pluginLibraryFolder);
-
-            //search for this file in nop plugins folder
-            var foundedFiles = Directory.GetFiles(parentFolder.FullName, pluginLibraryName, SearchOption.AllDirectories);
-
-            //create default plugin descriptor
-            BaroquePluginDescriptor = new PluginDescriptor(Assembly.GetExecutingAssembly());
-
-            //get plugin descriptor from plugin description file
-            if (foundedFiles.Any())
-            {
-                string nopPluginLibraryPath = string.Empty;
-                foreach (var file in foundedFiles)
-                    if (!file.Contains("\\Plugins\\bin\\"))
-                    {
-                        nopPluginLibraryPath = file;
-                        break;
-                    }
-
-                if (!string.IsNullOrEmpty(nopPluginLibraryPath))
-                {
-                    _originalAssemblyFile = new FileInfo(nopPluginLibraryPath);
-
-                    var pluginDescriptorFile = $"{_originalAssemblyFile.DirectoryName}\\{ NopPluginDefaults.DescriptionFileName }";
-
-                    if (!File.Exists(pluginDescriptorFile))
-                        throw new Exception($"Plugin descriptor for {pluginLibraryName} aren't found");
-
-                    var descriptorText = File.ReadAllText(pluginDescriptorFile);
-
-                    BaroquePluginDescriptor = PluginDescriptor.GetPluginDescriptorFromText(descriptorText);
-
-                    BaroquePluginDescriptor.Installed = IsPluginInstalled();
-                }
-            }
+            this._originalAssemblyFile = new FileInfo(descriptor.OriginalAssemblyFile);
         }
 
         #endregion
@@ -172,16 +118,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
             }
         }
 
-        /// <summary>
-        /// Check current plugin installation status in 'InstalledPlugins.txt' document
-        /// </summary>
-        /// <param name="systemName">Plugin system name</param>
-        /// <returns>True - when plugin marked like installed</returns>
-        protected static bool IsPluginInstalled()
-        {
-            return IsPluginInstalled(BaroquePluginDescriptor.SystemName);
-        }
-
         #endregion
 
         #region Methods
@@ -196,26 +132,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         {
             this.UninstallLocalization();
             base.Uninstall();
-        }
-
-        /// <summary>
-        /// Check InstalledPlugins.txt file list on plugin system name
-        /// </summary>
-        /// <param name="systemName">Plugin system name</param>
-        /// <returns>True when plugin added to list</returns>
-        public static bool IsPluginInstalled(string systemName)
-        {
-            string installedPluginsFile = CommonHelper.DefaultFileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
-
-            if (File.Exists(installedPluginsFile))
-            {
-                var redisPluginsInfo = JsonConvert.DeserializeObject<PluginsInfo>(File.ReadAllText(installedPluginsFile));
-
-
-                return redisPluginsInfo.InstalledPluginNames.Contains(systemName);
-            }
-
-            return false;
         }
 
         #endregion
