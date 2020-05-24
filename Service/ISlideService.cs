@@ -4,6 +4,9 @@ using System;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
+    /// <summary>
+    /// Represents slide service interface
+    /// </summary>
     public interface ISlideService
     {
         /// <summary>

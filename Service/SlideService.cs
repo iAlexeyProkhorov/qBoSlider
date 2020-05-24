@@ -7,15 +7,20 @@ using Nop.Services.Media;
 using Nop.Services.Stores;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Localization;
+using Nop.Services.Events;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
+    /// <summary>
+    /// Represents slide service
+    /// </summary>
     public partial class SlideService : ISlideService
     {
         #region Fields
 
         private readonly IRepository<Slide> _slideRepository;
 
+        private readonly IEventPublisher _eventPublisher;
         private readonly ILanguageService _languageService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly IPictureService _pictureService;
@@ -26,6 +31,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         #region Constructor
 
         public SlideService(IRepository<Slide> slideRepository,
+            IEventPublisher eventPublisher,
             ILanguageService languageService,
             ILocalizedEntityService localizedEntityService,
             IPictureService pictureSerivce,
@@ -33,6 +39,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         {
             this._slideRepository = slideRepository;
 
+            this._eventPublisher = eventPublisher;
             this._languageService = languageService;
             this._localizedEntityService = localizedEntityService;
             this._pictureService = pictureSerivce;
@@ -95,6 +102,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         public virtual void InsertSlide(Slide slide)
         {
             _slideRepository.Insert(slide);
+
+            //publish event
+            _eventPublisher.EntityInserted(slide);
         }
 
         /// <summary>
@@ -104,6 +114,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         public virtual void UpdateSlide(Slide slide)
         {
             _slideRepository.Update(slide);
+
+            //publish event
+            _eventPublisher.EntityUpdated(slide);
         }
 
         /// <summary>
@@ -140,6 +153,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             if (picture != null)
                 _pictureService.DeletePicture(picture);
 
+            //publish event
+            _eventPublisher.EntityDeleted(slide);
             //delete slide entity
             _slideRepository.Delete(slide);
         }
