@@ -13,7 +13,7 @@ using Nop.Services.Stores;
 using System;
 using System.Linq;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Factories
+namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
     /// <summary>
     /// Represents public model factory.

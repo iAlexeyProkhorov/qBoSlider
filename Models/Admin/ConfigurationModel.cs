@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Web.Framework.Models;
-using Nop.Web.Framework.Mvc.ModelBinding;
-using System.Collections.Generic;
+﻿using Nop.Web.Framework.Models;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
 {

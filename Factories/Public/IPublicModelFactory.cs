@@ -1,7 +1,7 @@
 ﻿using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Public;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Factories
+namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
     /// <summary>
     /// Represents public model factory.

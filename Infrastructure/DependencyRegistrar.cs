@@ -8,7 +8,8 @@ using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Controllers;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Plugin.Widgets.qBoSlider.Factories;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Web.Framework.Infrastructure.Extensions;
 
@@ -44,13 +45,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneSlideService>().As<IWidgetZoneSlideService>().InstancePerLifetimeScope();
+            builder.RegisterType<PluginGarbageManager>().As<IPluginGarbageManager>().InstancePerLifetimeScope();
 
             //factories
-            builder.RegisterType<AdminModelFactory>().As<IAdminModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<SlideModelFactory>().As<ISlideModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetModelFactory>().As<IWidgetModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<PublicModelFactory>().As<IPublicModelFactory>().InstancePerLifetimeScope();
 
             //cache manager
-            builder.RegisterType<qBoSliderController>()
+            builder.RegisterType<qBoSliderConfigurationController>()
                 .WithParameter(ResolvedParameter.ForNamed<ICacheManager>("nop_cache_static"));    
         }
 

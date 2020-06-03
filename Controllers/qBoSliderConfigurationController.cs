@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Plugin.Widgets.qBoSlider.Models;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Plugin.Widgets.qBoSlider.Validators;
-using Nop.Services;
-using Nop.Services.Configuration; 
+using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
@@ -26,7 +26,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]
-    public class qBoSliderController : BasePluginController
+    public class qBoSliderConfigurationController : BasePluginController
     {
         #region Fields
 
@@ -38,8 +38,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ILocalizationService _localizationService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
+        private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISlideModelFactory _slideModelFactory;
         private readonly ISlideService _slideService;
         private readonly IStoreService _storeService;
         private readonly IStoreMappingService _storeMappingService;
@@ -51,15 +53,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Constructor
 
-        public qBoSliderController(ICacheManager cacheManager,
+        public qBoSliderConfigurationController(ICacheManager cacheManager,
             IAclService aclService,
             ICustomerService customerService,
             ILanguageService languageService,
             ILocalizationService localizationService,
             ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
+            IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISlideModelFactory slideModelFactory,
             ISlideService slideService,
             IStoreService storeService,
             IStoreMappingService storeMappingService,
@@ -75,8 +79,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             this._localizationService = localizationService;
             this._localizedEntityService = localizedEntityService;
             this._notificationService = notificationService;
+            this._permissionService = permissionService;
             this._pictureService = pictureService;
             this._settingService = settingService;
+            this._slideModelFactory = slideModelFactory;
             this._slideService = slideService;
             this._storeService = storeService;
             this._storeMappingService = storeMappingService;
@@ -126,24 +132,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             }
         }
 
-        protected virtual void PrepareStoreMapping(Slide slide, SlideModel model)
-        {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
-            model.AvailableStores = _storeService.GetAllStores().Select(x =>
-            {
-                return new SelectListItem()
-                {
-                    Value = x.Id.ToString(),
-                    Text = x.Name
-                };
-            }).OrderBy(x => x.Text).ToList();
-
-            if (slide != null)
-                model.SelectedStoreIds = _storeMappingService.GetStoresIdsWithAccess(slide).ToList();
-        }
-
         protected virtual void UpdateStoreMapping(Slide slide, SlideModel model)
         {
             var allStores = _storeService.GetAllStores();
@@ -164,26 +152,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                     if (storeMapping != null)
                         _storeMappingService.DeleteStoreMapping(storeMapping);
                 }
-            }
-        }
-
-        protected virtual void PrepareAclModel(SlideModel model, Slide slide, bool excludeProperties)
-        {
-            if (model == null)
-                throw new ArgumentNullException("model");
-
-            if (!excludeProperties && slide != null)
-                model.SelectedCustomerRoleIds = _aclService.GetCustomerRoleIdsWithAccess(slide).ToList();
-
-            var allRoles = _customerService.GetAllCustomerRoles(true);
-            foreach (var role in allRoles)
-            {
-                model.AvailableCustomerRoles.Add(new SelectListItem
-                {
-                    Text = role.Name,
-                    Value = role.Id.ToString(),
-                    Selected = model.SelectedCustomerRoleIds.Contains(role.Id)
-                });
             }
         }
 
@@ -217,6 +185,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         public IActionResult Configure()
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             //load settings for a chosen store scope
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
@@ -232,6 +204,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [HttpPost]
         public IActionResult Configure(ConfigurationModel model)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
 
@@ -251,29 +227,22 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [HttpPost]
         public IActionResult SlideList(SlideSearchModel searchModel)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
             var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-            var gridModel = new SlideSearchModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
-            {
-                return slides.Select(slide =>
-                {
-                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-                    return new SlideSearchModel.SlideListItemModel()
-                    {
-                        Id = slide.Id,
-                        Picture = _pictureService.GetPictureUrl(picture, 300),
-                        Hyperlink = slide.HyperlinkAddress,
-                        StartDateUtc = slide.StartDateUtc,
-                        EndDateUtc = slide.EndDateUtc,
-                        Published = slide.Published
-                    };
-                });
-            });
+            var gridModel = _slideModelFactory.P
 
             return Json(gridModel);
         }
 
         public IActionResult CreateSlidePopup()
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var model = new SlideModel();
             AddLocales(_languageService, model.Locales);
 
@@ -289,6 +258,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [HttpPost]
         public IActionResult CreateSlidePopup(SlideModel model, string btnId, string formId)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var validator = new SlideValidator(_localizationService);
             var validationResult = validator.Validate(model);
 
@@ -333,6 +306,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         public IActionResult EditSlidePopup(int id, string btnId, string formId)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var model = new SlideModel();
             var slide = _slideService.GetSlideById(id);
 
@@ -364,6 +341,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [HttpPost]
         public IActionResult EditSlidePopup(SlideModel model, string btnId, string formId)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var slide = _slideService.GetSlideById(model.Id);
 
             //parent form data for refresh
@@ -421,6 +402,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [HttpPost]
         public IActionResult SlideDelete(int id)
         {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
             var slide = _slideService.GetSlideById(id);
 
             if (slide != null)

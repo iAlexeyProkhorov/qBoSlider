@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Nop.Plugin.Widgets.qBoSlider.Models;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 

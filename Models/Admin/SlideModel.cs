@@ -30,9 +30,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
         [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Published")]
         public bool Published { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.DisplayOrder")]
-        public int DisplayOrder { get; set; }
-
         [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.LimitedToStores")]
         [UIHint("MultiSelect")]
         public IList<int> SelectedStoreIds { get; set; }

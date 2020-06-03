@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Nop.Core;
+﻿using Nop.Core;
 using Nop.Core.Data;
-using Nop.Services.Media;
-using Nop.Services.Stores;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Services.Localization;
 using Nop.Services.Events;
+using Nop.Services.Stores;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -18,21 +16,22 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
     {
         #region Fields
 
-        private readonly IEventPublisher _eventPublisher;
         private readonly IRepository<Slide> _slideRepository;
 
+        private readonly IEventPublisher _eventPublisher;
         private readonly IStoreMappingService _storeMappingService;
 
         #endregion
 
         #region Constructor
 
-        public SlideService(IEventPublisher eventPublisher,
-            IRepository<Slide> slideRepository,
+        public SlideService(IRepository<Slide> slideRepository,
+            IEventPublisher eventPublisher,
             IStoreMappingService storeMappingService)
-        {
-            this._eventPublisher = eventPublisher;
+        { 
             this._slideRepository = slideRepository;
+
+            this._eventPublisher = eventPublisher;
             this._storeMappingService = storeMappingService;
         }
 
