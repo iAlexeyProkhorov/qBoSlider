@@ -1,0 +1,27 @@
+﻿@model WidgetZoneSearchModel
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.Catalog.Categories").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Categories");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "Baroque.qBoSlider.WidgetZone.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone")
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNew")
+        </a>
+        @await Component.InvokeAsync("AdminWidget", new { widgetZone = "qBo_slider_widget_list_buttons" })
+    </div>
+</div>

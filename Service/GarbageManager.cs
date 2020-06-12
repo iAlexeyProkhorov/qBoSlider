@@ -7,7 +7,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
     /// <summary>
     /// Represents plugin garbage manager. Allows to remove media content created during administrator activity.
     /// </summary>
-    public class PluginGarbageManager : IPluginGarbageManager
+    public class GarbageManager : IGarbageManager
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
         #region Constructor
 
-        public PluginGarbageManager(ILanguageService languageService,
+        public GarbageManager(ILanguageService languageService,
             ILocalizedEntityService localizedEntityService,
             IPictureService pictureService)
         {

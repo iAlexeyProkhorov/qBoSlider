@@ -45,15 +45,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneSlideService>().As<IWidgetZoneSlideService>().InstancePerLifetimeScope();
-            builder.RegisterType<PluginGarbageManager>().As<IPluginGarbageManager>().InstancePerLifetimeScope();
+            builder.RegisterType<GarbageManager>().As<IGarbageManager>().InstancePerLifetimeScope();
 
             //factories
             builder.RegisterType<SlideModelFactory>().As<ISlideModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<WidgetModelFactory>().As<IWidgetModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneModelFactory>().As<IWidgetZoneModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<PublicModelFactory>().As<IPublicModelFactory>().InstancePerLifetimeScope();
 
             //cache manager
-            builder.RegisterType<qBoSliderConfigurationController>()
+            builder.RegisterType<qBoSlideController>()
                 .WithParameter(ResolvedParameter.ForNamed<ICacheManager>("nop_cache_static"));    
         }
 

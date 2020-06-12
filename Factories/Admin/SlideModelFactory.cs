@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Customers;
 using Nop.Services.Localization;

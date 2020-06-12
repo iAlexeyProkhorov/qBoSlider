@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
-using Nop.Core.Caching;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Plugin.Widgets.qBoSlider.Validators;
 using Nop.Services.Configuration;
@@ -16,7 +15,6 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Models.Extensions;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
 using System;
@@ -24,17 +22,18 @@ using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
+    /// <summary>
+    /// Represents plugin slide controller
+    /// </summary>
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]
-    public class qBoSliderConfigurationController : BasePluginController
+    public class qBoSlideController : BasePluginController
     {
         #region Fields
 
-        private readonly ICacheManager _cacheManager;
-
         private readonly IAclService _aclService;
         private readonly ICustomerService _customerService;
-        private readonly ILanguageService _languageService;
+        private readonly IGarbageManager _garbageManager;
         private readonly ILocalizationService _localizationService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
@@ -53,10 +52,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Constructor
 
-        public qBoSliderConfigurationController(ICacheManager cacheManager,
-            IAclService aclService,
+        public qBoSlideController(IAclService aclService,
             ICustomerService customerService,
-            ILanguageService languageService,
+            IGarbageManager garbageManager,
             ILocalizationService localizationService,
             ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
@@ -71,11 +69,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             IWorkContext workContext)
         {
             ForseDefaultCulture();
-            this._cacheManager = cacheManager;
 
             this._aclService = aclService;
             this._customerService = customerService;
-            this._languageService = languageService;
+            this._garbageManager = garbageManager;            
             this._localizationService = localizationService;
             this._localizedEntityService = localizedEntityService;
             this._notificationService = notificationService;
@@ -231,8 +228,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedDataTablesJson();
 
-            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-            var gridModel = _slideModelFactory.P
+            var gridModel = _slideModelFactory.PrepareSlideListPagedModel(searchModel);
 
             return Json(gridModel);
         }
@@ -244,13 +240,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 return AccessDeniedView();
 
             var model = new SlideModel();
-            AddLocales(_languageService, model.Locales);
-
-            //Prepare store mappings
-            PrepareStoreMapping(null, model);
-
-            //prepare acl
-            PrepareAclModel(model, null, false);
+            _slideModelFactory.PrepareSlideModel(model, null);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
         }
@@ -262,10 +252,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var validator = new SlideValidator(_localizationService);
-            var validationResult = validator.Validate(model);
-
-            if (validationResult.IsValid)
+            if (ModelState.IsValid)
             {
                 var slide = new Slide()
                 {
@@ -297,10 +284,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             }
 
             //ACL
-            PrepareAclModel(model, null, true);
+            _slideModelFactory.PrepareAclModel(model, null, true);
 
-            //store mapping
-            PrepareStoreMapping(null, model);
+            //store mappings
+            _slideModelFactory.PrepareStoreMapping(model, null);
+
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
         }
 
@@ -313,27 +301,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var model = new SlideModel();
             var slide = _slideService.GetSlideById(id);
 
-            //set localized values
-            AddLocales(_languageService, model.Locales, (locale, languageId) =>
-            {
-                locale.Hyperlink = _localizationService.GetLocalized(slide, x => x.HyperlinkAddress, languageId, false, false);
-                locale.Description = _localizationService.GetLocalized(slide, x => x.Description, languageId, false, false);
-                locale.PictureId = _localizationService.GetLocalized(slide, x => x.PictureId, languageId, false, false).GetValueOrDefault(0);
-            });
-
-            //set default values
-            model.Description = slide.Description;
-            model.Hyperlink = slide.HyperlinkAddress;
-            model.PictureId = slide.PictureId.GetValueOrDefault(0);
-            model.StartDateUtc = slide.StartDateUtc;
-            model.EndDateUtc = slide.EndDateUtc;
-            model.Published = slide.Published;
-
-            //process store mapping
-            PrepareStoreMapping(slide, model);
-
-            //ACL
-            PrepareAclModel(model, slide, false);
+            //prepare slide model
+            _slideModelFactory.PrepareSlideModel(model, slide);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/EditSlidePopup.cshtml", model);
         }
@@ -347,20 +316,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var slide = _slideService.GetSlideById(model.Id);
 
-            //parent form data for refresh
-            ViewBag.btnId = btnId;
-            ViewBag.formId = formId;
-
-            if (slide == null)
-            {
-                ViewBag.RefreshPage = true;
-                View("~/Plugins/Widgets.qBoSlider/Views/qBoSlider/EditSlidePopup.cshtml", model);
-            }
-
-            var validator = new SlideValidator(_localizationService);
-            var validationResult = validator.Validate(model);
-
-            if (validationResult.IsValid)
+            if (ModelState.IsValid)
             {
                 //set default values
                 slide.Description = model.Description;
@@ -389,11 +345,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 ViewBag.RefreshPage = true;
             }
 
-            //ACL
-            PrepareAclModel(model, slide, true);
+            //parent form data for refresh
+            ViewBag.btnId = btnId;
+            ViewBag.formId = formId;
 
-            //Store mappings
-            PrepareStoreMapping(slide, model);
+            //ACL
+            _slideModelFactory.PrepareAclModel(model, slide, true);
+
+            //prepare store mappings
+            _slideModelFactory.PrepareStoreMapping(model, slide);
 
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/EditSlidePopup.cshtml", model);
@@ -407,43 +367,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 return AccessDeniedDataTablesJson();
 
             var slide = _slideService.GetSlideById(id);
+            if (slide == null)
+                throw new Exception("Slide aren't exist");
 
-            if (slide != null)
-            {
-                var allLanguages = _languageService.GetAllLanguages(true);
-
-                //delete slide localized resources
-                if (allLanguages.Count > 1)
-                    foreach (var language in allLanguages)
-                    {
-                        var pictureIdLocalizaedValue = _localizedEntityService.GetLocalizedValue(language.Id, slide.Id, "Slide", "PictureId");
-                        var isPictureValid = int.TryParse(pictureIdLocalizaedValue, out int localizePictureId);
-
-                        //delete localized values
-                        _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, language.Id);
-                        _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, language.Id);
-                        _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, language.Id);
-
-                        //remove localized picture
-                        if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && isPictureValid)
-                        {
-                            var localizedPicture = _pictureService.GetPictureById(localizePictureId);
-
-                            //go to next picture if current picture aren't exist
-                            if (localizedPicture == null)
-                                continue;
-
-                            _pictureService.DeletePicture(localizedPicture);
-                        }
-                    }
-
-                //delete slide base picture
-                var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-                if (picture != null)
-                    _pictureService.DeletePicture(picture);
-
-                _slideService.DeleteSlide(slide);
-            }
+            //delete slide localized values
+            _garbageManager.DeleteSlideLocalizedValues(slide);
+            //delete slide picture
+            _garbageManager.DeleteSlidePicture(slide);
+            //delete slide entity
+            _slideService.DeleteSlide(slide);
 
             return new NullJsonResult();
         }

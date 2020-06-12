@@ -1,7 +1,7 @@
 ﻿using Nop.Web.Framework.Models;
 using System;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
+namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
     /// <summary>
     /// Represent slide search model

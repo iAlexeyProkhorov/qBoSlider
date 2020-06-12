@@ -1,8 +1,5 @@
 ﻿using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -40,6 +37,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties">Prepare localized values or not</param>
         /// <returns>Slide model</returns>
-        SlideModel PrepareSlideModel(SlideModel model, Slide slide, bool excludeProperties = false)
+        SlideModel PrepareSlideModel(SlideModel model, Slide slide, bool excludeProperties = false);
     }
 }

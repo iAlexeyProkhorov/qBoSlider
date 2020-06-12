@@ -3,6 +3,14 @@
 @addTagHelper *, Nop.Web.Framework
 
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Nop.Core
+@using Nop.Services.Common
 @using Nop.Web.Framework.UI
 @using Nop.Web.Framework.Extensions
 @using System.Text.Encodings.Web
+@using Nop.Plugin.Widgets.qBoSlider.Models.Admin
+@using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
+@using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
+
+@inject IWorkContext workContext
+@inject IGenericAttributeService genericAttributeService

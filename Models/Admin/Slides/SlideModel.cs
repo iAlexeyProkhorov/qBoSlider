@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
+namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
     public partial class SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
     {

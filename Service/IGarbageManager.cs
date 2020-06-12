@@ -5,7 +5,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
     /// <summary>
     /// Represents plugin garbage manager. Allows to remove media content created during administrator activity.
     /// </summary>
-    public interface IPluginGarbageManager
+    public interface IGarbageManager
     {
         /// <summary>
         /// Delete slide base picture from 'Picture' table.
