@@ -1,5 +1,4 @@
 using Nop.Core;
-using Nop.Core.Infrastructure;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
@@ -21,11 +20,10 @@ namespace Nop.Plugin.Widgets.qBoSlider
     {
         #region Fields
 
-        private readonly qBoSliderContext _sliderContext;
-
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISlideService _slideService;
 
         private readonly IWebHelper _webHelper;
 
@@ -35,18 +33,17 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Constructor
 
-        public qBoSliderPlugin(qBoSliderContext sliderContext,
-            IPermissionService permissionService,
+        public qBoSliderPlugin(IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISlideService slideService,
             IWebHelper webHelper,
             IStoreContext storeContext)
         {
-            this._sliderContext = sliderContext;
-
             this._permissionService = permissionService;
             this._pictureService = pictureService;
             this._settingService = settingService;
+            this._slideService = slideService;
             
             this._webHelper = webHelper;
 
@@ -133,9 +130,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override void Install()
         {
-            //install special slide table
-            _sliderContext.Install();
-
             //settings
             var settings = new qBoSliderSettings
             {
@@ -154,7 +148,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //install simple data
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
-            var slides = _sliderContext.Set<Slide>();
+            //var slides = _sliderContext.Set<Slide>();
 
             var picture1 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1").Id;
             var slide1 = new Slide()
@@ -168,7 +162,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture1,
                 Published = true
             };
-            slides.Add(slide1);
+            _slideService.InsertSlide(slide1);
 
             var picture2 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").Id;
             var slide2 = new Slide()
@@ -181,7 +175,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture2,
                 Published = true,
             };
-            slides.Add(slide2);
+            _slideService.InsertSlide(slide2);
 
             var picture3 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").Id;
             var slide3 = new Slide()
@@ -196,9 +190,8 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture3,
                 Published = true
             };
-            slides.Add(slide3);
+            _slideService.InsertSlide(slide3);
 
-            _sliderContext.SaveChanges();
             base.Install();
         }
 
@@ -207,8 +200,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override void Uninstall()
         {
-            var sliderService = EngineContext.Current.Resolve<ISlideService>();
-            var allSlides = sliderService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
+            var allSlides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();
@@ -218,12 +210,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
             {
                 var slide = allSlides[0];
 
-                sliderService.DeleteSlide(slide);
+                _slideService.DeleteSlide(slide);
                 allSlides.Remove(slide);
             }
-
-            //uninstall slider table
-            _sliderContext.Uninstall();
 
             base.Uninstall();
         }

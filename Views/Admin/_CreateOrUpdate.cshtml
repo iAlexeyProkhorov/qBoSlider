@@ -5,9 +5,7 @@
 
 @Html.ValidationSummary(false)
 @Html.HiddenFor(model => model.Id)
-@{
-    CommonHelper.SetTelerikCulture();
-}
+
 
 @if (ViewBag.RefreshPage == true)
 {

@@ -30,8 +30,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     {
         #region Fields
 
-        private readonly ICacheManager _cacheManager;
-
         private readonly IAclService _aclService;
         private readonly ICustomerService _customerService;
         private readonly ILanguageService _languageService;
@@ -52,8 +50,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Constructor
 
-        public qBoSliderController(ICacheManager cacheManager,
-            IAclService aclService,
+        public qBoSliderController(IAclService aclService,
             ICustomerService customerService,
             ILanguageService languageService,
             ILocalizationService localizationService,
@@ -68,9 +65,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             IStoreContext storeContext,
             IWorkContext workContext)
         {
-            ForseDefaultCulture();
-            this._cacheManager = cacheManager;
-
             this._aclService = aclService;
             this._customerService = customerService;
             this._languageService = languageService;
@@ -91,11 +85,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         #endregion
 
         #region Utilites
-
-        protected virtual void ForseDefaultCulture()
-        {
-            CommonHelper.SetTelerikCulture();
-        }
 
         protected virtual void UpdateSlideLocales(Slide slide, SlideModel model)
         {
@@ -293,7 +282,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                     return new SlideSearchModel.SlideListItemModel()
                     {
                         Id = slide.Id,
-                        Picture = _pictureService.GetPictureUrl(picture, 300),
+                        Picture = _pictureService.GetPictureUrl(slide.PictureId.GetValueOrDefault(0), 300),
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,

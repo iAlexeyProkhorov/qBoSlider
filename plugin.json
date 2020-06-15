@@ -3,7 +3,7 @@
   "FriendlyName": "qBoSlider",
   "SystemName": "Widgets.qBoSlider",
   "Version": "1.0.9",
-  "SupportedVersions": [ "4.20" ],
+  "SupportedVersions": [ "4.30" ],
   "Author": "Alvaar",
   "DisplayOrder": 1,
   "FileName": "Nop.Plugin.Widgets.qBoSlider.dll",

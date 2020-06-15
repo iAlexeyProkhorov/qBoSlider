@@ -8,15 +8,17 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Copyright © Baroque Team</Copyright>
     <Company></Company>
     <Authors>Baroque Team</Authors>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
-    <RepositoryType></RepositoryType>
+    <RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
     <Version>1.0.9</Version>
+    <AssemblyName>Nop.Plugin.Widgets.qBoSlider</AssemblyName>
+    <PackageTags>nopCommerce, slider, qBoSlider</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -4,15 +4,18 @@ using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Plugin.Widgets.qBoSlider
 {
+    /// <summary>
+    /// Represents plugin routes
+    /// </summary>
     public class RouteProvider: IRouteProvider
     {
-        public void RegisterRoutes(IRouteBuilder routeBuilder)
+        public void RegisterRoutes(IEndpointRouteBuilder endpointRouteBuilder)
         {
-            routeBuilder.MapRoute("Nop.Plugin.Widgets.qBoSlider.EditSlidePopup", 
+            endpointRouteBuilder.MapControllerRoute("Nop.Plugin.Widgets.qBoSlider.EditSlidePopup", 
                 "plugins/qboslider/editslide/{id}", 
                 new { controller = "qBoSlider", action = "EditSlidePopup", area = "Admin" });
 
-            routeBuilder.MapRoute("Nop.Plugin.Widgets.qBoSlider.CreateSlidePopup",
+            endpointRouteBuilder.MapControllerRoute("Nop.Plugin.Widgets.qBoSlider.CreateSlidePopup",
                  "plugins/qboslider/createslide",
                  new { controller = "qBoSlider", action = "CreateSlidePopup", area = "Admin" });
         }

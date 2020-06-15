@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Nop.Core;
-using Nop.Core.Data;
+﻿using Nop.Core;
+using Nop.Data;
+using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Services.Events;
+using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Stores;
-using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Services.Localization;
-using Nop.Services.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {

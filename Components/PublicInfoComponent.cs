@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Customers;
 using Nop.Plugin.Widgets.qBoSlider.Extensions;
+using Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache;
 using Nop.Plugin.Widgets.qBoSlider.Models;
 using Nop.Plugin.Widgets.qBoSlider.Service;
+using Nop.Services.Caching;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
@@ -21,11 +23,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         #region Fields
 
         private readonly IAclService _aclService;
-        private readonly ICacheManager _cacheManager;
+        private readonly ICacheKeyService _cacheKeyService;
+        private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
         private readonly ISlideService _slideService;
+        private readonly IStaticCacheManager _staticCacheManager;
 
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
@@ -35,20 +39,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         #region Constructor
 
         public PublicInfoComponent(IAclService aclService,
-            ICacheManager cacheManager,
+            ICacheKeyService cacheKeyService,
+            ICustomerService customerService,
             ILocalizationService localizationService,
             IPictureService pictureService,
             ISettingService settingService,
             ISlideService slideService,
+            IStaticCacheManager staticCacheManager,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
             this._aclService = aclService;
-            this._cacheManager = cacheManager;
+            this._cacheKeyService = cacheKeyService;
+            this._customerService = customerService;
             this._localizationService = localizationService;
             this._pictureService = pictureService;
             this._settingService = settingService;
             this._slideService = slideService;
+            this._staticCacheManager = staticCacheManager;
 
             this._storeContext = storeContext;
             this._workContext = workContext;
@@ -60,41 +68,41 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         public IViewComponentResult Invoke()
         {
-            var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
+            var settings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
+            var customer = _workContext.CurrentCustomer;
 
             //1.0.5 all with Alc
-            var customerRolesList = _workContext.CurrentCustomer.GetCustomerRoleIds().ToList();
-            var customerRolesString = string.Empty;
-            foreach (var roleId in customerRolesList)
-                customerRolesString = string.Format("{0},{1}", customerRolesString, roleId);
-            customerRolesString = customerRolesString.Remove(0, 1);
+            var customerRoleIds = _customerService.GetCustomerRoleIds(customer);
+            var customerRolesString = string.Join(",", customerRoleIds);
+            //create cache key
+            var cacheKey = _cacheKeyService.PrepareKeyForDefaultCache(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, _workContext.WorkingLanguage.Id, _storeContext.CurrentStore.Id, DateTime.UtcNow.ToShortDateString(), customerRolesString);
 
-            var model = _cacheManager.Get(string.Format("qbo-slider-publicinfo-{0}-{1}-{2}-{3}", _workContext.WorkingLanguage.Id, _storeContext.CurrentStore.Id, DateTime.UtcNow.ToShortDateString(), customerRolesString), () =>
+            var model = _staticCacheManager.Get(cacheKey, () =>
             {
                 var result = new PublicInfoModel()
                 {
-                    AutoPlay = qBoSliderSettings.AutoPlay,
-                    AutoPlayInterval = qBoSliderSettings.AutoPlayInterval,
-                    MinDragOffsetToSlide = qBoSliderSettings.MinDragOffsetToSlide,
-                    SlideDuration = qBoSliderSettings.SlideDuration,
-                    SlideSpacing = qBoSliderSettings.SlideSpacing,
-                    ArrowNavigation = qBoSliderSettings.ArrowNavigationDisplay,
-                    BulletNavigation = qBoSliderSettings.BulletNavigationDisplay
+                    AutoPlay = settings.AutoPlay,
+                    AutoPlayInterval = settings.AutoPlayInterval,
+                    MinDragOffsetToSlide = settings.MinDragOffsetToSlide,
+                    SlideDuration = settings.SlideDuration,
+                    SlideSpacing = settings.SlideSpacing,
+                    ArrowNavigation = settings.ArrowNavigationDisplay,
+                    BulletNavigation = settings.BulletNavigationDisplay
                 };
 
                 result.Slides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id)
                 .Where(x => x.PublishToday()
                     //1.0.5 all with Alc
                     //Set catalogsettings.ignoreacl = True to use ALC
-                    //&& ((customerRolesList.Except(_aclService.GetCustomerRoleIdsWithAccess(x).ToList()).ToList().Count < customerRolesList.Count) || (_aclService.GetCustomerRoleIdsWithAccess(x).ToList().Count == 0)))
+                    //&& ((customerRoleIds.Except(_aclService.GetCustomerRoleIdsWithAccess(x).ToList()).ToList().Count < customerRoleIds.Count) || (_aclService.GetCustomerRoleIdsWithAccess(x).ToList().Count == 0)))
                     && (_aclService.Authorize(x)))
                 .OrderBy(x => x.DisplayOrder).Select(slide =>
                 {
-                    var id = _localizationService.GetLocalized(slide, z => z.PictureId, _workContext.WorkingLanguage.Id, true, false);
-                    var picture = _pictureService.GetPictureById(id.GetValueOrDefault(0));
+                    var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, _workContext.WorkingLanguage.Id, true, false);
+
                     return new PublicInfoModel.PublicSlideModel()
                     {
-                        Picture = _pictureService.GetPictureUrl(picture),
+                        Picture = _pictureService.GetPictureUrl(pictureId.GetValueOrDefault(0)),
                         Description = _localizationService.GetLocalized(slide, z => z.Description, _workContext.WorkingLanguage.Id),
                         Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, _workContext.WorkingLanguage.Id)
                     };
