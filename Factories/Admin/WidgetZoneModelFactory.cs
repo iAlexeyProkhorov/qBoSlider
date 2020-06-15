@@ -2,6 +2,7 @@
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
 using Nop.Plugin.Widgets.qBoSlider.Service;
+using Nop.Services;
 using Nop.Services.Customers;
 using Nop.Services.Security;
 using Nop.Services.Stores;
@@ -79,9 +80,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             var model = new WidgetZoneModel()
             {
                 ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
+                AvailableArrowNavigations = NavigationType.Always.ToSelectList().ToList(),
                 AutoPlay = widgetZone.AutoPlay,
                 AutoPlayInterval = widgetZone.AutoPlayInterval,
                 BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
+                AvailableBulletNavigations = NavigationType.Always.ToSelectList().ToList(),
                 LimitedToStores = widgetZone.LimitedToStores,
                 Id = widgetZone.Id,
                 MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,

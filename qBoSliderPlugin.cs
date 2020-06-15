@@ -68,7 +68,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/qBoSlider/Configure";
+            return $"{_webHelper.GetStoreLocation()}Admin/qBoConfiguration/Configure";
         }
 
         /// <summary>
@@ -131,9 +131,27 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 {
                     new SiteMapNode()
                     {
+                        SystemName = "Baroque-qBoSlider-WidgetZone",
+                        Title = "Widget zones",
+                        ControllerName ="qBoWidgetZone",
+                        ActionName = "List",
+                        IconClass = "fa fa-genderless",
+                        Visible = true
+                    },
+                    new SiteMapNode()
+                    {
+                        SystemName = "Baroque-qBoSlider-Slide",
+                        Title = "Slides",
+                        ControllerName ="qBoSlide",
+                        ActionName = "List",
+                        IconClass = "fa fa-genderless",
+                        Visible = true
+                    },
+                    new SiteMapNode()
+                    {
                         SystemName = "Baroque-qBoSlider-Configuration",
                         Title = "Configuration",
-                        ControllerName ="qBoSlider",
+                        ControllerName ="qBoConfiguration",
                         ActionName = "Configure",
                         IconClass = "fa fa-genderless",
                         Visible = true

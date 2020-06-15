@@ -16,7 +16,7 @@
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -67,12 +67,6 @@
     <None Update="Content\localization.en-US.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Content\localization.ru-RU.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Content\localization.uk-UA.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Content\sample-images\banner1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -103,10 +97,22 @@
     <None Update="Views\Admin\Slide\_CreateOrUpdate.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Views\Admin\WidgetZone\Create.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Admin\WidgetZone\Edit.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Admin\WidgetZone\List.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Admin\WidgetZone\_CreateOrUpdate.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Views\Admin\_PluginSettings.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Views\Admin\Slide\_SlideCollection.cshtml">
+    <None Update="Views\Admin\Slide\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Public\PublicInfo.cshtml">

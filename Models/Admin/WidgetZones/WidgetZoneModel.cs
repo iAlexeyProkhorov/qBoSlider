@@ -50,9 +50,19 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         public int ArrowNavigationDisplayingTypeId { get; set; }
 
         /// <summary>
+        /// Gets or sets list of available slider arrow navigation types
+        /// </summary>
+        public IList<SelectListItem> AvailableArrowNavigations { get; set; } = new List<SelectListItem>();
+
+        /// <summary>
         /// Gets or sets bullet navigation displaying type id
         /// </summary>
         public int BulletNavigationDisplayingTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of available slider bullet navigation types
+        /// </summary>
+        public IList<SelectListItem> AvailableBulletNavigations { get; set; } = new List<SelectListItem>();
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.
