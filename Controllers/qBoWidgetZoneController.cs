@@ -55,9 +55,25 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         public virtual IActionResult List()
         {
+            //return access denied page if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
             var model = new WidgetZoneSearchModel();
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/List.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult List(WidgetZoneSearchModel searchModel)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var gridModel = _widgetZoneModelFactory.PrepareWidgetZonePagedListModel(searchModel);
+
+            return Json(gridModel);
         }
 
         #endregion
