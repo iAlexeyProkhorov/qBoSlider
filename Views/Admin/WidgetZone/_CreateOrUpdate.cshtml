@@ -1,79 +1,22 @@
 ﻿@model WidgetZoneModel
 
-<div class="panel-group">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="WidgetZoneName" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="WidgetZoneName" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="ArrowNavigation" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="ArrowNavigation" asp-items="@Model.AvailableArrowNavigations" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="BulletNavigation" />
-                </div>
-                <div class="col-md-9">
-                    <nop-select asp-for="BulletNavigation" asp-items="@Model.AvailableBulletNavigations" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AutoPlay" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="AutoPlay" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="AutoPlayInterval" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="AutoPlayInterval" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="SlideDuration" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="SlideDuration" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="MinDragOffsetToSlide" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="MinDragOffsetToSlide" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3">
-                    <nop-label asp-for="SlideSpacing" />
-                </div>
-                <div class="col-md-9">
-                    <nop-editor asp-for="SlideSpacing" />
-                </div>
-            </div>
+@{
+    const string hideInfoBlockAttributeName = "Baroque.qBoSlider.Admin.WidgetZone.HideInfoBlock";
+    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
 
-        </div>
-        <div class="panel-footer">
-            <button type="submit" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
-                @T("Admin.Common.Save")
-            </button>
-        </div>
+    const string hideSlidesBlockAttributeName = "Baroque.qBoSlider.Admin.WidgetZone.HideSlidesBlock";
+    var hideSlidesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSlidesBlockAttributeName);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="widget-zone-panel">
+            <nop-panel asp-name="info-panel" asp-icon="fa fa-info" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">
+                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Info.cshtml", Model)
+            </nop-panel>
+        </nop-panels>
     </div>
 </div>

@@ -73,28 +73,39 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <summary>
         /// Prepare widget zone model
         /// </summary>
+        /// <param name="model">Widget zone admin model</param>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Prepared widget zone model</returns>
-        public virtual WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone)
+        public virtual WidgetZoneModel PrepareWidgetZoneModel(WidgetZoneModel model, WidgetZone widgetZone)
         {
-            var model = new WidgetZoneModel()
-            {
-                ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
-                AvailableArrowNavigations = NavigationType.Always.ToSelectList().ToList(),
-                AutoPlay = widgetZone.AutoPlay,
-                AutoPlayInterval = widgetZone.AutoPlayInterval,
-                BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
-                AvailableBulletNavigations = NavigationType.Always.ToSelectList().ToList(),
-                LimitedToStores = widgetZone.LimitedToStores,
-                Id = widgetZone.Id,
-                MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                Name = widgetZone.Name,
-                Published = widgetZone.Published,
-                SlideDuration = widgetZone.SlideDuration,
-                SlideSpacing = widgetZone.SlideSpacing,
-                SubjectToAcl = widgetZone.SubjectToAcl,
-                SystemName = widgetZone.SystemName
-            };
+            if (model == null)
+                throw new Exception("Widget zone model are nullable");
+
+            //prepare widget zone model if widget zone entity are exist
+            if (widgetZone != null)
+                model = new WidgetZoneModel()
+                {
+                    ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
+                    AvailableArrowNavigations = NavigationType.Always.ToSelectList().ToList(),
+                    AutoPlay = widgetZone.AutoPlay,
+                    AutoPlayInterval = widgetZone.AutoPlayInterval,
+                    BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
+                    AvailableBulletNavigations = NavigationType.Always.ToSelectList().ToList(),
+                    LimitedToStores = widgetZone.LimitedToStores,
+                    Id = widgetZone.Id,
+                    MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                    Name = widgetZone.Name,
+                    Published = widgetZone.Published,
+                    SlideDuration = widgetZone.SlideDuration,
+                    SlideSpacing = widgetZone.SlideSpacing,
+                    SubjectToAcl = widgetZone.SubjectToAcl,
+                    SystemName = widgetZone.SystemName
+                };
+
+            //prepare list of availbale naviagation types
+            var naviagationTypes = NavigationType.Always.ToSelectList(false).ToList();
+            model.AvailableArrowNavigations = naviagationTypes;
+            model.AvailableBulletNavigations = naviagationTypes;
 
             return model;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
 using Nop.Plugin.Widgets.qBoSlider.Service;
@@ -7,9 +8,6 @@ using Nop.Services.Stores;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -51,7 +49,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #endregion
 
-        #region Methods
+        #region Widget Zone
 
         public virtual IActionResult List()
         {
@@ -74,6 +72,62 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var gridModel = _widgetZoneModelFactory.PrepareWidgetZonePagedListModel(searchModel);
 
             return Json(gridModel);
+        }
+
+        public virtual IActionResult CreateWidgetZone()
+        {
+            //return access denied page if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var model = new WidgetZoneModel();
+
+            //prepare widget zone model
+            _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+            //prepare widget zone ACL
+            _widgetZoneModelFactory.PrepareAclModel(model, null);
+            //prepare widget zone store mappings
+            _widgetZoneModelFactory.PrepareStoreMappings(model, null);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/CreateWidgetZone.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult CreateWidgetZone(WidgetZoneModel model)
+        {
+            //return access denied page if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            //return view if model state isn't valid
+            if (!ModelState.IsValid)
+            {
+                //prepare model values
+                model = _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+                return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/CreateWidgetZone.cshtml", model);
+            }
+
+            var widgetZone = new WidgetZone()
+            {
+                //put slider properties
+                ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId,
+                BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId,
+                AutoPlay = model.AutoPlay,
+                AutoPlayInterval = model.AutoPlayInterval,
+                MinDragOffsetToSlide = model.MinDragOffsetToSlide,
+                SlideDuration = model.SlideDuration,
+                SlideSpacing = model.SlideSpacing,
+                //put widget zone properties
+                Name = model.Name,
+                SystemName = model.SystemName,
+                LimitedToStores = model.LimitedToStores,
+                SubjectToAcl = model.SubjectToAcl,
+                Published = model.Published,
+            };
+
+            //insert new widget zone
+            _widgetZoneService.InsertWidgetZone(widgetZone);
+
+            return RedirectToAction("List");
         }
 
         #endregion

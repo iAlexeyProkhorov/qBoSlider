@@ -4,7 +4,7 @@
     //page title
     ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List").Text;
     //active menu item (system name)
-    Html.SetActiveMenuItemSystemName("Categories");
+    Html.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
     Layout = "_AdminLayout";
 }
 
@@ -19,7 +19,7 @@
         @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List")
     </h1>
     <div class="pull-right">
-        <a asp-action="Create" class="btn bg-blue">
+        <a asp-action="CreateWidgetZone" class="btn bg-blue">
             <i class="fa fa-plus-square"></i>
             @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNew")
         </a>

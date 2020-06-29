@@ -18,9 +18,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <summary>
         /// Prepare widget zone model
         /// </summary>
+        /// <param name="model">Widget zone admin model</param>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Prepared widget zone model</returns>
-        WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone);
+        WidgetZoneModel PrepareWidgetZoneModel(WidgetZoneModel model, WidgetZone widgetZone);
 
         /// <summary>
         /// Prepare widget zone ACL model

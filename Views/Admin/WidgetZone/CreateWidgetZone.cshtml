@@ -1,0 +1,32 @@
+﻿@model WidgetZoneModel
+@{
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Create").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
+    Layout = "_AdminLayout";
+}
+
+<form asp-controller="qBoWidgetZone" asp-action="CreateWidgetZone" method="post" id="widget-zone-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Create")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+            @await Component.InvokeAsync("AdminWidget", new { widgetZone = "qBo_slider_widget_create_buttons" })
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.cshtml", Model)
+</form>

@@ -1,4 +1,4 @@
-﻿@model PublicInfoModel
+﻿@model WidgetZoneModel
 @{
     Layout = "";
     //Html.AddScriptParts(ResourceLocation.Footer, "~/lib/jquery/jquery-1.10.2.js");
@@ -11,7 +11,6 @@
     string autoPlay = Model.AutoPlay ? "True" : string.Empty;
 }
 @using Nop.Web.Framework.UI
-@using Nop.Plugin.Widgets.qBoSlider.Models;
 
 
 <div id="slider-container">
@@ -29,7 +28,7 @@
                 @if (!string.IsNullOrEmpty(slide.Hyperlink))
                 {
                     <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
-                        <img u="image" src="@slide.Picture" />
+                        <img u="image" src="@slide.PictureUrl" />
                         <div class="slide-description">
                             @Html.Raw(slide.Description)
                         </div>
@@ -37,7 +36,7 @@
                 }
                 else
                 {
-                    <img u="image" src="@slide.Picture" />
+                    <img u="image" src="@slide.PictureUrl" />
                     <div class="slide-description">
                         @Html.Raw(slide.Description)
                     </div>
