@@ -62,7 +62,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     {
                         Id = widgetZone.Id,
                         Name = widgetZone.Name,
-                        SystemName = widgetZone.SystemName
+                        SystemName = widgetZone.SystemName,
+                        Published = widgetZone.Published
                     };
                 });
             });

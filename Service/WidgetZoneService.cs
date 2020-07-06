@@ -78,7 +78,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
                 query = query.Where(x => x.SystemName.Contains(systemName));
 
             //display only published widget zones
-            if (!showHidden)
+            if (showHidden)
                 query = query.Where(x => x.Published);
 
             query = query.OrderBy(x => x.Id);

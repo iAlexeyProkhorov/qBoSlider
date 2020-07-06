@@ -74,7 +74,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Json(gridModel);
         }
 
-        public virtual IActionResult CreateWidgetZone()
+        public virtual IActionResult Create()
         {
             //return access denied page if customer has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -88,11 +88,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _widgetZoneModelFactory.PrepareAclModel(model, null);
             //prepare widget zone store mappings
             _widgetZoneModelFactory.PrepareStoreMappings(model, null);
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/CreateWidgetZone.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Create.cshtml", model);
         }
 
         [HttpPost]
-        public virtual IActionResult CreateWidgetZone(WidgetZoneModel model)
+        public virtual IActionResult Create(WidgetZoneModel model)
         {
             //return access denied page if customer has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -103,7 +103,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             {
                 //prepare model values
                 model = _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
-                return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/CreateWidgetZone.cshtml", model);
+                return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Create.cshtml", model);
             }
 
             var widgetZone = new WidgetZone()
@@ -128,6 +128,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _widgetZoneService.InsertWidgetZone(widgetZone);
 
             return RedirectToAction("List");
+        }
+
+        public virtual IActionResult Edit(int id)
+        {
+            //return access denied page if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var widgetZone = _widgetZoneService.GetWidgetZoneById(id);
+            var model = _widgetZoneModelFactory.PrepareWidgetZoneModel(new WidgetZoneModel(), widgetZone);
+
+
+
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Edit.cshtml", model);
         }
 
         #endregion

@@ -19,7 +19,7 @@
         @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List")
     </h1>
     <div class="pull-right">
-        <a asp-action="CreateWidgetZone" class="btn bg-blue">
+        <a asp-action="Create" class="btn bg-blue">
             <i class="fa fa-plus-square"></i>
             @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNew")
         </a>
@@ -46,6 +46,12 @@
                                new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.SystemName))
                                {
                                    Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SystemName").Text
+                               },
+                               new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Published))
+                               {
+                                   Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.Published").Text,
+                                   ClassName = NopColumnClassDefaults.CenterAll,
+                                   Render = new RenderBoolean()
                                },
                                new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
                                {

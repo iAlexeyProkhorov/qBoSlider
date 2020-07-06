@@ -39,6 +39,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
             /// Gets or sets widget zone system name
             /// </summary>
             public string SystemName { get; set; }
+
+            /// <summary>
+            /// Gets or sets value wether indicating widget zone publish state
+            /// </summary>
+            public bool Published { get; set; }
         }
     }
 }
