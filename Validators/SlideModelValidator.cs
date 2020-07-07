@@ -5,9 +5,12 @@ using Nop.Web.Framework.Validators;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Validators
 {
-    public class SlideValidator : BaseNopValidator<SlideModel>
+    /// <summary>
+    /// Represents slide model validator
+    /// </summary>
+    public class SlideModelValidator : BaseNopValidator<SlideModel>
     {
-        public SlideValidator(ILocalizationService localizationService)
+        public SlideModelValidator(ILocalizationService localizationService)
         {
             RuleFor(x => x.PictureId).NotEqual(0).WithMessage(localizationService.GetResource("Plugins.Widgets.qBoSlider.SlidePictureIsRequired"));
             RuleFor(x => x.EndDateUtc).Must((model, endDate) =>

@@ -1,4 +1,19 @@
-﻿using Nop.Core;
+﻿//    This file is part of qBoSlider.
+
+//    qBoSlider is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+
+//    qBoSlider is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+//    GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License
+//    along with qBoSlider.  If not, see<https://www.gnu.org/licenses/>.
+
+using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
@@ -11,7 +26,6 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using System;
-using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -81,7 +95,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             {
                 Id = slide.Id,
                 PictureUrl = _pictureService.GetPictureUrl(picture),
-                Description = string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, languageId) :
+                Description = !string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, languageId) :
                 _localizationService.GetLocalized(slide, z => z.Description, languageId),
                 Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, languageId)
             };

@@ -7,6 +7,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="Name" />
+            <span asp-validation-for="Name"></span>
         </div>
     </div>
     <div class="form-group">
@@ -15,6 +16,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="SystemName" />
+            <span asp-validation-for="SystemName"></span>
         </div>
     </div>
     <div class="form-group">
@@ -23,6 +25,7 @@
         </div>
         <div class="col-md-9">
             <nop-select asp-for="ArrowNavigationDisplayingTypeId" asp-items="@Model.AvailableArrowNavigations" />
+            <span asp-validation-for="ArrowNavigationDisplayingTypeId"></span>
         </div>
     </div>
     <div class="form-group">
@@ -31,6 +34,7 @@
         </div>
         <div class="col-md-9">
             <nop-select asp-for="BulletNavigationDisplayingTypeId" asp-items="@Model.AvailableBulletNavigations" />
+            <span asp-validation-for="BulletNavigationDisplayingTypeId"></span>
         </div>
     </div>
     <div class="form-group">
@@ -39,6 +43,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="AutoPlay" />
+            <span asp-validation-for="AutoPlay"></span>
         </div>
     </div>
     <div class="form-group">
@@ -47,6 +52,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="AutoPlayInterval" />
+            <span asp-validation-for="AutoPlayInterval"></span>
         </div>
     </div>
     <div class="form-group">
@@ -55,6 +61,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="SlideDuration" />
+            <span asp-validation-for="SlideDuration"></span>
         </div>
     </div>
     <div class="form-group">
@@ -63,6 +70,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="MinDragOffsetToSlide" />
+            <span asp-validation-for="MinDragOffsetToSlide"></span>
         </div>
     </div>
     <div class="form-group">
@@ -71,6 +79,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="SlideSpacing" />
+            <span asp-validation-for="SlideSpacing"></span>
         </div>
     </div>
     <div class="form-group">
@@ -79,6 +88,7 @@
         </div>
         <div class="col-md-9">
             <nop-editor asp-for="Published" />
+            <span asp-validation-for="Published"></span>
         </div>
     </div>
 </div>
