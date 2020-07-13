@@ -43,12 +43,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly IAclService _aclService;
         private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
+        private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
         private readonly IWidgetZoneModelFactory _widgetZoneModelFactory;
+        private readonly IWidgetZoneSlideModelFactory _widgetZoneSlideModelFactory;
         private readonly IWidgetZoneService _widgetZoneService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         #endregion
 
@@ -57,22 +60,28 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         public qBoWidgetZoneController(IAclService aclService,
             ICustomerService customerService,
             ILocalizationService localizationService,
+            ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
             IPermissionService permissionService,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
             IWidgetZoneModelFactory widgetZoneModelFactory,
-            IWidgetZoneService widgetZoneService)
+            IWidgetZoneSlideModelFactory widgetZoneSlideModelFactory,
+            IWidgetZoneService widgetZoneService,
+            IWidgetZoneSlideService widgetZoneSlideService)
         {
             _aclService = aclService;
             _customerService = customerService;
             _localizationService = localizationService;
+            _localizedEntityService = localizedEntityService;
             _notificationService = notificationService;
             _permissionService = permissionService;
             _storeMappingService = storeMappingService;
             _storeService = storeService;
             _widgetZoneModelFactory = widgetZoneModelFactory;
+            _widgetZoneSlideModelFactory = widgetZoneSlideModelFactory;
             _widgetZoneService = widgetZoneService;
+            _widgetZoneSlideService = widgetZoneSlideService;
         }
 
         #endregion
@@ -255,9 +264,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var model = _widgetZoneModelFactory.PrepareWidgetZoneModel(new WidgetZoneModel(), widgetZone);
 
             //prepare widget zone ACL
-            _widgetZoneModelFactory.PrepareAclModel(model, null);
+            _widgetZoneModelFactory.PrepareAclModel(model, widgetZone);
             //prepare widget zone store mappings
-            _widgetZoneModelFactory.PrepareStoreMappings(model, null);
+            _widgetZoneModelFactory.PrepareStoreMappings(model, widgetZone);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Edit.cshtml", model);
         }
@@ -335,6 +344,64 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.DeletedSuccessfully"));
 
             return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Slide list
+
+        [HttpPost]
+        public virtual IActionResult SlideList(WidgetZoneSlideSearchModel searchModel)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var gridModel = _widgetZoneSlideModelFactory.PrepareSlidePagedListModel(searchModel);
+
+            return Json(gridModel);
+        }
+
+        public virtual IActionResult EditWidgetZoneSlidePopup(int id)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+            if (widgetZoneSlide == null)
+                throw new Exception($"Widget zone slide with '{id}' id aren't exist");
+
+            var model = _widgetZoneSlideModelFactory.PrepareEditWidgetZoneSlideModel(widgetZoneSlide);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/EditWidgetZoneSlidePopup.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult EditWidgetZoneSlidePopup(WidgetZoneSlideModel model)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(model.Id);
+            if (widgetZoneSlide == null)
+                throw new Exception($"Widget zone slide with '{model.Id}' id aren't exist");
+
+            //apply values
+            widgetZoneSlide.DisplayOrder = model.DisplayOrder;
+            widgetZoneSlide.OverrideDescription = model.OverrideDescription;
+
+            //save localizaed values
+            foreach(var locale in model.Locales)
+                _localizedEntityService.SaveLocalizedValue(widgetZoneSlide, x => x.OverrideDescription, locale.OverrideDescription, locale.LanguageId);
+
+            //update widget zone slide
+            _widgetZoneSlideService.UpdateWidgetZoneSlide(widgetZoneSlide);
+
+            //close popup window
+            ViewBag.RefreshPage = true;
+
+            return EditWidgetZoneSlidePopup(model.Id);
         }
 
         #endregion

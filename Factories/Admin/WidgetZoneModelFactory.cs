@@ -99,6 +99,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 
             //prepare widget zone model if widget zone entity are exist
             if (widgetZone != null)
+            {
                 model = new WidgetZoneModel()
                 {
                     ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
@@ -115,13 +116,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     SlideDuration = widgetZone.SlideDuration,
                     SlideSpacing = widgetZone.SlideSpacing,
                     SubjectToAcl = widgetZone.SubjectToAcl,
-                    SystemName = widgetZone.SystemName
+                    SystemName = widgetZone.SystemName,
                 };
 
+                //put widget zone id number for slide searhing
+                model.SlideSearchModel.WidgetZoneId = widgetZone.Id;
+            }
+
             //prepare list of availbale naviagation types
-            var naviagationTypes = NavigationType.Always.ToSelectList(false).ToList();
-            model.AvailableArrowNavigations = naviagationTypes;
-            model.AvailableBulletNavigations = naviagationTypes;
+            var navigationTypes = NavigationType.Always.ToSelectList(false).ToList();
+            model.AvailableArrowNavigations = navigationTypes;
+            model.AvailableBulletNavigations = navigationTypes;
+
+            //prepare slide search model
+            model.SlideSearchModel.SetGridPageSize();
 
             return model;
         }
@@ -165,7 +173,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 
             //load selected stores for current widget zone
             if (widgetZone != null)
-                widgetZoneModel.SelectedStoreIds = _storeMappingService.GetStoresIdsWithAccess(widgetZone);
+                widgetZoneModel.SelectedStoreIds = _storeMappingService.GetStoresIdsWithAccess(widgetZone).ToList();
 
             //get all available stores
             var availableStores = _storeService.GetAllStores();

@@ -111,5 +111,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// Gets or sets available stores
         /// </summary>
         public IList<SelectListItem> AvailableStores { get; set; } = new List<SelectListItem>();
+
+        /// <summary>
+        /// Gets or sets slide search model
+        /// </summary>
+        public WidgetZoneSlideSearchModel SlideSearchModel { get; set; } = new WidgetZoneSlideSearchModel();
     }
 }

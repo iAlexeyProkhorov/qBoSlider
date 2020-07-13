@@ -192,51 +192,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #endregion
 
-        #region Cofiguration
+        #region Slides List / Create / Update / Delete 
 
-        public IActionResult Configure()
+        public virtual IActionResult List()
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
+            var model = new SlideSearchModel();
+            model.SetGridPageSize();
 
-            //load settings for a chosen store scope
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
-
-            var model = new ConfigurationModel()
-            {
-                ActiveStoreScopeConfiguration = storeScope
-            };
-
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Configure.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/List.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult Configure(ConfigurationModel model)
-        {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var qBoSliderSettings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
-
-            _settingService.SaveSetting(qBoSliderSettings, storeScope);
-
-            //now clear settings cache
-            _settingService.ClearCache();
-
-            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
-            return Configure();
-        }
-
-        #endregion
-
-        #region List / Create / Update / Delete 
-
-        [HttpPost]
-        public IActionResult SlideList(SlideSearchModel searchModel)
+        public IActionResult List(SlideSearchModel searchModel)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -247,7 +214,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Json(gridModel);
         }
 
-        public IActionResult CreateSlidePopup()
+        public IActionResult Create()
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -260,7 +227,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSlidePopup(SlideModel model, string btnId, string formId)
+        public IActionResult Create(SlideModel model)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -291,10 +258,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 //ACL (customer roles)
                 //Set catalogsettings.ignoreacl = True to use ALC 
                 SaveCustomerRolesAcl(slide, model);
-
-                ViewBag.btnId = btnId;
-                ViewBag.formId = formId;
-                ViewBag.RefreshPage = true;
             }
 
             //ACL
@@ -306,7 +269,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
         }
 
-        public IActionResult EditSlidePopup(int id, string btnId, string formId)
+        public IActionResult Edit(int id)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -322,7 +285,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditSlidePopup(SlideModel model, string btnId, string formId)
+        public IActionResult Edit(SlideModel model)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -359,10 +322,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 ViewBag.RefreshPage = true;
             }
 
-            //parent form data for refresh
-            ViewBag.btnId = btnId;
-            ViewBag.formId = formId;
-
             //ACL
             _slideModelFactory.PrepareAclModel(model, slide, true);
 
@@ -370,11 +329,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _slideModelFactory.PrepareStoreMapping(model, slide);
 
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/EditSlidePopup.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Edit.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult SlideDelete(int id)
+        public IActionResult Delete(int id)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -391,7 +350,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //delete slide entity
             _slideService.DeleteSlide(slide);
 
-            return new NullJsonResult();
+            return RedirectToAction("List");
         }
 
         #endregion
