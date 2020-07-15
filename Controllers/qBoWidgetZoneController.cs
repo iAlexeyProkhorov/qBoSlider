@@ -25,6 +25,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
 using System;
 using System.Linq;
@@ -348,10 +349,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #endregion
 
-        #region Slide list
+        #region Slide Edit / Delete
 
         [HttpPost]
-        public virtual IActionResult SlideList(WidgetZoneSlideSearchModel searchModel)
+        public virtual IActionResult WidgetZoneSlideList(WidgetZoneSlideSearchModel searchModel)
         {
             //return access denied result if customer has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -402,6 +403,82 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ViewBag.RefreshPage = true;
 
             return EditWidgetZoneSlidePopup(model.Id);
+        }
+
+        [HttpPost]
+        public virtual IActionResult DeleteSlide(int id)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+
+            if (widgetZoneSlide == null)
+                throw new Exception($"Can't delete widget zone slide, because entity by id '{id}' isn't exist.");
+
+            _widgetZoneSlideService.DeleteWidgetZoneSlide(widgetZoneSlide);
+
+            return new NullJsonResult();
+        }
+
+        #endregion
+
+        #region Add slide to widget zone
+
+        public virtual IActionResult AddWidgetZoneSlidePopup(int widgetZoneId)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var model = new AddWidgetZoneSlideModel()
+            {
+                WidgetZoneId = widgetZoneId
+            };
+
+            model.SetPopupGridPageSize();
+
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/AddWidgetZoneSlidePopup.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult AddWidgetZoneSlidePopup(AddWidgetZoneSlideModel model)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var widgetZone = _widgetZoneService.GetWidgetZoneById(model.WidgetZoneId);
+            if (widgetZone == null)
+                throw new Exception($"Widget zone by id '{model.WidgetZoneId}' aren't exist.");
+
+            //calculate maximum dispay order to add slide in end of list
+            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(model.WidgetZoneId);
+            var displayOrder = widgetZoneSlides.Any() ? widgetZoneSlides.Max(x => x.DisplayOrder) : 0;
+
+            foreach (var slideId in model.SelecetedSlideIds)
+                _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+                {
+                    SlideId = slideId,
+                    WidgetZoneId = model.WidgetZoneId,
+                    DisplayOrder = ++displayOrder
+                });
+
+            ViewBag.RefreshPage = true;
+            return AddWidgetZoneSlidePopup(model.WidgetZoneId);
+        }
+
+        [HttpPost]
+        public virtual IActionResult AddSlideList(AddWidgetZoneSlideModel searchModel)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var gridModel = _widgetZoneSlideModelFactory.PrepareAddWidgetZoneSlideModel(searchModel);
+
+            return Json(gridModel);
         }
 
         #endregion

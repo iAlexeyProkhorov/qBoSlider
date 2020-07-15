@@ -128,19 +128,47 @@
 		<Value>Add new slide</Value>
 	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
-	<!--<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
+		<Value>Edit widget zone slide</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup.Details">
+		<Value>Widget zone slide</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.PictureId">
+		<Value>Picture</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.PictureId.Hint">
+		<Value>Slide main picture</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
-	</LocaleResource>-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.OverrideDescription">
+		<Value>Override description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.OverrideDescription.Hint">
+		<Value>Override slide original HTML content. Keep empty if you're not want to override slide content.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.DisplayOrder">
+		<Value>Display order</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.DisplayOrder.Hint">
+		<Value>Slide display order for current widget zone.</Value>
+	</LocaleResource>
+	<!--ADMIN ADD WIDGET ZONE SLIDE-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddWidgetZoneSlidePopup">
+		<Value>Add slide to widget zone</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.WidgetZoneSlide.AddNew">
+		<Value>Add slide</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.PictureUrl">
+		<Value>Picture</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.StartDateUtc">
+		<Value>Start date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.EndDateUtc">
+		<Value>End date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.Published">
+		<Value>Published</Value>
+	</LocaleResource>
 </Language>

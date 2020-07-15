@@ -52,6 +52,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
             /// <summary>
             /// Gets or sets slide localized HTML content. 
             /// </summary>
+            [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.OverrideDescription")]
             public string OverrideDescription { get; set; }
 
             /// <summary>

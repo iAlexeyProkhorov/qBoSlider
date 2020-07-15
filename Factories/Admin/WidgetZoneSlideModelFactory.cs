@@ -20,6 +20,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         private readonly ILocalizationService _localizationService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly IPictureService _pictureService;
+        private readonly ISlideService _slideService;
         private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         #endregion
@@ -30,12 +31,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             ILocalizationService localizationService,
             ILocalizedEntityService localizedEntityService,
             IPictureService pictureService,
+            ISlideService slideService,
             IWidgetZoneSlideService widgetZoneSlideService)
         {
             _languageService = languageService;
             _localizationService = localizationService;
             _localizedEntityService = localizedEntityService;
             _pictureService = pictureService;
+            _slideService = slideService;
             _widgetZoneSlideService = widgetZoneSlideService;
         }
 
@@ -68,6 +71,35 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                         DisplayOrder = slide.DisplayOrder
                     };
                 }).OrderBy(x => x.DisplayOrder);
+            });
+
+            return gridModel;
+        }
+
+        /// <summary>
+        /// Prepare add slide model search list
+        /// </summary>
+        /// <param name="searchModel">Add widget zone slide search model</param>
+        /// <returns>Add widget zone slide model</returns>
+        public virtual AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel)
+        {
+            var slides = _slideService.GetAllSlides(showHidden: true);
+            var gridModel = new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
+            {
+                return slides.Select(slide =>
+                {
+                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+                    var pictureUrl = _pictureService.GetPictureUrl(picture, 300);
+
+                    return new AddWidgetZoneSlideModel.SlideModel()
+                    {
+                        Id = slide.Id,
+                        PictureUrl = pictureUrl,
+                        StartDateUtc = slide.StartDateUtc,
+                        EndDateUtc = slide.EndDateUtc,
+                        Published = slide.Published
+                    };
+                });
             });
 
             return gridModel;

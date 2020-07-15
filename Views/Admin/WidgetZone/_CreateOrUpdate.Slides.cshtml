@@ -7,7 +7,8 @@
     @await Html.PartialAsync("Table", new DataTablesModel()
 {
     Name = "widget-zone-slides-grid",
-    UrlRead = new DataUrl("SlideList", "qBoWidgetZone", route),
+    UrlRead = new DataUrl("WidgetZoneSlideList", "qBoWidgetZone", route),
+    UrlDelete = new DataUrl("DeleteSlide", "qBoWidgetZone", null),
     Length = Model.SlideSearchModel.PageSize,
     LengthMenu = Model.SlideSearchModel.AvailablePageSizes,
     ColumnCollection = new List<ColumnProperty>()
@@ -37,16 +38,23 @@
                    },
                    new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
                    {
-                       Title = "",
+                       Title = T("Admin.Common.Edit").Text,
                        Width =  "100",
                        ClassName =  NopColumnClassDefaults.Button,
                        Render = new RenderCustom("renderColumnEdit")
+                   },
+                   new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
+                   {
+                        Title = T("Admin.Common.Delete").Text,
+                        Width = "100",
+                        Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                        ClassName =  NopColumnClassDefaults.Button
                    }
        }
 })
 </div>
 <div class="panel-footer">
-    <button type="submit" id="btnAddNewOption" onclick="javascript:OpenWindow('@(Url.Action("CreateWidgetZoneSlidePopup", "qBoWidgetZone", new { widgetZoneId = Model.Id, btnId = "btnRefresh", formId = "widget-zone-form" }))', 800, 400, true); return false;" class="btn btn-primary">
+    <button type="submit" id="btnAddNewOption" onclick="javascript:OpenWindow('@(Url.Action("AddWidgetZoneSlidePopup", "qBoWidgetZone", new { widgetZoneId = Model.Id, btnId = "btnRefresh", formId = "widget-zone-form" }))', 1000, 800, true); return false;" class="btn btn-primary">
         @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNewSlide")
     </button>
     <input type="submit" id="btnRefresh" style="display: none" />
@@ -65,6 +73,6 @@
 
 <script>
             function renderColumnEdit(data, type, row, meta) {
-                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/qBoWidgetZone/EditWidgetZoneSlidePopup/")' + data + '?btnId=btnRefresh&formId=widget-zone-form\', 800, 400, true); return false;\" class="btn btn-default"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</button>';
+                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/qBoWidgetZone/EditWidgetZoneSlidePopup/")' + data + '?btnId=btnRefresh&formId=widget-zone-form\', 800, 450, true); return false;\" class="btn btn-default"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</button>';
             }
 </script>

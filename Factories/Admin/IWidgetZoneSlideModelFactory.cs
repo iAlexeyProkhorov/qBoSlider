@@ -16,6 +16,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         WidgetZoneSlideSearchModel.SlideList PrepareSlidePagedListModel(WidgetZoneSlideSearchModel searchModel);
 
         /// <summary>
+        /// Prepare add slide model search list
+        /// </summary>
+        /// <param name="searchModel">Add widget zone slide search model</param>
+        /// <returns>Add widget zone slide model</returns>
+        AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel);
+
+        /// <summary>
         /// Prepare widget zone slide model
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
