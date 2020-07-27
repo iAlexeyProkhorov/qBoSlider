@@ -1,0 +1,89 @@
+﻿@model SlideModel
+
+<div class="panel-body">
+    @(Html.LocalizedEditor<SlideModel, SlideLocalizedModel>("slide-localized", @<div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <nop-label asp-for="Locales[item].PictureId" />
+                </div>
+                <div class="col-sm-9">
+                    <nop-editor asp-for="Locales[item].PictureId" />
+                </div>
+            </div>
+
+            <div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <nop-label asp-for="Locales[item].Hyperlink" />
+                    </div>
+                    <div class="col-sm-9">
+                        <nop-editor asp-for="Locales[item].Hyperlink" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <nop-label asp-for="Locales[item].Description" />
+                    </div>
+                    <div class="col-sm-9">
+                        <nop-editor asp-for="Locales[item].Description" asp-template="RichEditor" />
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>, @<div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <nop-label asp-for="PictureId" />
+                </div>
+                <div class="col-sm-9">
+                    <nop-editor asp-for="PictureId" />
+                    <span asp-validation-for="PictureId"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <nop-label asp-for="Hyperlink" />
+                </div>
+                <div class="col-sm-9">
+                    <nop-editor asp-for="Hyperlink" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <nop-label asp-for="Description" />
+                </div>
+                <div class="col-sm-9">
+                    <nop-editor asp-for="Description" asp-template="RichEditor" />
+                </div>
+            </div>
+        </div>))
+    <div class="form-group">
+        <div class="col-sm-3">
+            <nop-label asp-for="StartDateUtc" />
+        </div>
+        <div class="col-sm-9">
+            <nop-editor asp-for="StartDateUtc" />
+            <span asp-validation-for="StartDateUtc"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <nop-label asp-for="EndDateUtc" />
+        </div>
+        <div class="col-sm-9">
+            <nop-editor asp-for="EndDateUtc" />
+            <span asp-validation-for="EndDateUtc"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <nop-label asp-for="Published" />
+        </div>
+        <div class="col-sm-9">
+            <nop-editor asp-for="Published" />
+            <span asp-validation-for="Published"></span>
+        </div>
+    </div>
+</div>

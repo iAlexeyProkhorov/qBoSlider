@@ -10,7 +10,7 @@ using System.Linq;
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
     /// <summary>
-    /// Represents widget zone slide model factory interface
+    /// Represents widget zone slide model factory. Using for widget zone editing.
     /// </summary>
     public partial class WidgetZoneSlideModelFactory : IWidgetZoneSlideModelFactory
     {

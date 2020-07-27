@@ -7,70 +7,66 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
+    /// <summary>
+    /// Represents slide model for editing
+    /// </summary>
     public partial class SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
     {
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Picture")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId")]
         [UIHint("Picture")]
         public int PictureId { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Description")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Description")]
         public string Description { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Hyperlink")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Hyperlink")]
         public string Hyperlink { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.StartDateUtc")]
         [UIHint("DateTimeNullable")]
         public DateTime? StartDateUtc { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.EndDateUtc")]
         [UIHint("DateTimeNullable")]
         public DateTime? EndDateUtc { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Published")]
-        public bool Published { get; set; }
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Published")]
+        public bool Published { get; set; } = true;
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.LimitedToStores")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.LimitedToStores")]
         [UIHint("MultiSelect")]
-        public IList<int> SelectedStoreIds { get; set; }
+        public IList<int> SelectedStoreIds { get; set; } = new List<int>();
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.AvailableStores")]
-        public IList<SelectListItem> AvailableStores { get; set; }
+        public IList<SelectListItem> AvailableStores { get; set; } = new List<SelectListItem>();
 
-        public IList<SlideLocalizedModel> Locales { get; set; }
-
-        public SlideModel()
-        {
-            SelectedStoreIds = new List<int>();
-            AvailableStores = new List<SelectListItem>();
-            Locales = new List<SlideLocalizedModel>();
-
-            Published = true;
-
-            SelectedCustomerRoleIds = new List<int>();
-            AvailableCustomerRoles = new List<SelectListItem>();
-        }
+        public IList<SlideLocalizedModel> Locales { get; set; } = new List<SlideLocalizedModel>();
 
         //1.0.5
         //ACL (customer roles)
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.AclCustomerRoles")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.AclCustomerRoles")]
         [UIHint("MultiSelect")]
-        public IList<int> SelectedCustomerRoleIds { get; set; }
-        public IList<SelectListItem> AvailableCustomerRoles { get; set; }
+        public IList<int> SelectedCustomerRoleIds { get; set; } = new List<int>();
+
+        public IList<SelectListItem> AvailableCustomerRoles { get; set; } = new List<SelectListItem>();
+
+        public SlideWidgetZoneSearchModel WidgetZoneSearchModel { get; set; } = new SlideWidgetZoneSearchModel();
     }
 
+    /// <summary>
+    /// Represents slide localization model
+    /// </summary>
     public class SlideLocalizedModel : ILocalizedLocaleModel
     {
         public int LanguageId { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Picture")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Picture")]
         [UIHint("Picture")]
         public int PictureId { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Description")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Description")]
         public string Description { get; set; }
 
-        [NopResourceDisplayName("Plugins.Widgets.qBoSlider.CreateOrEdit.Hyperlink")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Hyperlink")]
         public string Hyperlink { get; set; }
     }
 }

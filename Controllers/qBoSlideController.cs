@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
-using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Configuration;
@@ -29,7 +28,6 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
-using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
 using System;
 using System.Linq;
@@ -55,6 +53,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
         private readonly ISlideModelFactory _slideModelFactory;
+        private readonly ISlideWidgetZoneModelFactory _slideWidgetZoneModelFactory;
         private readonly ISlideService _slideService;
         private readonly IStoreService _storeService;
         private readonly IStoreMappingService _storeMappingService;
@@ -76,6 +75,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             IPictureService pictureService,
             ISettingService settingService,
             ISlideModelFactory slideModelFactory,
+            ISlideWidgetZoneModelFactory slideWidgetZoneModelFactory,
             ISlideService slideService,
             IStoreService storeService,
             IStoreMappingService storeMappingService,
@@ -94,6 +94,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             this._pictureService = pictureService;
             this._settingService = settingService;
             this._slideModelFactory = slideModelFactory;
+            this._slideWidgetZoneModelFactory = slideWidgetZoneModelFactory;
             this._slideService = slideService;
             this._storeService = storeService;
             this._storeMappingService = storeMappingService;
@@ -199,11 +200,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var model = new SlideSearchModel();
             model.SetGridPageSize();
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/List.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/List.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult List(SlideSearchModel searchModel)
+        public virtual IActionResult List(SlideSearchModel searchModel)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -214,7 +215,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Json(gridModel);
         }
 
-        public IActionResult Create()
+        public virtual IActionResult Create()
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -223,11 +224,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var model = new SlideModel();
             _slideModelFactory.PrepareSlideModel(model, null);
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Create.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult Create(SlideModel model)
+        public virtual IActionResult Create(SlideModel model)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -266,36 +267,40 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //store mappings
             _slideModelFactory.PrepareStoreMapping(model, null);
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/CreateSlidePopup.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Create.cshtml", model);
         }
 
-        public IActionResult Edit(int id)
+        public virtual IActionResult Edit(int id)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var model = new SlideModel();
             var slide = _slideService.GetSlideById(id);
+            if (slide == null)
+                throw new Exception($"Slide by id: {id} isn't exist.");
 
             //prepare slide model
+            var model = new SlideModel();
             _slideModelFactory.PrepareSlideModel(model, slide);
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/EditSlidePopup.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Edit.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult Edit(SlideModel model)
+        public virtual IActionResult Edit(SlideModel model)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var slide = _slideService.GetSlideById(model.Id);
+            if (slide == null)
+                throw new Exception($"Slide by id: {model.Id} isn't exist.");
 
             if (ModelState.IsValid)
             {
-                //set default values
+                //set values
                 slide.Description = model.Description;
                 slide.HyperlinkAddress = model.Hyperlink;
                 slide.PictureId = model.PictureId;
@@ -329,11 +334,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _slideModelFactory.PrepareStoreMapping(model, slide);
 
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Edit.cshtml", model);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Edit.cshtml", model);
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public virtual IActionResult Delete(int id)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -351,6 +356,22 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _slideService.DeleteSlide(slide);
 
             return RedirectToAction("List");
+        }
+
+        #endregion
+
+        #region Widget zone List / Add / Delete
+
+        [HttpPost]
+        public virtual IActionResult GetWidgetZoneList(SlideWidgetZoneSearchModel searchModel)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var gridModel = _slideWidgetZoneModelFactory.PrepareWidgetZoneList(searchModel);
+
+            return Json(gridModel);
         }
 
         #endregion

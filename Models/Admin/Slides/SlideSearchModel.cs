@@ -42,11 +42,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
             public DateTime? EndDateUtc { get; set; }
 
             /// <summary>
-            /// Gets or sets slide display order
-            /// </summary>
-            public int DisplayOrder { get; set; }
-
-            /// <summary>
             /// Gest or sets slide published or not
             /// </summary>
             public bool Published { get; set; }

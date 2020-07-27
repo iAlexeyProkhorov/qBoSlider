@@ -188,6 +188,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 
             if(slide != null)
             {
+                model.Id = slide.Id;
                 model.Hyperlink = slide.HyperlinkAddress;
                 model.PictureId = slide.PictureId.GetValueOrDefault(0);
                 model.Description = slide.Description;
@@ -213,6 +214,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             //prepare localized models
             if (!excludeProperties)
                 model.Locales = _localizedModelFactory.PrepareLocalizedModels(localizedModelConfiguration);
+
+            //prepare model widget zone search
+            model.WidgetZoneSearchModel.SetGridPageSize();
 
             return model;
         }
