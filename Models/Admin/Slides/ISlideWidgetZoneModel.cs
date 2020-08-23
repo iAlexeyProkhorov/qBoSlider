@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
+﻿namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
     /// <summary>
     /// Represents slide widget model list item interface

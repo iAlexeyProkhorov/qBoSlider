@@ -189,4 +189,121 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.Published">
 		<Value>Published</Value>
 	</LocaleResource>
+	<!--ADMIN SLIDE-->
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.edit">
+		<Value>Edit slide</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.backtolist">
+		<Value>Back to list</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslide.admin.slide.info">
+		<Value>Information</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslide.admin.slide.widgetzones">
+		<Value>Widget zones</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslide.admin.slide.mappings">
+		<Value>Mappings</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId">
+		<Value>Picture</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId.Hint">
+		<Value>Select and upload slide picture here.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.PictureId.IsRequired">
+		<Value>Picture is required</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Hyperlink">
+		<Value>Hyperlink</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Hyperlink.Hint">
+		<Value>Slide hyperlink for customers using.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Description">
+		<Value>Description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Description.Hint">
+		<Value>Put slide HTML content here.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.StartDateUtc">
+		<Value>Start date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.StartDateUtc.Hint">
+		<Value>Slide displaying start date. For all widget zones where slide was add.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.EndDateUtc">
+		<Value>End date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.EndDateUtc.Hint">
+		<Value>Slide displaying finish date. For all widget zones where slide was added.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Published">
+		<Value>Published</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Published.Hint">
+		<Value>Value indicating slide displaying. Working for all widget zones where slide was add.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EndDateMustBeLaterThanStartDate">
+		<Value>Finish displaying date must be greated than start displaying date.</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.widgetzonelist.name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.widgetzonelist.systemname">
+		<Value>System name</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.widgetzonelist.published">
+		<Value>Published</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.addnewwidgetzone">
+		<Value>Add widget zone</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.AclCustomerRoles">
+		<Value>Limited to customer roles</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.AclCustomerRoles.Hint">
+		<Value>Select customer roles for which the slide will be shown. Leave empty if you want this slide to be visible to all users.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.LimitedToStores">
+		<Value>Limited to stores</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.LimitedToStores.Hint">
+		<Value>Option to limit this slide to a certain store. If you have multiple stores, choose one or several from the list. If you don't use this option just leave this field empty.</Value>
+	</LocaleResource>
+	<!--ADMIN SLIDE WIDGET ZONE-->
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.slidewidgetzone.addnew">
+		<Value>Add widget zone to slide</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.addslidewidgetzone.fields.name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.addslidewidgetzone.fields.systemname">
+		<Value>System name</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.addslidewidgetzone.fields.published">
+		<Value>Published</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.AddSlideWidgetZonePopup">
+		<Value>Add widget zone to slide</Value>
+	</LocaleResource>
+	<!--ADMIN SLIDE LIST-->
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list">
+		<Value>Slide list</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.addnew">
+		<Value>Add new slide</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list.redirect">
+		<Value>Redirect</Value>
+	</LocaleResource>
+	<LocaleResource Name="">
+		<Value></Value>
+	</LocaleResource>
+	<LocaleResource Name="">
+		<Value></Value>
+	</LocaleResource>
+	<LocaleResource Name="">
+		<Value></Value>
+	</LocaleResource>
 </Language>

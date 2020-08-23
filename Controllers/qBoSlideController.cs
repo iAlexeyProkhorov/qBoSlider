@@ -28,6 +28,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
 using System;
 using System.Linq;
@@ -57,6 +58,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ISlideService _slideService;
         private readonly IStoreService _storeService;
         private readonly IStoreMappingService _storeMappingService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
@@ -79,6 +81,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ISlideService slideService,
             IStoreService storeService,
             IStoreMappingService storeMappingService,
+            IWidgetZoneSlideService widgetZoneSlideService,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
@@ -98,6 +101,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             this._slideService = slideService;
             this._storeService = storeService;
             this._storeMappingService = storeMappingService;
+            this._widgetZoneSlideService = widgetZoneSlideService;
 
             this._storeContext = storeContext;
             this._workContext = workContext;
@@ -371,6 +375,79 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var gridModel = _slideWidgetZoneModelFactory.PrepareWidgetZoneList(searchModel);
 
+            return Json(gridModel);
+        }
+
+        [HttpPost]
+        public virtual IActionResult DeleteSlideWidgetZone(int id)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var slideWidgetZone = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+            if (slideWidgetZone == null)
+                throw new Exception($"Slide widget zone by id {id} isn't exist");
+
+            _widgetZoneSlideService.DeleteWidgetZoneSlide(slideWidgetZone);
+            return new NullJsonResult();
+        }
+
+        #endregion
+
+        #region Add widget zone
+
+        public virtual IActionResult AddSlideWidgetZonePopup(int slideId)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var slide = _slideService.GetSlideById(slideId);
+            if (slide == null)
+                throw new Exception($"Slide by id '{slideId}' aren't exist");
+
+            var model = new AddSlideWidgetZoneModel()
+            {
+                SlideId = slideId
+            };
+            model.SetPopupGridPageSize();
+
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/AddSlideWidgetZonePopup.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult AddSlideWidgetZonePopup(AddSlideWidgetZoneModel searchModel)
+        {
+            //return access denied result if customer has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var slide = _slideService.GetSlideById(searchModel.SlideId);
+            if (slide == null)
+                throw new Exception($"Slide by id '{searchModel.SlideId}' isn't exist");
+
+            var slideWidgetZones = _widgetZoneSlideService.GetWidgetZoneSlides(null, searchModel.SlideId, searchModel.Page - 1, searchModel.PageSize);
+
+            foreach (var widgetZoneId in searchModel.SelectedWidgetZoneIds)
+                _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+                {
+                    SlideId = searchModel.SlideId,
+                    WidgetZoneId = widgetZoneId
+                });
+
+            ViewBag.RefreshPage = true;
+            return AddSlideWidgetZonePopup(searchModel.SlideId);
+        }
+
+        [HttpPost]
+        public virtual IActionResult GetWidgetZoneListPopup(AddSlideWidgetZoneModel searchModel)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
+
+            var gridModel = _slideWidgetZoneModelFactory.PrepareWidgetZoneList(searchModel);
             return Json(gridModel);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Nop.Web.Framework.Models;
+using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
@@ -12,6 +13,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// </summary>
         public int SlideId { get; set; }
 
+        /// <summary>
+        /// Gets or sets selected widget zone id numbers
+        /// </summary>
+        public IList<int> SelectedWidgetZoneIds { get; set; } = new List<int>();
+
         public class WidgetZonePagedList: BasePagedListModel<WidgetZoneModel>
         {
 
@@ -20,7 +26,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Represents widget zone model for slide editing
         /// </summary>
-        public class WidgetZoneModel : BaseNopEntityModel
+        public class WidgetZoneModel : BaseNopEntityModel, ISlideWidgetZoneModel
         {
             /// <summary>
             /// Gets or sets widget zone friendly name
