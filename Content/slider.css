@@ -1,4 +1,4 @@
-﻿#slider-container {
+﻿.slider-container {
     position: relative;
     top: 0px;
     left: 0px;
@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-    #slider-container #slider-loading {
+    .slider-container #slider-loading {
         position: absolute;
         top: 0px;
         left: 0px;

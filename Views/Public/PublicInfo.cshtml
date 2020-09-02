@@ -1,7 +1,6 @@
 ﻿@model WidgetZoneModel
 @{
     Layout = "";
-    //Html.AddScriptParts(ResourceLocation.Footer, "~/lib/jquery/jquery-1.10.2.js");
     Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
     Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.min.js");
 
@@ -13,7 +12,7 @@
 @using Nop.Web.Framework.UI
 
 
-<div id="slider-container">
+<div class="slider-container" id="slider-@Model.Id">
     <div u="loading" id="slider-loading">
         <div id="slider-loading-background">
         </div>
@@ -45,7 +44,7 @@
         }
     </div>
 
-    <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
+    <div data-u="navigator" data-scale="0.5" data-scale-bottom="0.5" class="jssorb05" style="bottom: 16px; right: 6px;">
         <div u="prototype"></div>
     </div>
 
@@ -70,13 +69,12 @@
             $FillMode: 2,
             $AutoPlay: Boolean('@autoPlay'),                                
             $AutoPlaySteps: 1,                                
-            $AutoPlayInterval: @Model.AutoPlayInterval,                           
+            $Idle: @Model.AutoPlayInterval,                           
             $PauseOnHover: 1,                               
 
             $ArrowKeyNavigation: true,   			            
             $SlideDuration: @Model.SlideDuration,                               
-            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,                
-            //$SlideHeight: 300,                             
+            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,                                          
             $SlideSpacing: @Model.SlideSpacing, 					       
             $DisplayPieces: 1,                                
             $ParkingPosition: 0,                               
@@ -100,7 +98,7 @@
                 $SpacingX: 10,                                   
                 $SpacingY: 10,                                   
                 $Orientation: 1,                               
-                $Scale: false
+                $Scale: true
             },
 
             $ArrowNavigatorOptions: {
@@ -111,7 +109,7 @@
                 $AutoCenter: 2
             }
         };
-        var jssor_slider1 = new $JssorSlider$("slider-container", options);
+        var jssor_slider1 = new $JssorSlider$("slider-@Model.Id", options);
 
         //responsive code begin
         //you can remove responsive code if you don't want the slider scales while window resizes
@@ -137,7 +135,7 @@
                 var sliderWidth = availableWidth;
 
                 //slider width is maximum 1920
-                sliderWidth = Math.min(sliderWidth, 1200);
+                sliderWidth = Math.min(sliderWidth, 1920);
 
                 //slider width is minimum 200
                 sliderWidth = Math.max(sliderWidth, 200);

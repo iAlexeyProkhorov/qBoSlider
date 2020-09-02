@@ -59,7 +59,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     {
         public int LanguageId { get; set; }
 
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Picture")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId")]
         [UIHint("Picture")]
         public int PictureId { get; set; }
 

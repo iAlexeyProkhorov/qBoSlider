@@ -1,17 +1,16 @@
-﻿//    This file is part of qBoSlider.
+﻿//Copyright 2020 Alexey Prokhorov
 
-//    qBoSlider is free software: you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation, either version 3 of the License, or
-//    (at your option) any later version.
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
 
-//    qBoSlider is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
-//    GNU General Public License for more details.
+//    http://www.apache.org/licenses/LICENSE-2.0
 
-//    You should have received a copy of the GNU General Public License
-//    along with qBoSlider.  If not, see<https://www.gnu.org/licenses/>.
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
 
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
@@ -89,7 +88,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             this._aclService = aclService;
             this._customerService = customerService;
-            this._garbageManager = garbageManager;            
+            this._garbageManager = garbageManager;
             this._localizationService = localizationService;
             this._localizedEntityService = localizedEntityService;
             this._notificationService = notificationService;
@@ -231,39 +230,46 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Create.cshtml", model);
         }
 
-        [HttpPost]
-        public virtual IActionResult Create(SlideModel model)
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Create(SlideModel model, bool continueEditing)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            if (ModelState.IsValid)
+            //return on slide creation page if model invalid
+            if (!ModelState.IsValid)
             {
-                var slide = new Slide()
-                {
-                    Description = model.Description,
-                    HyperlinkAddress = model.Hyperlink,
-                    PictureId = model.PictureId,
-                    StartDateUtc = model.StartDateUtc,
-                    EndDateUtc = model.EndDateUtc,
-                    Published = model.Published,
-                    LimitedToStores = model.SelectedStoreIds.Any(),
-                    //1.0.5 all with Alc
-                    SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0
-                };
-                _slideService.InsertSlide(slide);
+                //prepare model mappings
+                _slideModelFactory.PrepareAclModel(model, null, true);
+                _slideModelFactory.PrepareStoreMapping(model, null);
 
-                //update slide locales
-                UpdateSlideLocales(slide, model);
-
-                //process slide store mappings
-                UpdateStoreMapping(slide, model);
-
-                //ACL (customer roles)
-                //Set catalogsettings.ignoreacl = True to use ALC 
-                SaveCustomerRolesAcl(slide, model);
+                return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Create.cshtml", model);
             }
+
+            var slide = new Slide()
+            {
+                Description = model.Description,
+                HyperlinkAddress = model.Hyperlink,
+                PictureId = model.PictureId,
+                StartDateUtc = model.StartDateUtc,
+                EndDateUtc = model.EndDateUtc,
+                Published = model.Published,
+                LimitedToStores = model.SelectedStoreIds.Any(),
+                //1.0.5 all with Alc
+                SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0
+            };
+            _slideService.InsertSlide(slide);
+
+            //update slide locales
+            UpdateSlideLocales(slide, model);
+
+            //process slide store mappings
+            UpdateStoreMapping(slide, model);
+
+            //ACL (customer roles)
+            //Set catalogsettings.ignoreacl = True to use ALC 
+            SaveCustomerRolesAcl(slide, model);
 
             //ACL
             _slideModelFactory.PrepareAclModel(model, null, true);
@@ -271,7 +277,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //store mappings
             _slideModelFactory.PrepareStoreMapping(model, null);
 
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Create.cshtml", model);
+            //notify admin
+            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.CreatedSuccessfully"));
+
+            //redirect on widget zone list page if customer don't want's to contiu editing
+            if (!continueEditing)
+                return RedirectToAction("List");
+
+            return RedirectToAction("Edit", new { id = slide.Id });
         }
 
         public virtual IActionResult Edit(int id)
@@ -291,8 +304,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Edit.cshtml", model);
         }
 
-        [HttpPost]
-        public virtual IActionResult Edit(SlideModel model)
+        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        public virtual IActionResult Edit(SlideModel model, bool continueEditing)
         {
             //redirect customer on accessdenied view, if client has no permissions
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
@@ -302,34 +315,45 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (slide == null)
                 throw new Exception($"Slide by id: {model.Id} isn't exist.");
 
-            if (ModelState.IsValid)
+            //return on slide creation page if model invalid
+            if (!ModelState.IsValid)
             {
-                //set values
-                slide.Description = model.Description;
-                slide.HyperlinkAddress = model.Hyperlink;
-                slide.PictureId = model.PictureId;
-                slide.StartDateUtc = model.StartDateUtc;
-                slide.EndDateUtc = model.EndDateUtc;
-                slide.Published = model.Published;
-                slide.LimitedToStores = model.SelectedStoreIds.Any();
+                //prepare model mappings
+                _slideModelFactory.PrepareAclModel(model, null, true);
+                _slideModelFactory.PrepareStoreMapping(model, null);
 
-                //1.0.5 all with Alc
-                slide.SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0;
-
-                _slideService.UpdateSlide(slide);
-
-                //update slide locales
-                UpdateSlideLocales(slide, model);
-
-                //process slide stores
-                UpdateStoreMapping(slide, model);
-
-                //ACL (customer roles)
-                //Set catalogsettings.ignoreacl = True to use ALC
-                SaveCustomerRolesAcl(slide, model);
-
-                ViewBag.RefreshPage = true;
+                return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Edit.cshtml", model);
             }
+
+            //set values
+            slide.Description = model.Description;
+            slide.HyperlinkAddress = model.Hyperlink;
+            slide.PictureId = model.PictureId;
+            slide.StartDateUtc = model.StartDateUtc;
+            slide.EndDateUtc = model.EndDateUtc;
+            slide.Published = model.Published;
+            slide.LimitedToStores = model.SelectedStoreIds.Any();
+
+            //1.0.5 all with Alc
+            slide.SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0;
+
+            _slideService.UpdateSlide(slide);
+
+            //update slide locales
+            UpdateSlideLocales(slide, model);
+
+            //process slide stores
+            UpdateStoreMapping(slide, model);
+
+            //ACL (customer roles)
+            //Set catalogsettings.ignoreacl = True to use ALC
+            SaveCustomerRolesAcl(slide, model);
+
+            //notify admin
+            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.UpdatedSuccessfully"));
+
+            if (!continueEditing)
+                return RedirectToAction("List");
 
             //ACL
             _slideModelFactory.PrepareAclModel(model, slide, true);
@@ -337,8 +361,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //prepare store mappings
             _slideModelFactory.PrepareStoreMapping(model, slide);
 
-
-            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/Edit.cshtml", model);
+            return Edit(model.Id);
         }
 
         [HttpPost]
@@ -364,7 +387,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #endregion
 
-        #region Widget zone List / Add / Delete
+        #region Widget zone List / Edit / Delete
 
         [HttpPost]
         public virtual IActionResult GetWidgetZoneList(SlideWidgetZoneSearchModel searchModel)
@@ -376,6 +399,48 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var gridModel = _slideWidgetZoneModelFactory.PrepareWidgetZoneList(searchModel);
 
             return Json(gridModel);
+        }
+
+        public virtual IActionResult EditSlideWidgetZonePopup(int id)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var slideWidgetZone = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+            if (slideWidgetZone == null)
+                throw new Exception($"Slide widget zone by id: '{id}' aren't exist");
+
+            var model = _slideWidgetZoneModelFactory.PrepareEditSlideWidgetZoneModel(slideWidgetZone);
+            return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/EditSlideWidgetZonePopup.cshtml", model);
+        }
+
+        [HttpPost]
+        public virtual IActionResult EditSlideWidgetZonePopup(EditSlideWidgetZoneModel model)
+        {
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var slideWidgetZone = _widgetZoneSlideService.GetWidgetZoneSlide(model.Id);
+            if (slideWidgetZone == null)
+                throw new Exception($"Slide widget zone by id: '{model.Id}' aren't exist");
+
+            //change entity properties
+            slideWidgetZone.WidgetZoneId = model.WidgetZoneId;
+            slideWidgetZone.OverrideDescription = model.OverrideDescription;
+
+            //update localized values
+            foreach (var locale in model.Locales)
+                _localizedEntityService.SaveLocalizedValue(slideWidgetZone, x => x.OverrideDescription, locale.OverrideDescription, locale.LanguageId);
+
+            //update entity
+            _widgetZoneSlideService.UpdateWidgetZoneSlide(slideWidgetZone);
+
+            //close popup window
+            ViewBag.RefreshPage = true;
+
+            return EditSlideWidgetZonePopup(model.Id);
         }
 
         [HttpPost]

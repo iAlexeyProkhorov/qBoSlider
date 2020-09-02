@@ -59,7 +59,7 @@
 		<Value>Slide duration</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlideDuration.Hint">
-		<Value>One slide duration(In milliseconds).</Value>
+		<Value>Slide changing duration time(In milliseconds).</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideDuration.MustBeGreaterThanZero">
 		<Value>Slide duration must be greater than zero.</Value>
@@ -145,6 +145,12 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNewSlide">
 		<Value>Add new slide</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.createdsuccessfully">
+		<Value>Widget zone created successfully.</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.changedsuccessfully">
+		<Value>Widget zone updated successfully.</Value>
+	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
 		<Value>Edit widget zone slide</Value>
@@ -190,6 +196,9 @@
 		<Value>Published</Value>
 	</LocaleResource>
 	<!--ADMIN SLIDE-->
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.create">
+		<Value>Create slide</Value>
+	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.edit">
 		<Value>Edit slide</Value>
 	</LocaleResource>
@@ -271,6 +280,12 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.LimitedToStores.Hint">
 		<Value>Option to limit this slide to a certain store. If you have multiple stores, choose one or several from the list. If you don't use this option just leave this field empty.</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.createdsuccessfully">
+		<Value>Slide successfully created.</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.updatedsuccessfully">
+		<Value>Slide successfully updated.</Value>
+	</LocaleResource>
 	<!--ADMIN SLIDE WIDGET ZONE-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.slidewidgetzone.addnew">
 		<Value>Add widget zone to slide</Value>
@@ -287,6 +302,9 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.AddSlideWidgetZonePopup">
 		<Value>Add widget zone to slide</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslide.admin.slide.youcanaddwidgetzonestothisslideaftersaving">
+		<Value>You can't add widget zones to slide before saving. Save slide at first and then add widget zones to it.</Value>
+	</LocaleResource>
 	<!--ADMIN SLIDE LIST-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list">
 		<Value>Slide list</Value>
@@ -297,13 +315,23 @@
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list.redirect">
 		<Value>Redirect</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<!--ADMIN EDIT SLIDE WIDGET ZONE-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EditSlideWidgetZonePopup">
+		<Value>Edit slide widget zone</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EditSlideWidgetZonePopup.Details">
+		<Value>Edit slide widget zone</Value>
 	</LocaleResource>
-	<LocaleResource Name="">
-		<Value></Value>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.WidgetZoneId">
+		<Value>Widget zone</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.WidgetZoneId.Hint">
+		<Value>Select slide widget zone.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.OverrideDescription">
+		<Value>Override description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.OverrideDescription.Hint">
+		<Value>Put here HTML content to override original slide HTML content. Keep empty if you're don't want to chnage content.</Value>
 	</LocaleResource>
 </Language>

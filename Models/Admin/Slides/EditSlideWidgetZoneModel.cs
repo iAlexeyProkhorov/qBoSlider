@@ -18,6 +18,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Gets or sets widget zone id number
         /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.WidgetZoneId")]
         public int WidgetZoneId { get; set; }
 
         /// <summary>
@@ -28,6 +29,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Gets or sets overrideble HTML description
         /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.OverrideDescription")]
         public string OverrideDescription { get; set; }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
             /// <summary>
             /// Gets or sets slide localized HTML content. 
             /// </summary>
-            [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZoneSlide.Fields.OverrideDescription")]
+            [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.OverrideDescription")]
             public string OverrideDescription { get; set; }
 
             /// <summary>
