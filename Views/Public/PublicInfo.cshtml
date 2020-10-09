@@ -114,6 +114,11 @@
         //responsive code begin
         //you can remove responsive code if you don't want the slider scales while window resizes
         function ScaleSlider() {
+            var width = $("#slider-@Model.Id").parent().width();
+            var outerWidth = $("#slider-@Model.Id").parent().outerWidth(true);
+
+            //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
+            var paddingWidth = outerWidth - width;
 
             //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
             var paddingWidth = 0;
