@@ -68,45 +68,45 @@
 
         var options = {
             $FillMode: 2,
-            $AutoPlay: Boolean('@autoPlay'),                                
-            $AutoPlaySteps: 1,                                
-            $AutoPlayInterval: @Model.AutoPlayInterval,                           
-            $PauseOnHover: 1,                               
+            $AutoPlay: Boolean('@autoPlay'),
+            $AutoPlaySteps: 1,
+            $Idle: @Model.AutoPlayInterval,
+            $PauseOnHover: 1,
 
-            $ArrowKeyNavigation: true,   			            
-            $SlideDuration: @Model.SlideDuration,                               
-            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,                
-            //$SlideHeight: 300,                             
-            $SlideSpacing: @Model.SlideSpacing, 					       
-            $DisplayPieces: 1,                                
-            $ParkingPosition: 0,                               
-            $UISearchMode: 1,                                  
-            $PlayOrientation: 1,                                
-            $DragOrientation: 1,                                
+            $ArrowKeyNavigation: true,
+            $SlideDuration: @Model.SlideDuration,
+            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,
+            //$SlideHeight: 300,
+            $SlideSpacing: @Model.SlideSpacing,
+            $DisplayPieces: 1,
+            $ParkingPosition: 0,
+            $UISearchMode: 1,
+            $PlayOrientation: 1,
+            $DragOrientation: 1,
 
-            $SlideshowOptions: {                                
-                $Class: $JssorSlideshowRunner$,                
-                $Transitions: _SlideshowTransitions,            
-                $TransitionsOrder: 1,                          
-                $ShowLink: true                                    
+            $SlideshowOptions: {
+                $Class: $JssorSlideshowRunner$,
+                $Transitions: _SlideshowTransitions,
+                $TransitionsOrder: 1,
+                $ShowLink: true
             },
 
-            $BulletNavigatorOptions: {                                
-                $Class: $JssorBulletNavigator$,                       
-                $ChanceToShow: @Model.BulletNavigation,                              
-                $AutoCenter: 1,                                 
-                $Steps: 1,                                      
-                $Lanes: 1,                                      
-                $SpacingX: 10,                                   
-                $SpacingY: 10,                                   
-                $Orientation: 1,                               
+            $BulletNavigatorOptions: {
+                $Class: $JssorBulletNavigator$,
+                $ChanceToShow: @Model.BulletNavigation,
+                $AutoCenter: 1,
+                $Steps: 1,
+                $Lanes: 1,
+                $SpacingX: 10,
+                $SpacingY: 10,
+                $Orientation: 1,
                 $Scale: false
             },
 
             $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$,             
-                $ChanceToShow: @Model.ArrowNavigation,                               
-                $Steps: 1,                                      
+                $Class: $JssorArrowNavigator$,
+                $ChanceToShow: @Model.ArrowNavigation,
+                $Steps: 1,
                 $Scale: false,
                 $AutoCenter: 2
             }
@@ -118,7 +118,10 @@
         function ScaleSlider() {
 
             //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
-            var paddingWidth = 0;
+            var width = $("#slider-container").parent().width();
+            var outerWidth = $("#slider-container").parent().outerWidth(true);
+
+            var paddingWidth = outerWidth - width;
 
             //minimum width should reserve for text
             var minReserveWidth = 125;
@@ -137,7 +140,7 @@
                 var sliderWidth = availableWidth;
 
                 //slider width is maximum 1920
-                sliderWidth = Math.min(sliderWidth, 1200);
+                sliderWidth = Math.min(sliderWidth, 1920);
 
                 //slider width is minimum 200
                 sliderWidth = Math.max(sliderWidth, 200);

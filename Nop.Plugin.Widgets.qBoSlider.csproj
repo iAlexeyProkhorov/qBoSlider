@@ -16,9 +16,11 @@
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.0.9</Version>
+    <Version>1.1.0</Version>
     <AssemblyName>Nop.Plugin.Widgets.qBoSlider</AssemblyName>
     <PackageTags>nopCommerce, slider, qBoSlider</PackageTags>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
