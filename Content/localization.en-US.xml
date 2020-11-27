@@ -16,6 +16,18 @@
 		<Value>Add widget zone</Value>
 	</LocaleResource>
 	<!--ADMIN WIDGET ZONE-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneName">
+		<Value>Widget zone name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneName.Hint">
+		<Value>Searching widget zone name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneSystemName">
+		<Value>Widget zone system name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneSystemName.Hint">
+		<Value>Searching widget zone system name</Value>
+	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.create">
 		<Value>Create widget zone</Value>
 	</LocaleResource>
@@ -150,6 +162,30 @@
 	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.changedsuccessfully">
 		<Value>Widget zone updated successfully.</Value>
+	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.deletedsuccessfully">
+		<Value>Widget zone deleted successfully.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MaxSlideWidgetZoneWidth">
+		<Value>Max width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MaxSlideWidgetZoneWidth.Hint">
+		<Value>Maximum slider box width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth">
+		<Value>Min width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth.Hint">
+		<Value>Minimum slider box width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MinSlideWidgetZoneWidth.MustBeGreaterThan200">
+		<Value>Minimum slider width must be greater or equals 200</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumWidth">
+		<Value>Maximum slider width must be greater than minimum slider width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels">
+		<Value>Maximum slider width must be greater then minimum slider width on {0} pixels</Value>
 	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">

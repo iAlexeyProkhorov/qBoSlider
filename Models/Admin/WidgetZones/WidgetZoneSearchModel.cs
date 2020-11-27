@@ -1,4 +1,5 @@
 ﻿using Nop.Web.Framework.Models;
+using Nop.Web.Framework.Mvc.ModelBinding;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
 {
@@ -10,12 +11,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Gets or sets searching widget zone friendly name
         /// </summary>
-        public string Name { get; set; }
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneName")]
+        public string SearchWidgetZoneName { get; set; }
 
         /// <summary>
         /// Gets or sets searching widget zone system name
         /// </summary>
-        public string SystemName { get; set; }
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneSystemName")]
+        public string SearchWidgetZoneSystemName { get; set; }
 
         /// <summary>
         /// Represents widget zone paged list model

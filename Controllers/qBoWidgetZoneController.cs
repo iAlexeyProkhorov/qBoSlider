@@ -210,6 +210,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             {
                 //prepare model values
                 model = _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+                //prepare widget zone ACL
+                _widgetZoneModelFactory.PrepareAclModel(model, null);
+                //prepare widget zone store mappings
+                _widgetZoneModelFactory.PrepareStoreMappings(model, null);
+
+
                 return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Create.cshtml", model);
             }
 
@@ -221,6 +227,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 AutoPlay = model.AutoPlay,
                 AutoPlayInterval = model.AutoPlayInterval,
                 MinDragOffsetToSlide = model.MinDragOffsetToSlide,
+                MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth,
+                MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth,
                 SlideDuration = model.SlideDuration,
                 SlideSpacing = model.SlideSpacing,
                 //put widget zone properties
@@ -244,7 +252,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.CreatedSuccessfully"));
 
             //redirect on widget zone list page if customer don't want's to contiu editing
-            if(!continueEditing)
+            if (!continueEditing)
                 return RedirectToAction("List");
 
             return RedirectToAction("Edit", new { id = widgetZone.Id });
@@ -285,6 +293,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             if (!ModelState.IsValid)
             {
+                _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
                 //prepare widget zone ACL
                 _widgetZoneModelFactory.PrepareAclModel(model, widgetZone);
                 //prepare widget zone store mappings
@@ -304,6 +313,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.AutoPlay = model.AutoPlay;
             widgetZone.AutoPlayInterval = model.AutoPlayInterval;
             widgetZone.MinDragOffsetToSlide = model.MinDragOffsetToSlide;
+            widgetZone.MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth;
+            widgetZone.MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth;
             widgetZone.SlideDuration = model.SlideDuration;
             widgetZone.SlideSpacing = model.SlideSpacing;
 
@@ -344,6 +355,29 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.DeletedSuccessfully"));
 
             return RedirectToAction("List");
+        }
+
+        public virtual IActionResult FindNopCommerceWidgetZoneBySystemName(string term)
+        {
+            var widgetZones = _widgetZoneService.GetNopCommerceWidgetZones(term, 0, 10);
+
+            return Json(widgetZones);
+        }
+
+        public virtual IActionResult SystemNameReservedWarning(int widgetZoneId, string systemName)
+        {
+            if (string.IsNullOrEmpty(systemName))
+                return Json(new { Result = string.Empty });
+
+            var widgetZone = _widgetZoneService.GetWidgetZoneBySystemName(systemName);
+            //back null if widget zone isn't exist
+            if (widgetZone == null)
+                return Json(new { Result = string.Empty });
+            //back null if widget zone is exist and it's already open
+            if (widgetZone != null && widgetZone.Id == widgetZoneId)
+                return Json(new { Result = string.Empty });
+
+            return Json(new { Result = _localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.WidgetZoneAlreadyReserved") });
         }
 
         #endregion
@@ -392,7 +426,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZoneSlide.OverrideDescription = model.OverrideDescription;
 
             //save localizaed values
-            foreach(var locale in model.Locales)
+            foreach (var locale in model.Locales)
                 _localizedEntityService.SaveLocalizedValue(widgetZoneSlide, x => x.OverrideDescription, locale.OverrideDescription, locale.LanguageId);
 
             //update widget zone slide

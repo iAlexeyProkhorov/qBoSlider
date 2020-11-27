@@ -16,6 +16,7 @@ using Nop.Core;
 using Nop.Core.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Events;
+using Nop.Web.Framework.Infrastructure;
 using System;
 using System.Linq;
 
@@ -68,6 +69,25 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         public virtual WidgetZone GetWidgetZoneBySystemName(string systemName)
         {
             return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        /// <summary>
+        /// Get list of all existing nopCommerce widget zones
+        /// </summary>
+        /// <param name="systemName">Widget zone system name</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>List of widget zone system names</returns>
+        public virtual IPagedList<string> GetNopCommerceWidgetZones(string systemName = null, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var publicWidgetZoneProperties = typeof(PublicWidgetZones).GetProperties();
+            var publicWidgetZones = publicWidgetZoneProperties.Select(property =>
+            {
+                var value = property.GetValue(null);
+                return value != null ? value.ToString() : string.Empty;
+            }).Where(x => !string.IsNullOrEmpty(x) && x.Contains(systemName)).ToList();
+
+            return new PagedList<string>(publicWidgetZones, pageIndex, pageSize);
         }
 
         /// <summary>

@@ -34,6 +34,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Validators
             RuleFor(x => x.SlideDuration).GreaterThan(0).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideDuration.MustBeGreaterThanZero"));
             RuleFor(x => x.MinDragOffsetToSlide).GreaterThan(0).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MinDragOffsetToSlide.MustBeGreaterThanZero"));
             RuleFor(x => x.SlideSpacing).GreaterThanOrEqualTo(0).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideSpacing.MustBeGreaterThanOrEqualsZero"));
+            RuleFor(x => x.MinSlideWidgetZoneWidth).GreaterThanOrEqualTo(200).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MinSlideWidgetZoneWidth.MustBeGreaterThan200"));
+            RuleFor(x => x.MaxSlideWidgetZoneWidth).Must((model, maxWidth) =>
+            {
+                return model.MaxSlideWidgetZoneWidth > model.MinSlideWidgetZoneWidth;
+            }).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumWidth"));
+            RuleFor(x => x.MaxSlideWidgetZoneWidth).Must((model, maxWidth) =>
+            {
+                return model.MaxSlideWidgetZoneWidth - model.MinSlideWidgetZoneWidth >= 200;
+            }).WithMessage(string.Format(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels"), 200));
         }
     }
 }

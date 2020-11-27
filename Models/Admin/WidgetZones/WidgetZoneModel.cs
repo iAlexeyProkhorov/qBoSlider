@@ -47,6 +47,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         public int SlideSpacing { get; set; }
 
         /// <summary>
+        /// Gets or sets minimum slider width
+        /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth")]
+        public int MinSlideWidgetZoneWidth { get; set; } = 200;
+
+        /// <summary>
+        /// Gets or sets maximum slider width
+        /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MaxSlideWidgetZoneWidth")]
+        public int MaxSlideWidgetZoneWidth { get; set; } = 1920;
+
+        /// <summary>
         /// Gets or sets slideshow autoplay value
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.AutoPlay")]

@@ -198,10 +198,12 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 AutoPlayInterval = 3000,
                 SlideDuration = 500,
                 MinDragOffsetToSlide = 20,
+                MinSlideWidgetZoneWidth = 200,
+                MaxSlideWidgetZoneWidth = 1920,
                 SlideSpacing = 0,
                 BulletNavigationDisplayingTypeId = 2,
                 ArrowNavigationDisplayingTypeId = 1,
-                Name = "Main home page slider",
+                Name = "Main homepage slider",
                 SystemName = "home_page_top",
                 Published = true
             };

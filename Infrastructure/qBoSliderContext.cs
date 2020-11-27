@@ -139,9 +139,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
 		public void Uninstall()
 		{
             //drop the table
+            this.DropPluginTable("Baroque_qBoSlider_WidgetZone_Slide_Mapping");
             this.DropPluginTable("Baroque_qBoSlider_WidgetZone");
 			this.DropPluginTable("Baroque_qBoSlider_Slide");
-            this.DropPluginTable("Baroque_qBoSlider_WidgetZone_Slide_Mapping");
         }
 
 		#endregion

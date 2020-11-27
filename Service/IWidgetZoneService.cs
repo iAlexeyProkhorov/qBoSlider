@@ -36,6 +36,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         WidgetZone GetWidgetZoneBySystemName(string systemName);
 
         /// <summary>
+        /// Get list of all existing nopCommerce widget zones
+        /// </summary>
+        /// <param name="systemName">Widget zone system name</param>
+        /// <param name="pageIndex">Page index</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>List of widget zone system names</returns>
+        IPagedList<string> GetNopCommerceWidgetZones(string systemName = null, int pageIndex = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
         /// Get widget zones collection
         /// </summary>
         /// <param name="name">Widget zone name</param>

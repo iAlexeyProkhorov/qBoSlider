@@ -67,7 +67,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Paged list model</returns>
         public virtual WidgetZoneSearchModel.WidgetZoneList PrepareWidgetZonePagedListModel(WidgetZoneSearchModel searchModel)
         {
-            var widgetZones = _widgetZoneService.GetWidgetZones(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var widgetZones = _widgetZoneService.GetWidgetZones(
+                name: searchModel.SearchWidgetZoneName,
+                systemName: searchModel.SearchWidgetZoneSystemName, 
+                showHidden: true, 
+                pageIndex: searchModel.Page - 1, 
+                pageSize: searchModel.PageSize);
             var gridModel = new WidgetZoneSearchModel.WidgetZoneList().PrepareToGrid(searchModel, widgetZones, () =>
             {
                 return widgetZones.Select(widgetZone =>
@@ -110,6 +115,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     LimitedToStores = widgetZone.LimitedToStores,
                     Id = widgetZone.Id,
                     MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                    MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
+                    MaxSlideWidgetZoneWidth = widgetZone.MaxSlideWidgetZoneWidth,
                     Name = widgetZone.Name,
                     Published = widgetZone.Published,
                     SlideDuration = widgetZone.SlideDuration,
@@ -122,7 +129,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 model.SlideSearchModel.WidgetZoneId = widgetZone.Id;
             }
 
-            //prepare list of availbale naviagation types
+            //prepare list of availbale navigation types
             var navigationTypes = NavigationType.Always.ToSelectList(false).ToList();
             model.AvailableArrowNavigations = navigationTypes;
             model.AvailableBulletNavigations = navigationTypes;
