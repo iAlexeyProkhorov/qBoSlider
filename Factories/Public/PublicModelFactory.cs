@@ -37,10 +37,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Fields
 
         private readonly IAclService _aclService;
-        private readonly ICacheManager _cacheManager;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IWidgetZoneService _widgetZoneService;
 
@@ -52,20 +52,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Constructor
 
         public PublicModelFactory(IAclService aclService,
-            ICacheManager cacheManager,
             ILocalizationService localizationService,
             IPictureService pictureService,
             ISettingService settingService,
+            IStaticCacheManager staticCacheManager,
             IStoreMappingService storeMappingService,
             IWidgetZoneService widgetZoneService,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
             this._aclService = aclService;
-            this._cacheManager = cacheManager;
             this._localizationService = localizationService;
             this._pictureService = pictureService;
             this._settingService = settingService;
+            this._staticCacheManager = staticCacheManager;
             this._storeMappingService = storeMappingService;
             this._widgetZoneService = widgetZoneService;
 
@@ -136,7 +136,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var customerRolesString = string.Join(",", customerRoles);
 
             //prepare widget zone model with slide and prepare cache key to load slider faster next time
-            var model = _cacheManager.Get($"qbo-slider-publicinfo-{widgetZone.Id}-{languageId}-{storeId}-{DateTime.UtcNow.ToShortDateString()}-{customerRolesString}", () =>
+            var model = _staticCacheManager.Get($"qbo-slider-publicinfo-{widgetZone.Id}-{languageId}-{storeId}-{DateTime.UtcNow.ToShortDateString()}-{customerRolesString}", () =>
             {
                 //prepare slider model
                 var result = new WidgetZoneModel()
@@ -149,6 +149,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                     SlideSpacing = widgetZone.SlideSpacing,
                     ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
                     BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
+                    MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
+                    MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
                 };
 
                 //add slide models to widget zone slider

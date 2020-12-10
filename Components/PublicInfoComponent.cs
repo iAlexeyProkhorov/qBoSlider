@@ -18,6 +18,7 @@ using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Security;
 using Nop.Web.Framework.Components;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Components
 {
@@ -62,6 +63,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
             //return empty result if widget zone has no slider
             if (widget == null)
+                return Content(string.Empty);
+
+            //return empty result if widget zone isn't published
+            if (!widget.Published)
+                return Content(string.Empty);
+
+            //return empty result if widget zone has no published slides
+            var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
+            if (!slides.Any())
                 return Content(string.Empty);
 
             //return empty page if widget zone aren't authorized

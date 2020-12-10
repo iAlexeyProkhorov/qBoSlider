@@ -40,11 +40,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
         public WidgetZoneService(IEventPublisher eventPublisher,
             IRepository<Slide> slideRepository,
-            IRepository<WidgetZone> widgetZoneRepository)
+            IRepository<WidgetZone> widgetZoneRepository,
+            IRepository<WidgetZoneSlide> widgetZoneSlideRepository)
         {
             this._eventPublisher = eventPublisher;
             this._slideRepository = slideRepository;
             this._widgetZoneRepository = widgetZoneRepository;
+            this._widgetZoneSlideRepository = widgetZoneSlideRepository;
         }
 
         #endregion

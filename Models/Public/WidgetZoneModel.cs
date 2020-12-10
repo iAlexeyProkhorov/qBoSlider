@@ -38,6 +38,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
         /// </summary>
         public int SlideSpacing { get; set; }
 
+        public int MinSliderWidth { get; set; }
+
+        public int MaxSliderWidth { get; set; }
+
         /// <summary>
         /// Gets or sets autoplay
         /// </summary>

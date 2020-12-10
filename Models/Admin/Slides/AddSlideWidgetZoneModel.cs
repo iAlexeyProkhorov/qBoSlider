@@ -20,12 +20,22 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represents add widget zone for slide editing
     /// </summary>
-    public class AddSlideWidgetZoneModel : BaseSearchModel
+    public class AddSlideWidgetZoneModel : BaseSearchModel, IWidgetZoneSearchModel
     {
         /// <summary>
         /// Gets or sets slide entity id
         /// </summary>
         public int SlideId { get; set; }
+
+        /// <summary>
+        /// Gets or sets searching widget zone friendly name
+        /// </summary>
+        public string SearchWidgetZoneName { get; set; }
+
+        /// <summary>
+        /// Gets or sets searching widget zone system name
+        /// </summary>
+        public string SearchWidgetZoneSystemName { get; set; }
 
         /// <summary>
         /// Gets or sets selected widget zone id numbers

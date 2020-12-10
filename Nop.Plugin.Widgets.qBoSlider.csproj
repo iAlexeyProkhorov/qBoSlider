@@ -16,7 +16,7 @@
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.2.4</Version>
+    <Version>1.2.5</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -143,6 +143,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Admin\Slide\List.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Views\Admin\_WidgetZoneSearch.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Views\Public\PublicInfo.cshtml">

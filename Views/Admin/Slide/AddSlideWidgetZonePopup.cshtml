@@ -34,14 +34,21 @@ else
         <div class="content">
             <div class="form-horizontal">
                 <div class="panel-group">
+                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_WidgetZoneSearch.cshtml", Model)
                     <div class="panel panel-default">
                         <div class="panel-body">
                             @await  Html.PartialAsync("Table", new DataTablesModel
                        {
                            Name = "widget-zones-grid",
                            UrlRead = new DataUrl("GetWidgetZoneListPopup", "qBoSlide", null),
+                           SearchButtonId = "search-widget-zones",
                            Length = Model.PageSize,
                            LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                                   {
+                                       new FilterParameter(nameof(Model.SearchWidgetZoneName)),
+                                       new FilterParameter(nameof(Model.SearchWidgetZoneSystemName))
+                                   },
                            ColumnCollection = new List<ColumnProperty>
                                    {
                                        new ColumnProperty(nameof(AddSlideWidgetZoneModel.WidgetZoneModel.Id))

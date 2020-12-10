@@ -6,18 +6,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
     /// <summary>
     /// Represents widget zone search model
     /// </summary>
-    public partial class WidgetZoneSearchModel : BaseSearchModel
+    public partial class WidgetZoneSearchModel : BaseSearchModel, IWidgetZoneSearchModel
     {
         /// <summary>
         /// Gets or sets searching widget zone friendly name
         /// </summary>
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneName")]
         public string SearchWidgetZoneName { get; set; }
 
         /// <summary>
         /// Gets or sets searching widget zone system name
         /// </summary>
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SearchWidgetZoneSystemName")]
         public string SearchWidgetZoneSystemName { get; set; }
 
         /// <summary>

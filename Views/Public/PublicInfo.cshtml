@@ -1,7 +1,7 @@
 ﻿@model WidgetZoneModel
 @{
     Layout = "";
-    Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
+    //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
     Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.min.js");
 
 
@@ -114,6 +114,8 @@
         //responsive code begin
         //you can remove responsive code if you don't want the slider scales while window resizes
         function ScaleSlider() {
+            var minSliderWidth = Number('@Model.MinSliderWidth');
+            var maxSliderWidth = Number('@Model.MaxSliderWidth');
             var width = $("#slider-@Model.Id").parent().width();
             var outerWidth = $("#slider-@Model.Id").parent().outerWidth(true);
 
@@ -137,10 +139,10 @@
                 var sliderWidth = availableWidth;
 
                 //slider width is maximum 1920
-                sliderWidth = Math.min(sliderWidth, 1920);
+                sliderWidth = Math.min(sliderWidth, maxSliderWidth);
 
                 //slider width is minimum 200
-                sliderWidth = Math.max(sliderWidth, 200);
+                sliderWidth = Math.max(sliderWidth, minSliderWidth);
                 var clearFix = "none";
 
                 //evaluate free width for text, if the width is less than minReserveWidth then fill parent container
@@ -150,7 +152,7 @@
                     sliderWidth = availableWidth;
 
                     //slider width is minimum 200
-                    sliderWidth = Math.max(sliderWidth, 200);
+                    sliderWidth = Math.max(sliderWidth, minSliderWidth);
 
                     clearFix = "both";
                 }
