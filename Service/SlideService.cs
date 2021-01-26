@@ -13,7 +13,7 @@
 //limitations under the License.
 
 using Nop.Core;
-using Nop.Core.Data;
+using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Events;
 using Nop.Services.Stores;

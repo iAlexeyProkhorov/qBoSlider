@@ -41,15 +41,5 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         /// Gets or sets slide displaying order for current widget zone
         /// </summary>
         public int DisplayOrder { get; set; }
-
-        /// <summary>
-        /// Gets or sets slide entity
-        /// </summary>
-        public virtual Slide Slide { get; set; }
-
-        /// <summary>
-        /// Gets or sets the widget zone entity
-        /// </summary>
-        public virtual WidgetZone WidgetZone { get; set; }
     }
 }

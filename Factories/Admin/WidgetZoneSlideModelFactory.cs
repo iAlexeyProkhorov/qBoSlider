@@ -70,19 +70,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             var slides = _widgetZoneSlideService.GetWidgetZoneSlides(searchModel.WidgetZoneId, null, searchModel.Page - 1, searchModel.PageSize);
             var gridModel = new WidgetZoneSlideSearchModel.SlideList().PrepareToGrid(searchModel, slides, () =>
             {
-                return slides.Select(slide =>
+                return slides.Select(widgetZoneSlide =>
                 {
-                    var picture = _pictureService.GetPictureById(slide.Slide.PictureId.GetValueOrDefault(0));
-                    var pictureUrl = _pictureService.GetPictureUrl(picture, 300);
+                    var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
+                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+                    var pictureUrl = _pictureService.GetPictureUrl(picture.Id, 300);
 
                     return new WidgetZoneSlideSearchModel.SlideListItem()
                     {
-                        Id = slide.Id,
+                        Id = widgetZoneSlide.Id,
                         PictureUrl = pictureUrl,
-                        StartDateUtc = slide.Slide.StartDateUtc,
-                        EndDateUtc = slide.Slide.EndDateUtc,
-                        Published = slide.Slide.Published,
-                        DisplayOrder = slide.DisplayOrder
+                        StartDateUtc = slide.StartDateUtc,
+                        EndDateUtc = slide.EndDateUtc,
+                        Published = slide.Published,
+                        DisplayOrder = widgetZoneSlide.DisplayOrder
                     };
                 }).OrderBy(x => x.DisplayOrder);
             });
@@ -103,7 +104,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 return slides.Select(slide =>
                 {
                     var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-                    var pictureUrl = _pictureService.GetPictureUrl(picture, 300);
+                    var pictureUrl = _pictureService.GetPictureUrl(picture.Id, 300);
 
                     return new AddWidgetZoneSlideModel.SlideModel()
                     {
@@ -127,7 +128,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual WidgetZoneSlideModel PrepareEditWidgetZoneSlideModel(WidgetZoneSlide widgetZoneSlide)
         {
             var allLanguages = _languageService.GetAllLanguages(true);
-            var slide = widgetZoneSlide.Slide;
+            var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
             var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
 
             if (picture == null)
@@ -137,7 +138,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 Id = widgetZoneSlide.Id,
                 PictureId = picture.Id,
-                PictureUrl = _pictureService.GetPictureUrl(picture, 200),
+                PictureUrl = _pictureService.GetPictureUrl(picture.Id, 200),
                 SlideId = slide.Id,
                 DisplayOrder = widgetZoneSlide.DisplayOrder,
                 OverrideDescription = widgetZoneSlide.OverrideDescription

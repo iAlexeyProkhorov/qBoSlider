@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Nop.Core;
 using Nop.Data;
 using Nop.Data.Extensions;
-using Nop.Plugin.Widgets.qBoSlider.Data;
+using Nop.Plugin.Widgets.qBoSlider.Mapping.Builders;
 using System;
 using System.Linq;
 
@@ -42,9 +42,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
 		/// <param name="modelBuilder">Model muilder</param>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-            modelBuilder.ApplyConfiguration(new WidgetZoneMap());
-			modelBuilder.ApplyConfiguration(new SlideMap());
-            modelBuilder.ApplyConfiguration(new WidgetZoneSlideMap());
+            modelBuilder.ApplyConfiguration(new WidgetZoneBuilder());
+			modelBuilder.ApplyConfiguration(new SlideBuilder());
+            modelBuilder.ApplyConfiguration(new WidgetZoneSlideBuilder());
 			base.OnModelCreating(modelBuilder);
 		}
 

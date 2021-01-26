@@ -73,7 +73,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         protected virtual TModel PrepareSlideWidgetZoneModel<TModel>(WidgetZoneSlide widgetZoneSlide) where TModel: BaseNopEntityModel, ISlideWidgetZoneModel, new()
         {
             var model = new TModel();
-            var widgetZone = widgetZoneSlide.WidgetZone;
+            var widgetZone = _widgetZoneService.GetWidgetZoneById(widgetZoneSlide.WidgetZoneId);
 
             model.Id = widgetZoneSlide.Id;
             model.Name = widgetZone.Name;
@@ -116,7 +116,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 return allSlideWidgetZones.Select(slideWidgetZone =>
                 {
-                    var widgetZone = slideWidgetZone.WidgetZone;
+                    var widgetZone = _widgetZoneService.GetWidgetZoneById(slideWidgetZone.WidgetZoneId);
                     return PrepareSlideWidgetZoneModel<SlideWidgetZoneSearchModel.WidgetZoneModel>(slideWidgetZone);
                 });
             });

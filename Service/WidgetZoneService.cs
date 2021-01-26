@@ -13,7 +13,7 @@
 //limitations under the License.
 
 using Nop.Core;
-using Nop.Core.Data;
+using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Events;
 using Nop.Web.Framework.Infrastructure;
@@ -70,7 +70,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <returns>Widget zone entity</returns>
         public virtual WidgetZone GetWidgetZoneBySystemName(string systemName)
         {
-            return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+            return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName));
         }
 
         /// <summary>

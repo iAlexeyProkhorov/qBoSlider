@@ -12,29 +12,24 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nop.Data.Mapping;
+using FluentMigrator.Builders.Create.Table;
+using Nop.Data.Mapping.Builders;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Data
+namespace Nop.Plugin.Widgets.qBoSlider.Mapping.Builders
 {
     /// <summary>
     /// Represents slide entity configuration
     /// </summary>
-    public partial class SlideMap: NopEntityTypeConfiguration<Slide>
+    public partial class SlideBuilder: NopEntityBuilder<Slide>
 	{
-		#region Methods
+        #region Methods
 
-		/// <summary>
-		/// Configures the entity
-		/// </summary>
-		/// <param name="builder">The builder to be used to configure the entity</param>
-		public override void Configure(EntityTypeBuilder<Slide> builder)
-		{
-			builder.ToTable("Baroque_qBoSlider_Slide");
-			builder.HasKey(record => record.Id);
-		}
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+
+        }
+
 
 		#endregion
 	}

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Copyright © Baroque Team</Copyright>
     <Company></Company>
     <Authors>Baroque Team</Authors>
@@ -28,6 +28,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.qBoSlider</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Infrastructure\EfStartUpTask.cs" />
+    <Compile Remove="Infrastructure\qBoSliderContext.cs" />
+    <Compile Remove="Infrastructure\RouteProvider.cs" />
+    <Compile Remove="Mapping\qBoSliderNamesCompatibility.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Scripts\jssor.js" />

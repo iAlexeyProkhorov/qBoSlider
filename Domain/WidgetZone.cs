@@ -15,7 +15,6 @@
 using Nop.Core;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Stores;
-using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Domain
 {
@@ -24,8 +23,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
     /// </summary>
     public class WidgetZone : BaseEntity, IAclSupported, IStoreMappingSupported
     {
-        private ICollection<WidgetZoneSlide> _widgetZoneSlides;
-
         /// <summary>
         /// Gets or sets the widget zone name
         /// </summary>
@@ -79,11 +76,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         /// <summary>
         /// Gets or sets arrow navigation displaying type
         /// </summary>
-        public NavigationType ArrowNavigationDisplayingType
-        {
-            get { return (NavigationType)ArrowNavigationDisplayingTypeId; }
-            set { ArrowNavigationDisplayingTypeId = (int)value; }
-        }
+        //public NavigationType ArrowNavigationDisplayingType
+        //{
+        //    get { return (NavigationType)ArrowNavigationDisplayingTypeId; }
+        //    set { ArrowNavigationDisplayingTypeId = (int)value; }
+        //}
 
         /// <summary>
         /// Gets or sets bullet navigation displaying type id
@@ -93,11 +90,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         /// <summary>
         /// Gets or sets bullet navigation displaying type
         /// </summary>
-        public NavigationType BulletNavigationDisplayingType
-        {
-            get { return (NavigationType)BulletNavigationDisplayingTypeId; }
-            set { BulletNavigationDisplayingTypeId = (int)value; }
-        }
+        //public NavigationType BulletNavigationDisplayingType
+        //{
+        //    get { return (NavigationType)BulletNavigationDisplayingTypeId; }
+        //    set { BulletNavigationDisplayingTypeId = (int)value; }
+        //}
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.
@@ -113,14 +110,5 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         /// Gets or sets a value indicating whether the entity is limited/restricted to certain stores
         /// </summary>
         public bool LimitedToStores { get; set; }
-
-        /// <summary>
-        /// Gets or sets widget zone slides collection
-        /// </summary>
-        public virtual ICollection<WidgetZoneSlide> WidgetZoneSlides
-        {
-            get { return _widgetZoneSlides ?? (_widgetZoneSlides = new List<WidgetZoneSlide>()); }
-            set { _widgetZoneSlides = value; }
-        }
     }
 }

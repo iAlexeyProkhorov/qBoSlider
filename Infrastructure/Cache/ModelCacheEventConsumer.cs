@@ -33,7 +33,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache
         /// <remarks>
         /// {0} : picture id
         /// </remarks>
-        public const string PICTURE_URL_MODEL_KEY = "Nop.plugins.widgets.qBoSlider.pictureurl-{0}";
+        public static CacheKey PICTURE_URL_MODEL_KEY = new CacheKey("qbo-slider-publicinfo-{0}-{1}-{2}-{3}-{4}");
         public const string PICTURE_URL_PATTERN_KEY = "Nop.plugins.widgets.qBoSlider";
 
         private readonly IStaticCacheManager _staticCacheManager;

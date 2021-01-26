@@ -14,6 +14,7 @@
 
 using Nop.Core;
 using Nop.Core.Infrastructure;
+using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
@@ -36,14 +37,18 @@ namespace Nop.Plugin.Widgets.qBoSlider
     {
         #region Fields
 
-        private readonly qBoSliderContext _sliderContext;
+        private readonly IRepository<Slide> _slideRepository;
+        private readonly IRepository<WidgetZone> _widgetZoneRepository;
+        private readonly IRepository<WidgetZoneSlide> _widgetZoneSlideRepository;
 
         private readonly IAclService _aclService;
+        private readonly IGarbageManager _garbageManager;
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IWebHelper _webHelper;
+        private readonly IWidgetZoneService _widgetZoneService;
 
         private readonly IStoreContext _storeContext;
 
@@ -51,26 +56,33 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Constructor
 
-        public qBoSliderPlugin(qBoSliderContext sliderContext,
+        public qBoSliderPlugin(IRepository<Slide> slideRepository,
+            IRepository<WidgetZone> widgetZoneRepository,
+            IRepository<WidgetZoneSlide> widgetZoneSlideRepository,
             IAclService aclService,
+            IGarbageManager garbageManager,
             IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
             IStoreMappingService storeMappingService,
             IWebHelper webHelper,
+            IWidgetZoneService widgetZoneService,
             IStoreContext storeContext)
         {
-            this._sliderContext = sliderContext;
+            _slideRepository = slideRepository;
+            _widgetZoneRepository = widgetZoneRepository;
+            _widgetZoneSlideRepository = widgetZoneSlideRepository;
 
-            this._aclService = aclService;
-            this._permissionService = permissionService;
-            this._pictureService = pictureService;
-            this._settingService = settingService;
-            this._storeMappingService = storeMappingService;
+            _aclService = aclService;
+            _garbageManager = garbageManager;
+            _permissionService = permissionService;
+            _pictureService = pictureService;
+            _settingService = settingService;
+            _storeMappingService = storeMappingService;
+            _webHelper = webHelper;
+            _widgetZoneService = widgetZoneService;
 
-            this._webHelper = webHelper;
-
-            this._storeContext = storeContext;
+            _storeContext = storeContext;
         }
 
         #endregion
@@ -98,10 +110,10 @@ namespace Nop.Plugin.Widgets.qBoSlider
         {
             //need to prepare all available widget zone names, but we can't call widget zone service in plugin constructor
             //that's why we use here 'EngineContext'
-            var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
+            //var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
 
             //get active widget zones system names
-            var activeWidgetZones = widgetZoneService.GetWidgetZones();
+            var activeWidgetZones = _widgetZoneService.GetWidgetZones();
             var widgetZoneSystemNames = activeWidgetZones
                 //process only authorized widget zones 
                 .Where(widgetZone => _aclService.Authorize(widgetZone) && _storeMappingService.Authorize(widgetZone))
@@ -181,9 +193,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override void Install()
         {
-            //install special slide table
-            _sliderContext.Install();
-
             //settings
             var settings = new qBoSliderSettings
             {
@@ -191,7 +200,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             _settingService.SaveSetting(settings);
 
-            var widgetContext = _sliderContext.Set<WidgetZone>();
             var widgetZone = new WidgetZone()
             {
                 AutoPlay = true,
@@ -207,13 +215,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 SystemName = "home_page_top",
                 Published = true
             };
-            widgetContext.Add(widgetZone);
+            _widgetZoneRepository.Insert(widgetZone);
 
             //install simple data
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
-            var slides = _sliderContext.Set<Slide>();
-
             var picture1 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1").Id;
             var slide1 = new Slide()
             {
@@ -226,7 +232,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture1,
                 Published = true
             };
-            slides.Add(slide1);
+            _slideRepository.Insert(slide1);
 
             var picture2 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").Id;
             var slide2 = new Slide()
@@ -239,7 +245,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture2,
                 Published = true,
             };
-            slides.Add(slide2);
+            _slideRepository.Insert(slide2);
 
             var picture3 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").Id;
             var slide3 = new Slide()
@@ -254,31 +260,29 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture3,
                 Published = true
             };
-            slides.Add(slide3);
+            _slideRepository.Insert(slide3);
 
-            var widgetSlidesContext = _sliderContext.Set<WidgetZoneSlide>();
-            widgetSlidesContext.Add(new WidgetZoneSlide()
+            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
             {
-                Slide = slide1,
-                WidgetZone = widgetZone,
+                SlideId = slide1.Id,
+                WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 0
             });
 
-            widgetSlidesContext.Add(new WidgetZoneSlide()
+            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
             {
-                Slide = slide2,
-                WidgetZone = widgetZone,
+                SlideId = slide2.Id,
+                WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 5
             });
 
-            widgetSlidesContext.Add(new WidgetZoneSlide()
+            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
             {
-                Slide = slide3,
-                WidgetZone = widgetZone,
+                SlideId = slide3.Id,
+                WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 10
             });
 
-            _sliderContext.SaveChanges();
             base.Install();
         }
 
@@ -292,9 +296,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();
-
-            //uninstall slider table
-            _sliderContext.Uninstall();
 
             base.Uninstall();
         }

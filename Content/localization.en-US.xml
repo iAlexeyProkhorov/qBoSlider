@@ -187,6 +187,9 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels">
 		<Value>Maximum slider width must be greater then minimum slider width on {0} pixels</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.widgetzonealreadyreserved">
+		<Value>This system name is already reserved by another widget zone.</Value>
+	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
 		<Value>Edit widget zone slide</Value>

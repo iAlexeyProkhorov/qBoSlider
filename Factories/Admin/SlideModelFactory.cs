@@ -82,7 +82,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             return new SlideSearchModel.SlideListItemModel()
             {
                 Id = slide.Id,
-                Picture = _pictureService.GetPictureUrl(picture, 300),
+                Picture = _pictureService.GetPictureUrl(picture.Id, 300),
                 Hyperlink = slide.HyperlinkAddress,
                 StartDateUtc = slide.StartDateUtc,
                 EndDateUtc = slide.EndDateUtc,
@@ -155,11 +155,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 return slides.Select(slide =>
                 {
-                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+                    var pictureId = slide.PictureId.GetValueOrDefault(0);
                     return new SlideSearchModel.SlideListItemModel()
                     {
                         Id = slide.Id,
-                        Picture = _pictureService.GetPictureUrl(picture, 300),
+                        Picture = _pictureService.GetPictureUrl(pictureId, 300),
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,

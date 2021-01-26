@@ -17,9 +17,12 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Extensions;
+using Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache;
 using Nop.Plugin.Widgets.qBoSlider.Models.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
+using Nop.Services.Caching;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
@@ -37,12 +40,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Fields
 
         private readonly IAclService _aclService;
+        private readonly ICacheKeyService _cacheKeyService;
+        private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISlideService _slideService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IWidgetZoneService _widgetZoneService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
@@ -52,25 +59,33 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Constructor
 
         public PublicModelFactory(IAclService aclService,
+            ICacheKeyService cacheKeyService,
+            ICustomerService customerService,
             ILocalizationService localizationService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISlideService slideService,
             IStaticCacheManager staticCacheManager,
             IStoreMappingService storeMappingService,
             IWidgetZoneService widgetZoneService,
+            IWidgetZoneSlideService widgetZoneSlideService,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
-            this._aclService = aclService;
-            this._localizationService = localizationService;
-            this._pictureService = pictureService;
-            this._settingService = settingService;
-            this._staticCacheManager = staticCacheManager;
-            this._storeMappingService = storeMappingService;
-            this._widgetZoneService = widgetZoneService;
+            _aclService = aclService;
+            _cacheKeyService = cacheKeyService;
+            _customerService = customerService;
+            _localizationService = localizationService;
+            _pictureService = pictureService;
+            _settingService = settingService;
+            _slideService = slideService;
+            _staticCacheManager = staticCacheManager;
+            _storeMappingService = storeMappingService;
+            _widgetZoneService = widgetZoneService;
+            _widgetZoneSlideService = widgetZoneSlideService;
 
-            this._storeContext = storeContext;
-            this._workContext = workContext;
+            _storeContext = storeContext;
+            _workContext = workContext;
         }
 
         #endregion
@@ -85,15 +100,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <returns>Slide model</returns>
         protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, int languageId)
         {
-            var slide = widgetZoneSlide.Slide;
-
+            var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
             var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, languageId, true, false);
-            var picture = _pictureService.GetPictureById(pictureId.GetValueOrDefault(0));
 
             return new WidgetZoneModel.SlideModel()
             {
                 Id = slide.Id,
-                PictureUrl = _pictureService.GetPictureUrl(picture),
+                PictureUrl = _pictureService.GetPictureUrl(pictureId.GetValueOrDefault(0)),
                 Description = !string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, languageId) :
                 _localizationService.GetLocalized(slide, z => z.Description, languageId),
                 Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, languageId)
@@ -132,11 +145,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var settings = _settingService.LoadSetting<qBoSliderSettings>(storeId);
 
             //1.0.5 all with Alc
-            var customerRoles = _workContext.CurrentCustomer.GetCustomerRoleIds();
+            var customer = _workContext.CurrentCustomer;
+            var customerRoles = _customerService.GetCustomerRoleIds(customer);
             var customerRolesString = string.Join(",", customerRoles);
 
             //prepare widget zone model with slide and prepare cache key to load slider faster next time
-            var model = _staticCacheManager.Get($"qbo-slider-publicinfo-{widgetZone.Id}-{languageId}-{storeId}-{DateTime.UtcNow.ToShortDateString()}-{customerRolesString}", () =>
+            var cacheKey = _cacheKeyService.PrepareKey(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, widgetZone.Id, languageId, storeId, DateTime.UtcNow.ToShortDateString(), customerRolesString);
+            var model = _staticCacheManager.Get(cacheKey, () =>
             {
                 //prepare slider model
                 var result = new WidgetZoneModel()
@@ -154,9 +169,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                 };
 
                 //add slide models to widget zone slider
-                foreach(var widgetSlide in widgetZone.WidgetZoneSlides)
+                var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id);
+                foreach(var widgetSlide in widgetZoneSlides)
                 {
-                    var slide = widgetSlide.Slide;
+                    var slide = _slideService.GetSlideById(widgetSlide.SlideId);
 
                     //don't display unpublished slides
                     if (!slide.Published)

@@ -112,7 +112,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         protected virtual void ForseDefaultCulture()
         {
-            CommonHelper.SetTelerikCulture();
+            //CommonHelper.SetTelerikCulture();
         }
 
         protected virtual void UpdateSlideLocales(Slide slide, SlideModel model)
