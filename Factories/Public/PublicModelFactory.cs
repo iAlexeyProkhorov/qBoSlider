@@ -14,7 +14,6 @@
 
 using Nop.Core;
 using Nop.Core.Caching;
-using Nop.Core.Domain.Customers;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Extensions;
 using Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache;
@@ -28,6 +27,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using System;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -98,9 +98,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Slide model</returns>
-        protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, int languageId)
+        protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
         {
-            var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
             var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, languageId, true, false);
 
             return new WidgetZoneModel.SlideModel()
@@ -169,7 +168,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                 };
 
                 //add slide models to widget zone slider
-                var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id);
+                var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
                 foreach(var widgetSlide in widgetZoneSlides)
                 {
                     var slide = _slideService.GetSlideById(widgetSlide.SlideId);
@@ -179,11 +178,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                         continue;
 
                     //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
-                    if (!slide.PublishToday() && !_aclService.Authorize(slide) && !_storeMappingService.Authorize(slide, storeId))
+                    if (!slide.PublishToday() || !_aclService.Authorize(slide) || !_storeMappingService.Authorize(slide, storeId))
                         continue;
 
                     //prepare slide model
-                    var slideModel = PrepareSlideModel(widgetSlide, languageId);
+                    var slideModel = PrepareSlideModel(widgetSlide, slide, languageId);
 
                     //add slide model to slider
                     result.Slides.Add(slideModel);

@@ -20,11 +20,13 @@
                    },
                    new ColumnProperty(nameof(WidgetZoneSlideSearchModel.SlideListItem.StartDateUtc))
                    {
-                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.StartDateUtc").Text
+                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.StartDateUtc").Text,
+                       Render = new RenderDate()
                    },
                    new ColumnProperty(nameof(WidgetZoneSlideSearchModel.SlideListItem.EndDateUtc))
                    {
-                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.EndDateUtc").Text
+                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.EndDateUtc").Text,
+                       Render = new RenderDate()
                    },
                    new ColumnProperty(nameof(WidgetZoneSlideSearchModel.SlideListItem.Published))
                    {

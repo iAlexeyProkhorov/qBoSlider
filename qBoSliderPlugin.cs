@@ -13,8 +13,6 @@
 //limitations under the License.
 
 using Nop.Core;
-using Nop.Core.Infrastructure;
-using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
@@ -37,18 +35,16 @@ namespace Nop.Plugin.Widgets.qBoSlider
     {
         #region Fields
 
-        private readonly IRepository<Slide> _slideRepository;
-        private readonly IRepository<WidgetZone> _widgetZoneRepository;
-        private readonly IRepository<WidgetZoneSlide> _widgetZoneSlideRepository;
-
         private readonly IAclService _aclService;
         private readonly IGarbageManager _garbageManager;
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISlideService _slideService;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IWebHelper _webHelper;
         private readonly IWidgetZoneService _widgetZoneService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         private readonly IStoreContext _storeContext;
 
@@ -56,31 +52,28 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Constructor
 
-        public qBoSliderPlugin(IRepository<Slide> slideRepository,
-            IRepository<WidgetZone> widgetZoneRepository,
-            IRepository<WidgetZoneSlide> widgetZoneSlideRepository,
-            IAclService aclService,
+        public qBoSliderPlugin(IAclService aclService,
             IGarbageManager garbageManager,
             IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISlideService slideService,
             IStoreMappingService storeMappingService,
             IWebHelper webHelper,
             IWidgetZoneService widgetZoneService,
+            IWidgetZoneSlideService widgetZoneSlideService,
             IStoreContext storeContext)
         {
-            _slideRepository = slideRepository;
-            _widgetZoneRepository = widgetZoneRepository;
-            _widgetZoneSlideRepository = widgetZoneSlideRepository;
-
             _aclService = aclService;
             _garbageManager = garbageManager;
             _permissionService = permissionService;
             _pictureService = pictureService;
             _settingService = settingService;
+            _slideService = slideService;
             _storeMappingService = storeMappingService;
             _webHelper = webHelper;
             _widgetZoneService = widgetZoneService;
+            _widgetZoneSlideService = widgetZoneSlideService;
 
             _storeContext = storeContext;
         }
@@ -215,7 +208,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 SystemName = "home_page_top",
                 Published = true
             };
-            _widgetZoneRepository.Insert(widgetZone);
+            _widgetZoneService.InsertWidgetZone(widgetZone);
 
             //install simple data
             //get sample pictures path
@@ -232,7 +225,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture1,
                 Published = true
             };
-            _slideRepository.Insert(slide1);
+            _slideService.InsertSlide(slide1);
 
             var picture2 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").Id;
             var slide2 = new Slide()
@@ -245,7 +238,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture2,
                 Published = true,
             };
-            _slideRepository.Insert(slide2);
+            _slideService.InsertSlide(slide2);
 
             var picture3 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").Id;
             var slide3 = new Slide()
@@ -260,23 +253,23 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture3,
                 Published = true
             };
-            _slideRepository.Insert(slide3);
+            _slideService.InsertSlide(slide3);
 
-            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
             {
                 SlideId = slide1.Id,
                 WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 0
             });
 
-            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
             {
                 SlideId = slide2.Id,
                 WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 5
             });
 
-            _widgetZoneSlideRepository.Insert(new WidgetZoneSlide()
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
             {
                 SlideId = slide3.Id,
                 WidgetZoneId = widgetZone.Id,
@@ -291,8 +284,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override void Uninstall()
         {
-            var sliderService = EngineContext.Current.Resolve<ISlideService>();
-            var allSlides = sliderService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
+            var allSlides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
+
+            //delete slide localization resources and pictures
+            foreach (var slide in allSlides)
+                _garbageManager.DeleteSlideLocalizedValues(slide);
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();

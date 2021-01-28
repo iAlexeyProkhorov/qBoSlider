@@ -13,7 +13,6 @@
 //limitations under the License.
 
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Security;
@@ -31,26 +30,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         private readonly IPublicModelFactory _publicModelFactory;
         private readonly IWidgetZoneService _widgetZoneService;
 
-        private readonly IStoreContext _storeContext;
-        private readonly IWorkContext _workContext;
-
         #endregion
 
         #region Constructor
 
         public PublicInfoComponent(IAclService aclService,
             IPublicModelFactory publicModelFactory,
-            IWidgetZoneService widgetZoneService,
-
-            IStoreContext storeContext,
-            IWorkContext workContext)
+            IWidgetZoneService widgetZoneService)
         {
-            this._aclService = aclService;
-            this._publicModelFactory = publicModelFactory;
-            this._widgetZoneService = widgetZoneService;
-
-            this._storeContext = storeContext;
-            this._workContext = workContext;
+            _aclService = aclService;
+            _publicModelFactory = publicModelFactory;
+            _widgetZoneService = widgetZoneService;
         }
 
         #endregion
