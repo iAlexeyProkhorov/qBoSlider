@@ -13,10 +13,12 @@
 //limitations under the License.
 
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Caching;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
 using Nop.Plugin.Widgets.qBoSlider.Service;
+using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Messages;
@@ -46,6 +48,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
+        private readonly ISettingService _settingService;
+        private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
         private readonly IWidgetZoneModelFactory _widgetZoneModelFactory;
@@ -63,6 +67,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
             IPermissionService permissionService,
+            ISettingService settingService,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
             IWidgetZoneModelFactory widgetZoneModelFactory,
@@ -76,6 +81,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _localizedEntityService = localizedEntityService;
             _notificationService = notificationService;
             _permissionService = permissionService;
+            _settingService = settingService;
             _storeMappingService = storeMappingService;
             _storeService = storeService;
             _widgetZoneModelFactory = widgetZoneModelFactory;
@@ -97,6 +103,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         {
             //mark entity like subject to ACL
             widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
+            _widgetZoneService.UpdateWidgetZone(widgetZone);
 
             var existingAclRecords = _aclService.GetAclRecords(widgetZone);
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
@@ -129,6 +136,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         {
             //mark entity like limited to stores
             widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
+            _widgetZoneService.UpdateWidgetZone(widgetZone);
 
             var existingStoreMappings = _storeMappingService.GetStoreMappings(widgetZone);
             var allStores = _storeService.GetAllStores();
@@ -248,6 +256,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //save store mappings
             SaveWidgetZoneStoreMappings(model, widgetZone);
 
+            //clear cache
+            _settingService.ClearCache();
+
             //notify admin
             _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.CreatedSuccessfully"));
 
@@ -326,6 +337,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             //save store mappings
             SaveWidgetZoneStoreMappings(model, widgetZone);
+
+            //clear cache
+            _settingService.ClearCache();
 
             //notify admin
             _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.ChangedSuccessfully"));

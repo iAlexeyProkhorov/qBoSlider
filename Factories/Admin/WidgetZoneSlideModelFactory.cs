@@ -98,7 +98,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Add widget zone slide model</returns>
         public virtual AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel)
         {
-            var slides = _slideService.GetAllSlides(showHidden: true);
+            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
             var gridModel = new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
             {
                 return slides.Select(slide =>

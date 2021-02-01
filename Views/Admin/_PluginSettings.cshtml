@@ -1,9 +1,0 @@
-﻿@model ConfigurationModel
-@using Nop.Plugin.Widgets.qBoSlider.Models;
-
-<form asp-controller="qBoSlider" asp-action="Configure"  method="post">
-    @await Component.InvokeAsync("StoreScopeConfiguration")
-    @Html.AntiForgeryToken()
-
-    
-</form>

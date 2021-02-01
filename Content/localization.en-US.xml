@@ -1,4 +1,15 @@
 <Language Name="English">
+	<!--ADMIN-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.DontForgetToClearSiteCacheToSeeYourSliderChanges">
+		<Value>ATTENTION!!! Static cache was switched on. Clear nopCommerce cache to see slide changes.</Value>
+	</LocaleResource>
+	<!--CONFIGURATION-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Configuration.UseStaticCache">
+		<Value>Use static cache</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Configuration.UseStaticCache.Hint">
+		<Value>Use static cache for slider content. Allows to make slider content processing faster, but you'll need to clear cache for any slider content change.</Value>
+	</LocaleResource>
 	<!--ADMIN WIDGET LIST-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.list">
 		<Value>Widget zones</Value>

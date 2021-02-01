@@ -61,11 +61,13 @@ else
                                        new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.StartDateUtc))
                                        {
                                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.StartDateUtc").Text,
+                                           Render = new RenderDate(),
                                            Width = "150"
                                        },
                                        new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.EndDateUtc))
                                        {
                                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.EndDateUtc").Text,
+                                           Render = new RenderDate(),
                                            Width = "150"
                                        },
                                        new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.Published))

@@ -112,6 +112,52 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             };
         }
 
+        protected virtual WidgetZoneModel PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
+        {
+            //prepare slider model
+            var model = new WidgetZoneModel()
+            {
+                Id = widgetZone.Id,
+                AutoPlay = widgetZone.AutoPlay,
+                AutoPlayInterval = widgetZone.AutoPlayInterval,
+                MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                SlideDuration = widgetZone.SlideDuration,
+                SlideSpacing = widgetZone.SlideSpacing,
+                ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
+                BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
+                MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
+                MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
+            };
+
+            //add slide models to widget zone slider
+            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
+            foreach (var widgetSlide in widgetZoneSlides)
+            {
+                var slide = _slideService.GetSlideById(widgetSlide.SlideId);
+
+                //don't display unpublished slides
+                if (!slide.Published)
+                    continue;
+
+                var today = slide.PublishToday();
+                var acl = _aclService.Authorize(slide);
+                var store = _storeMappingService.Authorize(slide, storeId);
+
+                //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
+                var display = slide.PublishToday() && _aclService.Authorize(slide) && _storeMappingService.Authorize(slide, storeId);
+                if (!display)
+                    continue;
+
+                //prepare slide model
+                var slideModel = PrepareSlideModel(widgetSlide, slide, languageId);
+
+                //add slide model to slider
+                model.Slides.Add(slideModel);
+            }
+
+            return model;
+        }
+
         #endregion
 
         #region Methods
@@ -150,46 +196,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 
             //prepare widget zone model with slide and prepare cache key to load slider faster next time
             var cacheKey = _cacheKeyService.PrepareKey(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, widgetZone.Id, languageId, storeId, DateTime.UtcNow.ToShortDateString(), customerRolesString);
-            var model = _staticCacheManager.Get(cacheKey, () =>
+            //load model from cache or process it
+            var model = settings.UseStaticCache ? _staticCacheManager.Get(cacheKey, () =>
             {
-                //prepare slider model
-                var result = new WidgetZoneModel()
-                {
-                    Id = widgetZone.Id,
-                    AutoPlay = widgetZone.AutoPlay,
-                    AutoPlayInterval = widgetZone.AutoPlayInterval,
-                    MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                    SlideDuration = widgetZone.SlideDuration,
-                    SlideSpacing = widgetZone.SlideSpacing,
-                    ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
-                    BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
-                    MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
-                    MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
-                };
-
-                //add slide models to widget zone slider
-                var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
-                foreach(var widgetSlide in widgetZoneSlides)
-                {
-                    var slide = _slideService.GetSlideById(widgetSlide.SlideId);
-
-                    //don't display unpublished slides
-                    if (!slide.Published)
-                        continue;
-
-                    //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
-                    if (!slide.PublishToday() || !_aclService.Authorize(slide) || !_storeMappingService.Authorize(slide, storeId))
-                        continue;
-
-                    //prepare slide model
-                    var slideModel = PrepareSlideModel(widgetSlide, slide, languageId);
-
-                    //add slide model to slider
-                    result.Slides.Add(slideModel);
-                }
-
-                return result;
-            });
+                return PrepareSliderModel(widgetZone, languageId, storeId);
+            }) : PrepareSliderModel(widgetZone, languageId, storeId);
 
             return model;
         }
