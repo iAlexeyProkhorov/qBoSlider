@@ -364,7 +364,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Edit(model.Id);
         }
 
-        [HttpPost]
         public virtual IActionResult Delete(int id)
         {
             //redirect customer on accessdenied view, if client has no permissions
@@ -381,6 +380,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _garbageManager.DeleteSlidePicture(slide);
             //delete slide entity
             _slideService.DeleteSlide(slide);
+
+            //notify admin
+            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.DeletedSuccessfully"));
 
             return RedirectToAction("List");
         }

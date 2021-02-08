@@ -336,6 +336,9 @@
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.updatedsuccessfully">
 		<Value>Slide successfully updated.</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.deletedsuccessfully">
+		<Value>Slide deleted successfully.</Value>
+	</LocaleResource>
 	<!--ADMIN SLIDE WIDGET ZONE-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.slidewidgetzone.addnew">
 		<Value>Add widget zone to slide</Value>

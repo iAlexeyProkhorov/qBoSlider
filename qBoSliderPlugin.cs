@@ -288,7 +288,10 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             //delete slide localization resources and pictures
             foreach (var slide in allSlides)
+            {
+                _garbageManager.DeleteSlidePicture(slide);
                 _garbageManager.DeleteSlideLocalizedValues(slide);
+            }
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();

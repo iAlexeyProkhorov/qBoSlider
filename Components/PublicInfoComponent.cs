@@ -40,8 +40,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         public PublicInfoComponent(IAclService aclService,
             IPublicModelFactory publicModelFactory,
             IStoreMappingService storeMappingService,
-            IWidgetZoneService widgetZoneService,
-            IStoreContext storeContext)
+            IWidgetZoneService widgetZoneService)
         {
             _aclService = aclService;
             _publicModelFactory = publicModelFactory;
@@ -73,7 +72,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
             if (!_storeMappingService.Authorize(widget))
                 return Content(string.Empty);
 
-            //return empty result if widget zone has no published slides
+            //return empty result, if widget zone has no published slides
             var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
             if (!slides.Any())
                 return Content(string.Empty);
