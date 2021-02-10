@@ -149,6 +149,9 @@
     <None Update="Views\Admin\Slide\List.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Views\Admin\_qBoLayout.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Views\Admin\_WidgetZoneSearch.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

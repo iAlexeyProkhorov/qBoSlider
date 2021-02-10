@@ -31,23 +31,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
 
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
-            ////data context
-            //builder.RegisterPluginDataContext<qBoSliderContext>(ContextName);
-
-            ////repositories
-            //builder.RegisterType<EfRepository<WidgetZone>>()
-            //    .As<IRepository<WidgetZone>>()
-            //    .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
-            //    .InstancePerLifetimeScope();
-            //builder.RegisterType<EfRepository<Slide>>()
-            //    .As<IRepository<Slide>>()
-            //    .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
-            //    .InstancePerLifetimeScope();
-            //builder.RegisterType<EfRepository<WidgetZoneSlide>>()
-            //    .As<IRepository<WidgetZoneSlide>>()
-            //    .WithParameter(ResolvedParameter.ForNamed<IDbContext>(ContextName))
-            //    .InstancePerLifetimeScope();
-
             //associate services
             builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();

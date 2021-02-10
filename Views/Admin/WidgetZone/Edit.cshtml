@@ -4,7 +4,7 @@
     ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Edit").Text;
     //active menu item (system name)
     Html.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
-    Layout = "_AdminLayout";
+    Layout = "~/Plugins/Widgets.qBoSlider/Views/Admin/_qBoLayout.cshtml";
 }
 
 <form asp-controller="qBoWidgetZone" asp-action="Edit" method="post" id="widget-zone-form">

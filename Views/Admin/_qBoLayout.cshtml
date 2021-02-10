@@ -1,0 +1,21 @@
+﻿@using Nop.Plugin.Widgets.qBoSlider;
+@using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
+
+@inject qBoSliderSettings settings;
+
+@{
+    Layout = "_AdminLayout";
+}
+
+
+@if (settings.UseStaticCache)
+{
+    <div class="content-header clearfix">
+        <div class="ui-state-highlight ui-corner-all" style="margin-top:0;padding:10px">
+            <span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em"></span>
+            @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.DontForgetToClearSiteCacheToSeeYourSliderChanges")
+        </div>
+    </div>
+}
+
+@RenderBody()
