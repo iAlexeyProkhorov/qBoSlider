@@ -131,7 +131,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Slide widget zone list</returns>
         public virtual AddSlideWidgetZoneModel.WidgetZonePagedList PrepareWidgetZoneList(AddSlideWidgetZoneModel searchModel)
         {
-            var allWidgetZones = _widgetZoneService.GetWidgetZones(searchModel.SearchWidgetZoneName, searchModel.SearchWidgetZoneSystemName);
+            var allWidgetZones = _widgetZoneService.GetWidgetZones(searchModel.SearchWidgetZoneName, searchModel.SearchWidgetZoneSystemName, true, searchModel.Page - 1, searchModel.PageSize);
             var gridModel = new AddSlideWidgetZoneModel.WidgetZonePagedList().PrepareToGrid(searchModel, allWidgetZones, () =>
             {
                 return allWidgetZones.Select(widgetZone =>

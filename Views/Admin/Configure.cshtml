@@ -3,6 +3,31 @@
 }
 @model ConfigurationModel
 
-@using Nop.Services.Events;
+<form asp-controller="qBoConfiguration" asp-action="Configure" method="post">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseStaticCache" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseStaticCache" />
+                        <span asp-validation-for="UseStaticCache"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 

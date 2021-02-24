@@ -39,36 +39,29 @@
                                {
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Picture))
                                    {
-                                       Title = T("Plugins.Widgets.qBoSlider.Picture").Text,
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Picture").Text,
                                        Width = "300",
                                        Visible = true,
                                        Render = new RenderPicture()
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.StartDateUtc))
                                    {
-                                       Title = T("Plugins.Widgets.qBoSlider.CreateOrEdit.StartDateUtc").Text,
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.StartDateUtc").Text,
                                        Width = "100",
                                        Render = new RenderDate()
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.EndDateUtc))
                                    {
-                                       Title = T("Plugins.Widgets.qBoSlider.CreateOrEdit.EndDateUtc").Text,
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.EndDateUtc").Text,
                                        Width = "100",
                                        Render = new RenderDate()
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Published))
                                    {
-                                       Title = T("Plugins.Widgets.qBoSlider.CreateOrEdit.Published").Text,
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Published").Text,
                                        ClassName = NopColumnClassDefaults.CenterAll,
                                        Width = "100",
                                        Render = new RenderBoolean()
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Id))
-                                   {
-                                       Title = "Hyperlink",
-                                       ClassName = NopColumnClassDefaults.Button,
-                                       Width = "100",
-                                       Render = new RenderCustom("renderColumnHyperlink")
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Id))
                                    {
@@ -76,13 +69,6 @@
                                        ClassName = NopColumnClassDefaults.Button,
                                        Width = "100",
                                        Render = new RenderButtonEdit(new DataUrl("Edit"))
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Id))
-                                   {
-                                       Title = T("Admin.Common.Delete").Text,
-                                       ClassName = NopColumnClassDefaults.Button,
-                                       Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
-                                       Width = "100"
                                    }
                                }
                    })

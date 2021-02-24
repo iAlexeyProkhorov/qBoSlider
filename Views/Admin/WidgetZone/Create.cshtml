@@ -28,5 +28,11 @@
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = "qBo_slider_widget_create_buttons" })
         </div>
     </div>
+    <div class="content-header clearfix">
+        <div class="ui-state-highlight ui-corner-all" style="margin-top:0;padding:10px">
+            <span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em"></span>
+            @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.ClearNopCommerceWidgetZoneAfterNewWidgetZoneCreation")
+        </div>
+    </div>
     @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.cshtml", Model)
 </form>

@@ -37,6 +37,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public string SystemName { get; set; }
 
         /// <summary>
+        /// Gets or sets widget zone slides transition effects collection
+        /// </summary>
+        public string TransitionEffects { get; set; }
+
+        /// <summary>
         /// Gets or sets interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
         /// </summary>
         public int AutoPlayInterval { get; set; } = 3000;

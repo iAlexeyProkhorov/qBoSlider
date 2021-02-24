@@ -17,6 +17,7 @@ using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Security;
+using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
 using System.Linq;
 
@@ -29,10 +30,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         private readonly IAclService _aclService;
         private readonly IPublicModelFactory _publicModelFactory;
+        private readonly IStoreMappingService _storeMappingService;
         private readonly IWidgetZoneService _widgetZoneService;
-
-        private readonly IStoreContext _storeContext;
-        private readonly IWorkContext _workContext;
 
         #endregion
 
@@ -40,17 +39,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         public PublicInfoComponent(IAclService aclService,
             IPublicModelFactory publicModelFactory,
-            IWidgetZoneService widgetZoneService,
-
-            IStoreContext storeContext,
-            IWorkContext workContext)
+            IStoreMappingService storeMappingService,
+            IWidgetZoneService widgetZoneService)
         {
-            this._aclService = aclService;
-            this._publicModelFactory = publicModelFactory;
-            this._widgetZoneService = widgetZoneService;
-
-            this._storeContext = storeContext;
-            this._workContext = workContext;
+            _aclService = aclService;
+            _publicModelFactory = publicModelFactory;
+            _storeMappingService = storeMappingService;
+            _widgetZoneService = widgetZoneService;
         }
 
         #endregion
@@ -69,15 +64,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
             if (!widget.Published)
                 return Content(string.Empty);
 
-            //return empty result if widget zone has no published slides
-            var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
-            if (!slides.Any())
-                return Content(string.Empty);
-
             //return empty page if widget zone aren't authorized
             if (!_aclService.Authorize(widget))
                 return Content(string.Empty);
 
+            //return nothing if widget zone aren't authorized in current store
+            if (!_storeMappingService.Authorize(widget))
+                return Content(string.Empty);
+
+            //return empty result, if widget zone has no published slides
+            var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
+            if (!slides.Any())
+                return Content(string.Empty);
 
             var model = _publicModelFactory.PrepareWidgetZoneModel(widget);
 

@@ -72,7 +72,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var model = new ConfigurationModel()
             {
-                ActiveStoreScopeConfiguration = storeScope
+                ActiveStoreScopeConfiguration = storeScope,
+                UseStaticCache = settings.UseStaticCache
             };
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Configure.cshtml", model);
@@ -86,6 +87,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var settings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
+
+            settings.UseStaticCache = model.UseStaticCache;
 
             _settingService.SaveSetting(settings, storeScope);
 

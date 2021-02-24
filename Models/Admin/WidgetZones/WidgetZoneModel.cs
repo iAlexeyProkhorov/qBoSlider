@@ -93,16 +93,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         public bool Published { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the entity is subject to ACL
-        /// </summary>
-        public bool SubjectToAcl { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the entity is limited/restricted to certain stores
-        /// </summary>
-        public bool LimitedToStores { get; set; }
-
-        /// <summary>
         /// Gets or sets selected customer role ids
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SelectedCustomerRoleIds")]

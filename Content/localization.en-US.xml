@@ -1,4 +1,18 @@
 <Language Name="English">
+	<!--ADMIN-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.DontForgetToClearSiteCacheToSeeYourSliderChanges">
+		<Value>ATTENTION! Static cache is switched on. Clear nopCommerce cache to see applied changes.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.ClearNopCommerceWidgetZoneAfterNewWidgetZoneCreation">
+		<Value>ATTENTION! Clear nopCommerce cache after new widget zone creation. New widget zone willn't displays without this step.</Value>
+	</LocaleResource>
+	<!--CONFIGURATION-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Configuration.UseStaticCache">
+		<Value>Use static cache</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Configuration.UseStaticCache.Hint">
+		<Value>Use static cache for slider content. Allows to make slider content processing faster, but you'll need to clear cache for any slider content change.</Value>
+	</LocaleResource>
 	<!--ADMIN WIDGET LIST-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.list">
 		<Value>Widget zones</Value>
@@ -187,6 +201,9 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels">
 		<Value>Maximum slider width must be greater then minimum slider width on {0} pixels</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.widgetzonealreadyreserved">
+		<Value>This system name is already reserved by another widget zone.</Value>
+	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
 		<Value>Edit widget zone slide</Value>
@@ -322,6 +339,9 @@
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.updatedsuccessfully">
 		<Value>Slide successfully updated.</Value>
 	</LocaleResource>
+	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.deletedsuccessfully">
+		<Value>Slide deleted successfully.</Value>
+	</LocaleResource>
 	<!--ADMIN SLIDE WIDGET ZONE-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.slidewidgetzone.addnew">
 		<Value>Add widget zone to slide</Value>
@@ -339,7 +359,7 @@
 		<Value>Add widget zone to slide</Value>
 	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslide.admin.slide.youcanaddwidgetzonestothisslideaftersaving">
-		<Value>You can't add widget zones to slide before saving. Save slide at first and then add widget zones to it.</Value>
+		<Value>You can't add slide to widget zone before save. Save slide at first and then add it to widget zone.</Value>
 	</LocaleResource>
 	<!--ADMIN SLIDE LIST-->
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list">
@@ -350,6 +370,18 @@
 	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.slide.list.redirect">
 		<Value>Redirect</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Picture">
+		<Value>Picture</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.StartDateUtc">
+		<Value>Start date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.EndDateUtc">
+		<Value>End date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Published">
+		<Value>Published</Value>
 	</LocaleResource>
 	<!--ADMIN EDIT SLIDE WIDGET ZONE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EditSlideWidgetZonePopup">

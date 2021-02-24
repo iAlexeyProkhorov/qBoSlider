@@ -20,11 +20,13 @@ using Nop.Plugin.Widgets.qBoSlider.Extensions;
 using Nop.Plugin.Widgets.qBoSlider.Models.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Configuration;
+using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using System;
+using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -37,12 +39,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Fields
 
         private readonly IAclService _aclService;
+        private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISlideService _slideService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IWidgetZoneService _widgetZoneService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
@@ -52,25 +57,31 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Constructor
 
         public PublicModelFactory(IAclService aclService,
+            ICustomerService customerService,
             ILocalizationService localizationService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISlideService slideService,
             IStaticCacheManager staticCacheManager,
             IStoreMappingService storeMappingService,
             IWidgetZoneService widgetZoneService,
+            IWidgetZoneSlideService widgetZoneSlideService,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
-            this._aclService = aclService;
-            this._localizationService = localizationService;
-            this._pictureService = pictureService;
-            this._settingService = settingService;
-            this._staticCacheManager = staticCacheManager;
-            this._storeMappingService = storeMappingService;
-            this._widgetZoneService = widgetZoneService;
+            _aclService = aclService;
+            _customerService = customerService;
+            _localizationService = localizationService;
+            _pictureService = pictureService;
+            _settingService = settingService;
+            _slideService = slideService;
+            _staticCacheManager = staticCacheManager;
+            _storeMappingService = storeMappingService;
+            _widgetZoneService = widgetZoneService;
+            _widgetZoneSlideService = widgetZoneSlideService;
 
-            this._storeContext = storeContext;
-            this._workContext = workContext;
+            _storeContext = storeContext;
+            _workContext = workContext;
         }
 
         #endregion
@@ -83,21 +94,64 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Slide model</returns>
-        protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, int languageId)
+        protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
         {
-            var slide = widgetZoneSlide.Slide;
-
             var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, languageId, true, false);
-            var picture = _pictureService.GetPictureById(pictureId.GetValueOrDefault(0));
 
             return new WidgetZoneModel.SlideModel()
             {
                 Id = slide.Id,
-                PictureUrl = _pictureService.GetPictureUrl(picture),
+                PictureUrl = _pictureService.GetPictureUrl(pictureId.GetValueOrDefault(0)),
                 Description = !string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, languageId) :
                 _localizationService.GetLocalized(slide, z => z.Description, languageId),
                 Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, languageId)
             };
+        }
+
+        protected virtual WidgetZoneModel PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
+        {
+            //prepare slider model
+            var model = new WidgetZoneModel()
+            {
+                Id = widgetZone.Id,
+                AutoPlay = widgetZone.AutoPlay,
+                AutoPlayInterval = widgetZone.AutoPlayInterval,
+                MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                SlideDuration = widgetZone.SlideDuration,
+                SlideSpacing = widgetZone.SlideSpacing,
+                ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
+                BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
+                MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
+                MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
+            };
+
+            //add slide models to widget zone slider
+            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
+            foreach (var widgetSlide in widgetZoneSlides)
+            {
+                var slide = _slideService.GetSlideById(widgetSlide.SlideId);
+
+                //don't display unpublished slides
+                if (!slide.Published)
+                    continue;
+
+                var today = slide.PublishToday();
+                var acl = _aclService.Authorize(slide);
+                var store = _storeMappingService.Authorize(slide, storeId);
+
+                //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
+                var display = slide.PublishToday() && _aclService.Authorize(slide) && _storeMappingService.Authorize(slide, storeId);
+                if (!display)
+                    continue;
+
+                //prepare slide model
+                var slideModel = PrepareSlideModel(widgetSlide, slide, languageId);
+
+                //add slide model to slider
+                model.Slides.Add(slideModel);
+            }
+
+            return model;
         }
 
         #endregion
@@ -132,49 +186,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var settings = _settingService.LoadSetting<qBoSliderSettings>(storeId);
 
             //1.0.5 all with Alc
-            var customerRoles = _workContext.CurrentCustomer.GetCustomerRoleIds();
+            var customer = _workContext.CurrentCustomer;
+            var customerRoles = customer.GetCustomerRoleIds();
             var customerRolesString = string.Join(",", customerRoles);
 
             //prepare widget zone model with slide and prepare cache key to load slider faster next time
-            var model = _staticCacheManager.Get($"qbo-slider-publicinfo-{widgetZone.Id}-{languageId}-{storeId}-{DateTime.UtcNow.ToShortDateString()}-{customerRolesString}", () =>
+            var cacheKey = $"qbo-slider-publicinfo-{widgetZone.Id}-{languageId}-{storeId}-{DateTime.UtcNow.ToShortDateString()}-{customerRolesString}";
+            //load model from cache or process it
+            var model = settings.UseStaticCache ? _staticCacheManager.Get(cacheKey, () =>
             {
-                //prepare slider model
-                var result = new WidgetZoneModel()
-                {
-                    Id = widgetZone.Id,
-                    AutoPlay = widgetZone.AutoPlay,
-                    AutoPlayInterval = widgetZone.AutoPlayInterval,
-                    MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                    SlideDuration = widgetZone.SlideDuration,
-                    SlideSpacing = widgetZone.SlideSpacing,
-                    ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
-                    BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
-                    MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
-                    MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
-                };
-
-                //add slide models to widget zone slider
-                foreach(var widgetSlide in widgetZone.WidgetZoneSlides)
-                {
-                    var slide = widgetSlide.Slide;
-
-                    //don't display unpublished slides
-                    if (!slide.Published)
-                        continue;
-
-                    //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
-                    if (!slide.PublishToday() && !_aclService.Authorize(slide) && !_storeMappingService.Authorize(slide, storeId))
-                        continue;
-
-                    //prepare slide model
-                    var slideModel = PrepareSlideModel(widgetSlide, languageId);
-
-                    //add slide model to slider
-                    result.Slides.Add(slideModel);
-                }
-
-                return result;
-            });
+                return PrepareSliderModel(widgetZone, languageId, storeId);
+            }) : PrepareSliderModel(widgetZone, languageId, storeId);
 
             return model;
         }
@@ -182,3 +204,4 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #endregion
     }
 }
+

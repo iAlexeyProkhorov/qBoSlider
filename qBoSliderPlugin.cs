@@ -287,8 +287,16 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override void Uninstall()
         {
+            var garbageManager = EngineContext.Current.Resolve<IGarbageManager>();
             var sliderService = EngineContext.Current.Resolve<ISlideService>();
             var allSlides = sliderService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
+
+            //delete slide localization resources and pictures
+            foreach (var slide in allSlides)
+            {
+                garbageManager.DeleteSlidePicture(slide);
+                garbageManager.DeleteSlideLocalizedValues(slide);
+            }
 
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();
