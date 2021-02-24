@@ -112,7 +112,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     AutoPlayInterval = widgetZone.AutoPlayInterval,
                     BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
                     AvailableBulletNavigations = NavigationType.Always.ToSelectList().ToList(),
-                    LimitedToStores = widgetZone.LimitedToStores,
                     Id = widgetZone.Id,
                     MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
                     MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
@@ -121,7 +120,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     Published = widgetZone.Published,
                     SlideDuration = widgetZone.SlideDuration,
                     SlideSpacing = widgetZone.SlideSpacing,
-                    SubjectToAcl = widgetZone.SubjectToAcl,
                     SystemName = widgetZone.SystemName,
                 };
 

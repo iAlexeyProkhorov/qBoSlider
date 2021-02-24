@@ -34,6 +34,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public string SystemName { get; set; }
 
         /// <summary>
+        /// Gets or sets widget zone slides transition effects collection
+        /// </summary>
+        public string TransitionEffects { get; set; }
+
+        /// <summary>
         /// Gets or sets interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
         /// </summary>
         public int AutoPlayInterval { get; set; } = 3000;
@@ -74,27 +79,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public int ArrowNavigationDisplayingTypeId { get; set; }
 
         /// <summary>
-        /// Gets or sets arrow navigation displaying type
-        /// </summary>
-        //public NavigationType ArrowNavigationDisplayingType
-        //{
-        //    get { return (NavigationType)ArrowNavigationDisplayingTypeId; }
-        //    set { ArrowNavigationDisplayingTypeId = (int)value; }
-        //}
-
-        /// <summary>
         /// Gets or sets bullet navigation displaying type id
         /// </summary>
         public int BulletNavigationDisplayingTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets bullet navigation displaying type
-        /// </summary>
-        //public NavigationType BulletNavigationDisplayingType
-        //{
-        //    get { return (NavigationType)BulletNavigationDisplayingTypeId; }
-        //    set { BulletNavigationDisplayingTypeId = (int)value; }
-        //}
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.

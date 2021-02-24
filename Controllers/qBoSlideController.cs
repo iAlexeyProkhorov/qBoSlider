@@ -172,8 +172,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         protected virtual void SaveCustomerRolesAcl(Slide slide, SlideModel model)
         {
-            slide.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
-
             var existingAclRecords = _aclService.GetAclRecords(slide);
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             foreach (var customerRole in allCustomerRoles)
@@ -256,8 +254,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 EndDateUtc = model.EndDateUtc,
                 Published = model.Published,
                 LimitedToStores = model.SelectedStoreIds.Any(),
-                //1.0.5 all with Alc
-                SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0
+                SubjectToAcl = model.SelectedCustomerRoleIds.Any()
             };
             _slideService.InsertSlide(slide);
 
@@ -333,9 +330,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             slide.EndDateUtc = model.EndDateUtc;
             slide.Published = model.Published;
             slide.LimitedToStores = model.SelectedStoreIds.Any();
-
-            //1.0.5 all with Alc
-            slide.SubjectToAcl = model.SelectedCustomerRoleIds.Count > 0;
+            slide.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
 
             _slideService.UpdateSlide(slide);
 

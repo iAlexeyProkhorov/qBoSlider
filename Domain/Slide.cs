@@ -27,7 +27,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
     {
         /// <summary>
         /// Gets or sets slide name.
-        /// Using only for administrator needs
+        /// Use only for administrator needs
         /// </summary>
         public string Name { get; set; }
 

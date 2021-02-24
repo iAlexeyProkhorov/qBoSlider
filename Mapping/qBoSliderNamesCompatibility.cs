@@ -15,11 +15,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Mapping
         /// <summary>
         /// Gets table name for mapping with the type
         /// </summary>
-        public Dictionary<Type, string> TableNames { get; } = new Dictionary<Type, string>()
+        public Dictionary<Type, string> TableNames => new Dictionary<Type, string>()
         {
             { typeof(WidgetZone), "Baroque_qBoSlider_WidgetZone" },
             { typeof(Slide), "Baroque_qBoSlider_Slide" },
-            { typeof(WidgetZoneSlide), "Baroque_qBoSlider_WidgetZoneSlide" }
+            { typeof(WidgetZoneSlide), "Baroque_qBoSlider_WidgetZone_Slide_Mapping" }
         };
 
         /// <summary>

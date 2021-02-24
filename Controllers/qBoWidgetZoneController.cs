@@ -101,10 +101,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         /// <param name="widgetZone">Widget zone entity</param>
         protected virtual void SaveWidgetZoneAcl(WidgetZoneModel model, WidgetZone widgetZone)
         {
-            //mark entity like subject to ACL
-            widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
-            _widgetZoneService.UpdateWidgetZone(widgetZone);
-
             var existingAclRecords = _aclService.GetAclRecords(widgetZone);
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
 
@@ -134,10 +130,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         /// <param name="widgetZone">Widget zone entity</param>
         protected virtual void SaveWidgetZoneStoreMappings(WidgetZoneModel model, WidgetZone widgetZone)
         {
-            //mark entity like limited to stores
-            widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
-            _widgetZoneService.UpdateWidgetZone(widgetZone);
-
             var existingStoreMappings = _storeMappingService.GetStoreMappings(widgetZone);
             var allStores = _storeService.GetAllStores();
 
@@ -242,8 +234,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 //put widget zone properties
                 Name = model.Name,
                 SystemName = model.SystemName,
-                LimitedToStores = model.LimitedToStores,
-                SubjectToAcl = model.SubjectToAcl,
+                LimitedToStores = model.SelectedStoreIds.Any(),
+                SubjectToAcl = model.SelectedCustomerRoleIds.Any(),
                 Published = model.Published,
             };
 
@@ -328,6 +320,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth;
             widgetZone.SlideDuration = model.SlideDuration;
             widgetZone.SlideSpacing = model.SlideSpacing;
+            widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
+            widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
 
             //update entity
             _widgetZoneService.UpdateWidgetZone(widgetZone);
