@@ -14,17 +14,8 @@
 
 
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core;
-using Nop.Core.Caching;
-using Nop.Plugin.Widgets.qBoSlider.Extensions;
-using Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache;
-using Nop.Plugin.Widgets.qBoSlider.Models;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
-using Nop.Services.Caching;
-using Nop.Services.Configuration;
-using Nop.Services.Customers;
-using Nop.Services.Localization;
-using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
@@ -47,23 +38,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         #region Constructor
 
         public PublicInfoComponent(IAclService aclService,
-            ICacheManager cacheManager,
-            ILocalizationService localizationService,
-            IPictureService pictureService,
-            ISettingService settingService,
-            ISlideService slideService,
-            IStoreContext storeContext,
-            IWorkContext workContext)
+            IPublicModelFactory publicModelFactory,
+            IStoreMappingService storeMappingService,
+            IWidgetZoneService widgetZoneService
+            )
         {
-            this._aclService = aclService;
-            this._cacheManager = cacheManager;
-            this._localizationService = localizationService;
-            this._pictureService = pictureService;
-            this._settingService = settingService;
-            this._slideService = slideService;
-
-            this._storeContext = storeContext;
-            this._workContext = workContext;
+            _aclService = aclService;
+            _publicModelFactory = publicModelFactory;
+            _storeMappingService = storeMappingService;
+            _widgetZoneService = widgetZoneService;
         }
 
         #endregion
