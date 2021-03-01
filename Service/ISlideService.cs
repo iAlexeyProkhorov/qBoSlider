@@ -11,8 +11,6 @@
 //WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //See the License for the specific language governing permissions and
 //limitations under the License.
-
-
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using System;
@@ -20,7 +18,7 @@ using System;
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
     /// <summary>
-    /// Represents slide service interface
+    /// Represents qBoSlider slide service interface
     /// </summary>
     public interface ISlideService
     {

@@ -19,6 +19,7 @@ using Nop.Services.Plugins;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -133,6 +134,16 @@ namespace Nop.Plugin.Widgets.qBoSlider
             }
         }
 
+        /// <summary>
+        /// Check current plugin installation status in 'InstalledPlugins.txt' document
+        /// </summary>
+        /// <param name="systemName">Plugin system name</param>
+        /// <returns>True - when plugin marked like installed</returns>
+        protected static bool IsPluginInstalled()
+        {
+            return IsPluginInstalled(BaroquePluginDescriptor.SystemName);
+        }
+
         #endregion
 
         #region Methods
@@ -147,6 +158,26 @@ namespace Nop.Plugin.Widgets.qBoSlider
         {
             this.UninstallLocalization();
             base.Uninstall();
+        }
+
+        /// <summary>
+        /// Check InstalledPlugins.txt file list on plugin system name
+        /// </summary>
+        /// <param name="systemName">Plugin system name</param>
+        /// <returns>True when plugin added to list</returns>
+        public static bool IsPluginInstalled(string systemName)
+        {
+            string installedPluginsFile = CommonHelper.DefaultFileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
+
+            if (File.Exists(installedPluginsFile))
+            {
+                var redisPluginsInfo = JsonConvert.DeserializeObject<PluginsInfo>(File.ReadAllText(installedPluginsFile));
+
+
+                return redisPluginsInfo.InstalledPluginNames.Contains(systemName);
+            }
+
+            return false;
         }
 
         #endregion

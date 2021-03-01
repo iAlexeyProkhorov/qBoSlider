@@ -12,11 +12,12 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-
 using Autofac;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
+using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
@@ -28,8 +29,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
     {
         public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
-            //services
+            //associate services
             builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneSlideService>().As<IWidgetZoneSlideService>().InstancePerLifetimeScope();
+            builder.RegisterType<GarbageManager>().As<IGarbageManager>().InstancePerLifetimeScope();
+
+            //factories
+            builder.RegisterType<SlideModelFactory>().As<ISlideModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<SlideWidgetZoneModelFactory>().As<ISlideWidgetZoneModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneModelFactory>().As<IWidgetZoneModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<WidgetZoneSlideModelFactory>().As<IWidgetZoneSlideModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<PublicModelFactory>().As<IPublicModelFactory>().InstancePerLifetimeScope(); 
         }
 
         public int Order

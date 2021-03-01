@@ -1,0 +1,71 @@
+﻿@model SlideModel
+
+@{
+    var route = new Microsoft.AspNetCore.Routing.RouteValueDictionary();
+    route.Add("SlideId", Model.Id);
+}
+
+<div class="panel-body">
+    @await Html.PartialAsync("Table", new DataTablesModel()
+    {
+        Name = "slide-widget-zones-grid",
+        UrlRead = new DataUrl("GetWidgetZoneList", "qBoSlide", route),
+        UrlDelete = new DataUrl("DeleteSlideWidgetZone", "qBoSlide", null),
+        Length = Model.WidgetZoneSearchModel.PageSize,
+        LengthMenu = Model.WidgetZoneSearchModel.AvailablePageSizes,
+        ColumnCollection = new List<ColumnProperty>()
+           {
+                       new ColumnProperty(nameof(SlideWidgetZoneSearchModel.WidgetZoneModel.Name))
+                       {
+                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.WidgetZoneList.Name").Text,
+                       },
+                       new ColumnProperty(nameof(SlideWidgetZoneSearchModel.WidgetZoneModel.SystemName))
+                       {
+                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.WidgetZoneList.SystemName").Text
+                       },
+                       new ColumnProperty(nameof(SlideWidgetZoneSearchModel.WidgetZoneModel.Published))
+                       {
+                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.WidgetZoneList.Published").Text,
+                           Render = new RenderBoolean(),
+                           ClassName = NopColumnClassDefaults.CenterAll
+                       },
+                       new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
+                       {
+                           Title = T("Admin.Common.Edit").Text,
+                           Width =  "100",
+                           ClassName =  NopColumnClassDefaults.Button,
+                           Render = new RenderCustom("renderColumnEdit")
+                       },
+                       new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
+                       {
+                            Title = T("Admin.Common.Delete").Text,
+                            Width = "100",
+                            Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                            ClassName =  NopColumnClassDefaults.Button
+                       }
+           }
+    })
+</div>
+<div class="panel-footer">
+    <button type="submit" id="btnAddNewOption" onclick="javascript:OpenWindow('@(Url.Action("AddSlideWidgetZonePopup", "qBoSlide", new { slideId = Model.Id, btnId = "btnRefresh", formId = "slide-form" }))', 800, 800, true); return false;" class="btn btn-primary">
+        @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.AddNewWidgetZone")
+    </button>
+    <input type="submit" id="btnRefresh" style="display: none" />
+    <script>
+        $(document).ready(function () {
+            $('#btnRefresh').click(function () {
+                //refresh grid
+                updateTable('#slide-widget-zones-grid');
+
+                //return false to don't reload a page
+                return false;
+            });
+        });
+    </script>
+</div>
+
+<script>
+            function renderColumnEdit(data, type, row, meta) {
+                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/qBoSlide/EditSlideWidgetZonePopup/")' + data + '?btnId=btnRefresh&formId=slide-form\', 800, 450, true); return false;\" class="btn btn-default"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</button>';
+            }
+</script>

@@ -1,0 +1,129 @@
+﻿@model WidgetZoneModel
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Name" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="SystemName" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SystemName" />
+            <span asp-validation-for="SystemName"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="ArrowNavigationDisplayingTypeId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="ArrowNavigationDisplayingTypeId" asp-items="@Model.AvailableArrowNavigations" />
+            <span asp-validation-for="ArrowNavigationDisplayingTypeId"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="BulletNavigationDisplayingTypeId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="BulletNavigationDisplayingTypeId" asp-items="@Model.AvailableBulletNavigations" />
+            <span asp-validation-for="BulletNavigationDisplayingTypeId"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="AutoPlay" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="AutoPlay" />
+            <span asp-validation-for="AutoPlay"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="AutoPlayInterval" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="AutoPlayInterval" />
+            <span asp-validation-for="AutoPlayInterval"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="MaxSlideWidgetZoneWidth" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MaxSlideWidgetZoneWidth" />
+            <span asp-validation-for="MaxSlideWidgetZoneWidth"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="MinSlideWidgetZoneWidth" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MinSlideWidgetZoneWidth" />
+            <span asp-validation-for="MinSlideWidgetZoneWidth"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="SlideDuration" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SlideDuration" />
+            <span asp-validation-for="SlideDuration"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="MinDragOffsetToSlide" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="MinDragOffsetToSlide" />
+            <span asp-validation-for="MinDragOffsetToSlide"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="SlideSpacing" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SlideSpacing" />
+            <span asp-validation-for="SlideSpacing"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Published" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Published" />
+            <span asp-validation-for="Published"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         $("#@Html.IdFor(model => model.SystemName)").autocomplete({
+            delay: 200,
+            minLength: 2,
+            source: '@Url.Action("FindNopCommerceWidgetZoneBySystemName", "qBoWidgetZone")'
+         })
+         $('#@Html.IdFor(model => model.SystemName)').on('input change', function () {
+              var parameters = {
+                  widgetZoneId: '@Model.Id',
+                  systemName: $(this).val()
+              };
+               warningValidation('@Url.Action("SystemNameReservedWarning", "qBoWidgetZone")', '@Html.NameFor(model => model.SystemName)', parameters);
+         });
+      });
+</script>

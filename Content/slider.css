@@ -1,4 +1,4 @@
-﻿#slider-container {
+﻿.slider-container {
     position: relative;
     top: 0px;
     left: 0px;
@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-    #slider-container #slider-loading {
+    .slider-container #slider-loading {
         position: absolute;
         top: 0px;
         left: 0px;
@@ -47,13 +47,14 @@
 
 .jssorb05 {
     position: absolute;
+    transform: none !important;
 }
 
     .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
         position: absolute;
         /* size of bullet elment */
-        width: 10px;
-        height: 10px;
+        width: 20px;
+        height: 20px;
         /*background: url(../Content/Images/b14.png) no-repeat;*/
         background:#4ab2f1;
         overflow: hidden;

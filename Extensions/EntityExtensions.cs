@@ -12,7 +12,6 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using System;
 
@@ -27,8 +26,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Extensions
         /// <returns>'True' when slide should be published</returns>
         public static bool PublishToday(this Slide slide)
         {
-            return (!slide.StartDateUtc.HasValue || (slide.StartDateUtc.HasValue && slide.StartDateUtc <= DateTime.UtcNow)) &&
+            var publish = (!slide.StartDateUtc.HasValue || (slide.StartDateUtc.HasValue && slide.StartDateUtc <= DateTime.UtcNow)) &&
                 (!slide.EndDateUtc.HasValue || (slide.EndDateUtc.HasValue && slide.EndDateUtc >= DateTime.UtcNow));
+
+            return publish;
         }
     }
 }

@@ -1,0 +1,77 @@
+﻿@model WidgetZoneSearchModel
+
+@{
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List").Text;
+    //active menu item (system name)
+    Html.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
+    Layout = "~/Plugins/Widgets.qBoSlider/Views/Admin/_qBoLayout.cshtml";
+}
+
+@{
+    const string hideSearchBlockAttributeName = "Baroque.qBoSlider.WidgetZone.HideSearchBlock";
+    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List")
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNew")
+        </a>
+        @await Component.InvokeAsync("AdminWidget", new { widgetZone = "qBo_slider_widget_list_buttons" })
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_WidgetZoneSearch.cshtml", Model)
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new DataTablesModel()
+               {
+                   Name = "widget-zone-grid",
+                   UrlRead = new DataUrl("List", "qBoWidgetZone", null),
+                   SearchButtonId = "search-widget-zones",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                   {
+                       new FilterParameter(nameof(Model.SearchWidgetZoneName)),
+                       new FilterParameter(nameof(Model.SearchWidgetZoneSystemName))
+                   },
+                   ColumnCollection = new List<ColumnProperty>()
+                       {
+                                   new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Name))
+                                   {
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.Name").Text
+                                   },
+                                   new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.SystemName))
+                                   {
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.SystemName").Text
+                                   },
+                                   new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Published))
+                                   {
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List.Published").Text,
+                                       ClassName = NopColumnClassDefaults.CenterAll,
+                                       Render = new RenderBoolean()
+                                   },
+                                   new ColumnProperty(nameof(WidgetZoneSearchModel.WidgetZoneListItem.Id))
+                                   {
+                                       Title = "",
+                                       Width =  "100",
+                                       ClassName =  NopColumnClassDefaults.Button,
+                                       Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                   }
+                       }
+               })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

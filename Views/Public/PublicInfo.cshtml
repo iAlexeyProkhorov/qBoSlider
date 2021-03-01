@@ -1,6 +1,7 @@
-﻿@model PublicInfoModel
+﻿@model WidgetZoneModel
 @{
     Layout = "";
+    //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
     Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.slider.min.js");
 
 
@@ -9,11 +10,9 @@
     string autoPlay = Model.AutoPlay ? "True" : string.Empty;
 }
 @using Nop.Web.Framework.UI
-@using Nop.Plugin.Widgets.qBoSlider.Models;
 
 
-<div id="slider-container">
-
+<div class="slider-container" id="slider-@Model.Id">
     <div u="loading" id="slider-loading">
         <div id="slider-loading-background">
         </div>
@@ -28,7 +27,7 @@
                 @if (!string.IsNullOrEmpty(slide.Hyperlink))
                 {
                     <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
-                        <img u="image" src="@slide.Picture" />
+                        <img u="image" src="@slide.PictureUrl" />
                         <div class="slide-description">
                             @Html.Raw(slide.Description)
                         </div>
@@ -36,7 +35,7 @@
                 }
                 else
                 {
-                    <img u="image" src="@slide.Picture" />
+                    <img u="image" src="@slide.PictureUrl" />
                     <div class="slide-description">
                         @Html.Raw(slide.Description)
                     </div>
@@ -45,7 +44,7 @@
         }
     </div>
 
-    <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
+    <div data-u="navigator" data-scale="0.5" data-scale-bottom="0.5" class="jssorb05" style="bottom: 16px; right: 6px;">
         <div u="prototype"></div>
     </div>
 
@@ -59,68 +58,68 @@
 <script asp-location="Footer">
     jQuery(document).ready(function ($) {
 
-        var _SlideshowTransitions = [
-        {
-            $Duration: 1200,
-            $Opacity: 2
-        }
+        var _slideshowTransitions = [
+            //{ $Duration: 800, x: 0.3, $Rows: 2, $During: { $Left: [0.3, 0.7] }, $ChessMode: { $Row: 3 }, $Easing: { $Left: $Jease$.$InCubic, $Opacity: $Jease$.$Linear }, $Opacity: 2 },
+            //{ $Duration: 1200, $Opacity: 2 },
+            //{ $Duration: 1200, $Opacity: 2 },
+            { $Duration: 1200, $Opacity: 2 },
         ];
 
         var options = {
             $FillMode: 2,
-            $AutoPlay: Boolean('@autoPlay'),
-            $AutoPlaySteps: 1,
-            $Idle: @Model.AutoPlayInterval,
-            $PauseOnHover: 1,
+            $AutoPlay: Boolean('@autoPlay'),                                
+            $AutoPlaySteps: 1,                                
+            $Idle: @Model.AutoPlayInterval,                           
+            $PauseOnHover: 1,                               
 
-            $ArrowKeyNavigation: true,
-            $SlideDuration: @Model.SlideDuration,
-            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,
-            //$SlideHeight: 300,
-            $SlideSpacing: @Model.SlideSpacing,
-            $DisplayPieces: 1,
-            $ParkingPosition: 0,
-            $UISearchMode: 1,
-            $PlayOrientation: 1,
-            $DragOrientation: 1,
+            $ArrowKeyNavigation: true,   			            
+            $SlideDuration: @Model.SlideDuration,                               
+            $MinDragOffsetToSlide: @Model.MinDragOffsetToSlide,                                          
+            $SlideSpacing: @Model.SlideSpacing, 					       
+            $DisplayPieces: 1,                                
+            $ParkingPosition: 0,                               
+            $UISearchMode: 1,                                  
+            $PlayOrientation: 1,                                
+            $DragOrientation: 1,                                
 
-            $SlideshowOptions: {
-                $Class: $JssorSlideshowRunner$,
-                $Transitions: _SlideshowTransitions,
-                $TransitionsOrder: 1,
-                $ShowLink: true
+            $SlideshowOptions: {                                
+                $Class: $JssorSlideshowRunner$,                
+                $Transitions: _slideshowTransitions,            
+                $TransitionsOrder: 1,                          
+                $ShowLink: true                                    
             },
 
-            $BulletNavigatorOptions: {
-                $Class: $JssorBulletNavigator$,
-                $ChanceToShow: @Model.BulletNavigation,
-                $AutoCenter: 1,
-                $Steps: 1,
-                $Lanes: 1,
-                $SpacingX: 10,
-                $SpacingY: 10,
-                $Orientation: 1,
-                $Scale: false
+            $BulletNavigatorOptions: {                                
+                $Class: $JssorBulletNavigator$,                       
+                $ChanceToShow: @Model.BulletNavigation,                              
+                $AutoCenter: 1,                                 
+                $Steps: 1,                                      
+                $Lanes: 1,                                      
+                $SpacingX: 10,                                   
+                $SpacingY: 10,                                   
+                $Orientation: 1,                               
+                $Scale: true
             },
 
             $ArrowNavigatorOptions: {
-                $Class: $JssorArrowNavigator$,
-                $ChanceToShow: @Model.ArrowNavigation,
-                $Steps: 1,
+                $Class: $JssorArrowNavigator$,             
+                $ChanceToShow: @Model.ArrowNavigation,                               
+                $Steps: 1,                                      
                 $Scale: false,
                 $AutoCenter: 2
             }
         };
-        var jssor_slider1 = new $JssorSlider$("slider-container", options);
+        var jssor_slider1 = new $JssorSlider$("slider-@Model.Id", options);
 
         //responsive code begin
         //you can remove responsive code if you don't want the slider scales while window resizes
         function ScaleSlider() {
+            var minSliderWidth = Number('@Model.MinSliderWidth');
+            var maxSliderWidth = Number('@Model.MaxSliderWidth');
+            var width = $("#slider-@Model.Id").parent().width();
+            var outerWidth = $("#slider-@Model.Id").parent().outerWidth(true);
 
             //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
-            var width = $("#slider-container").parent().width();
-            var outerWidth = $("#slider-container").parent().outerWidth(true);
-
             var paddingWidth = outerWidth - width;
 
             //minimum width should reserve for text
@@ -140,10 +139,10 @@
                 var sliderWidth = availableWidth;
 
                 //slider width is maximum 1920
-                sliderWidth = Math.min(sliderWidth, 4096);
+                sliderWidth = Math.min(sliderWidth, maxSliderWidth);
 
                 //slider width is minimum 200
-                sliderWidth = Math.max(sliderWidth, 200);
+                sliderWidth = Math.max(sliderWidth, minSliderWidth);
                 var clearFix = "none";
 
                 //evaluate free width for text, if the width is less than minReserveWidth then fill parent container
@@ -153,7 +152,7 @@
                     sliderWidth = availableWidth;
 
                     //slider width is minimum 200
-                    sliderWidth = Math.max(sliderWidth, 200);
+                    sliderWidth = Math.max(sliderWidth, minSliderWidth);
 
                     clearFix = "both";
                 }

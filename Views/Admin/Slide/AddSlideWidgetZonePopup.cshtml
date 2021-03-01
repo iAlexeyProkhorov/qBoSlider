@@ -1,0 +1,93 @@
+﻿@model AddSlideWidgetZoneModel
+
+@{
+    Layout = "_AdminPopupLayout";
+
+    //page title
+    ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.AddSlideWidgetZonePopup").Text;
+}
+
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+else
+{
+    <form asp-controller="qBoSlide" asp-action="AddSlideWidgetZonePopup"
+          asp-route-categoryId="@Context.Request.Query["slideId"]"
+          asp-route-btnId="@Context.Request.Query["btnId"]"
+          asp-route-formId="@Context.Request.Query["formId"]">
+
+        <input asp-for="SlideId" type="hidden" />
+        <div class="content-header clearfix">
+            <h1 class="pull-left">
+                @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.SlideWidgetZone.AddNew")
+            </h1>
+            <div class="pull-right">
+                &nbsp;
+            </div>
+        </div>
+        <div class="content">
+            <div class="form-horizontal">
+                <div class="panel-group">
+                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_WidgetZoneSearch.cshtml", Model)
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            @await  Html.PartialAsync("Table", new DataTablesModel
+                       {
+                           Name = "widget-zones-grid",
+                           UrlRead = new DataUrl("GetWidgetZoneListPopup", "qBoSlide", null),
+                           SearchButtonId = "search-widget-zones",
+                           Length = Model.PageSize,
+                           LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                                   {
+                                       new FilterParameter(nameof(Model.SearchWidgetZoneName)),
+                                       new FilterParameter(nameof(Model.SearchWidgetZoneSystemName))
+                                   },
+                           ColumnCollection = new List<ColumnProperty>
+                                   {
+                                       new ColumnProperty(nameof(AddSlideWidgetZoneModel.WidgetZoneModel.Id))
+                                       {
+                                           IsMasterCheckBox = true,
+                                           Render = new RenderCheckBox(nameof(AddSlideWidgetZoneModel.SelectedWidgetZoneIds)),
+                                           ClassName = NopColumnClassDefaults.CenterAll,
+                                           Width = "50"
+                                       },
+                                       new ColumnProperty(nameof(AddSlideWidgetZoneModel.WidgetZoneModel.Name))
+                                       {
+                                           ClassName = NopColumnClassDefaults.CenterAll,
+                                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddSlideWidgetZone.Fields.Name").Text,
+                                           Width = "300"
+                                       },
+                                       new ColumnProperty(nameof(AddSlideWidgetZoneModel.WidgetZoneModel.SystemName))
+                                       {
+                                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddSlideWidgetZone.Fields.SystemName").Text,
+                                           Width = "150"
+                                       },
+                                       new ColumnProperty(nameof(AddSlideWidgetZoneModel.WidgetZoneModel.Published))
+                                       {
+                                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddSlideWidgetZone.Fields.Published").Text,
+                                           Width = "150",
+                                           Render = new RenderBoolean(),
+                                           ClassName = NopColumnClassDefaults.CenterAll
+                                       }
+                                   }
+                       })
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" name="save" class="btn bg-blue">
+                                <i class="fa fa-floppy-o"></i>
+                                @T("Admin.Common.Save")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}

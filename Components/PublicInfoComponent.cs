@@ -26,8 +26,8 @@ using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
+using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
-using System;
 using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Components
@@ -38,40 +38,29 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         #region Fields
 
         private readonly IAclService _aclService;
-        private readonly ICacheKeyService _cacheKeyService;
-        private readonly ICustomerService _customerService;
-        private readonly ILocalizationService _localizationService;
-        private readonly IPictureService _pictureService;
-        private readonly ISettingService _settingService;
-        private readonly ISlideService _slideService;
-        private readonly IStaticCacheManager _staticCacheManager;
-
-        private readonly IStoreContext _storeContext;
-        private readonly IWorkContext _workContext;
+        private readonly IPublicModelFactory _publicModelFactory;
+        private readonly IStoreMappingService _storeMappingService;
+        private readonly IWidgetZoneService _widgetZoneService;
 
         #endregion
 
         #region Constructor
 
         public PublicInfoComponent(IAclService aclService,
-            ICacheKeyService cacheKeyService,
-            ICustomerService customerService,
+            ICacheManager cacheManager,
             ILocalizationService localizationService,
             IPictureService pictureService,
             ISettingService settingService,
             ISlideService slideService,
-            IStaticCacheManager staticCacheManager,
             IStoreContext storeContext,
             IWorkContext workContext)
         {
             this._aclService = aclService;
-            this._cacheKeyService = cacheKeyService;
-            this._customerService = customerService;
+            this._cacheManager = cacheManager;
             this._localizationService = localizationService;
             this._pictureService = pictureService;
             this._settingService = settingService;
             this._slideService = slideService;
-            this._staticCacheManager = staticCacheManager;
 
             this._storeContext = storeContext;
             this._workContext = workContext;
@@ -81,49 +70,32 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         #region Methods
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string widgetZone, object additionalData)
         {
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
-            var customer = _workContext.CurrentCustomer;
+            var widget = _widgetZoneService.GetWidgetZoneBySystemName(widgetZone);
 
-            //1.0.5 all with Alc
-            var customerRoleIds = _customerService.GetCustomerRoleIds(customer);
-            var customerRolesString = string.Join(",", customerRoleIds);
-            //create cache key
-            var cacheKey = _cacheKeyService.PrepareKeyForDefaultCache(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, _workContext.WorkingLanguage.Id, _storeContext.CurrentStore.Id, DateTime.UtcNow.ToShortDateString(), customerRolesString);
+            //return empty result if widget zone has no slider
+            if (widget == null)
+                return Content(string.Empty);
 
-            var model = _staticCacheManager.Get(cacheKey, () =>
-            {
-                var result = new PublicInfoModel()
-                {
-                    AutoPlay = settings.AutoPlay,
-                    AutoPlayInterval = settings.AutoPlayInterval,
-                    MinDragOffsetToSlide = settings.MinDragOffsetToSlide,
-                    SlideDuration = settings.SlideDuration,
-                    SlideSpacing = settings.SlideSpacing,
-                    ArrowNavigation = settings.ArrowNavigationDisplay,
-                    BulletNavigation = settings.BulletNavigationDisplay
-                };
+            //return empty result if widget zone isn't published
+            if (!widget.Published)
+                return Content(string.Empty);
 
-                result.Slides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id)
-                .Where(x => x.PublishToday()
-                    //1.0.5 all with Alc
-                    //Set catalogsettings.ignoreacl = True to use ALC
-                    //&& ((customerRoleIds.Except(_aclService.GetCustomerRoleIdsWithAccess(x).ToList()).ToList().Count < customerRoleIds.Count) || (_aclService.GetCustomerRoleIdsWithAccess(x).ToList().Count == 0)))
-                    && (_aclService.Authorize(x)))
-                .OrderBy(x => x.DisplayOrder).Select(slide =>
-                {
-                    var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, _workContext.WorkingLanguage.Id, true, false);
+            //return empty page if widget zone aren't authorized
+            if (!_aclService.Authorize(widget))
+                return Content(string.Empty);
 
-                    return new PublicInfoModel.PublicSlideModel()
-                    {
-                        Picture = _pictureService.GetPictureUrl(pictureId.GetValueOrDefault(0)),
-                        Description = _localizationService.GetLocalized(slide, z => z.Description, _workContext.WorkingLanguage.Id),
-                        Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, _workContext.WorkingLanguage.Id)
-                    };
-                }).ToList();
-                return result;
-            });
+            //return nothing if widget zone aren't authorized in current store
+            if (!_storeMappingService.Authorize(widget))
+                return Content(string.Empty);
+
+            //return empty result, if widget zone has no published slides
+            var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
+            if (!slides.Any())
+                return Content(string.Empty);
+
+            var model = _publicModelFactory.PrepareWidgetZoneModel(widget);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Public/PublicInfo.cshtml", model);
         }

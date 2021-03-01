@@ -12,7 +12,6 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-
 using Nop.Core.Caching;
 using Nop.Core.Domain.Configuration;
 using Nop.Core.Events;
@@ -37,7 +36,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache
         /// {2} : short date. Cache key will be actual only one day
         /// {3} : customer roles(coma separated)
         /// </remarks>
-        public static CacheKey PICTURE_URL_MODEL_KEY = new CacheKey("qbo-slider-publicinfo-{0}-{1}-{2}-{3}", PICTURE_URL_PATTERN_KEY);
+        public static CacheKey PICTURE_URL_MODEL_KEY = new CacheKey("qbo-slider-publicinfo-{0}-{1}-{2}-{3}-{4}");
         public const string PICTURE_URL_PATTERN_KEY = "Nop.plugins.widgets.qBoSlider";
 
         private readonly IStaticCacheManager _staticCacheManager;

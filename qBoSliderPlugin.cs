@@ -1,18 +1,3 @@
-//Copyright 2020 Alexey Prokhorov
-
-//Licensed under the Apache License, Version 2.0 (the "License");
-//you may not use this file except in compliance with the License.
-//You may obtain a copy of the License at
-
-//    http://www.apache.org/licenses/LICENSE-2.0
-
-//Unless required by applicable law or agreed to in writing, software
-//distributed under the License is distributed on an "AS IS" BASIS,
-//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//See the License for the specific language governing permissions and
-//limitations under the License.
-
-
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
@@ -20,6 +5,7 @@ using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Media;
 using Nop.Services.Security;
+using Nop.Services.Stores;
 using Nop.Web.Framework.Menu;
 using System;
 using System.Collections.Generic;
@@ -35,12 +21,16 @@ namespace Nop.Plugin.Widgets.qBoSlider
     {
         #region Fields
 
+        private readonly IAclService _aclService;
+        private readonly IGarbageManager _garbageManager;
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
         private readonly ISlideService _slideService;
-
+        private readonly IStoreMappingService _storeMappingService;
         private readonly IWebHelper _webHelper;
+        private readonly IWidgetZoneService _widgetZoneService;
+        private readonly IWidgetZoneSlideService _widgetZoneSlideService;
 
         private readonly IStoreContext _storeContext;
 
@@ -48,21 +38,30 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Constructor
 
-        public qBoSliderPlugin(IPermissionService permissionService,
+        public qBoSliderPlugin(IAclService aclService,
+            IGarbageManager garbageManager,
+            IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
             ISlideService slideService,
+            IStoreMappingService storeMappingService,
             IWebHelper webHelper,
+            IWidgetZoneService widgetZoneService,
+            IWidgetZoneSlideService widgetZoneSlideService,
             IStoreContext storeContext)
         {
-            this._permissionService = permissionService;
-            this._pictureService = pictureService;
-            this._settingService = settingService;
-            this._slideService = slideService;
-            
-            this._webHelper = webHelper;
+            _aclService = aclService;
+            _garbageManager = garbageManager;
+            _permissionService = permissionService;
+            _pictureService = pictureService;
+            _settingService = settingService;
+            _slideService = slideService;
+            _storeMappingService = storeMappingService;
+            _webHelper = webHelper;
+            _widgetZoneService = widgetZoneService;
+            _widgetZoneSlideService = widgetZoneSlideService;
 
-            this._storeContext = storeContext;
+            _storeContext = storeContext;
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/qBoSlider/Configure";
+            return $"{_webHelper.GetStoreLocation()}Admin/qBoConfiguration/Configure";
         }
 
         /// <summary>
@@ -88,8 +87,18 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <returns>Widget zones</returns>
         public IList<string> GetWidgetZones()
         {
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(_storeContext.CurrentStore.Id);
-            return new List<string> { settings.WidgetZoneName };
+            //need to prepare all available widget zone names, but we can't call widget zone service in plugin constructor
+            //that's why we use here 'EngineContext'
+            //var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
+
+            //get active widget zones system names
+            var activeWidgetZones = _widgetZoneService.GetWidgetZones();
+            var widgetZoneSystemNames = activeWidgetZones
+                //process only authorized widget zones 
+                .Where(widgetZone => _aclService.Authorize(widgetZone) && _storeMappingService.Authorize(widgetZone))
+                .Select(x => x.SystemName).Distinct().ToList();
+
+            return widgetZoneSystemNames;
         }
 
         /// <summary>
@@ -127,9 +136,27 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 {
                     new SiteMapNode()
                     {
+                        SystemName = "Baroque-qBoSlider-WidgetZone",
+                        Title = "Widget zones",
+                        ControllerName ="qBoWidgetZone",
+                        ActionName = "List",
+                        IconClass = "fa fa-genderless",
+                        Visible = true
+                    },
+                    new SiteMapNode()
+                    {
+                        SystemName = "Baroque-qBoSlider-Slide",
+                        Title = "Slides",
+                        ControllerName ="qBoSlide",
+                        ActionName = "List",
+                        IconClass = "fa fa-genderless",
+                        Visible = true
+                    },
+                    new SiteMapNode()
+                    {
                         SystemName = "Baroque-qBoSlider-Configuration",
                         Title = "Configuration",
-                        ControllerName ="qBoSlider",
+                        ControllerName ="qBoConfiguration",
                         ActionName = "Configure",
                         IconClass = "fa fa-genderless",
                         Visible = true
@@ -148,22 +175,31 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //settings
             var settings = new qBoSliderSettings
             {
-                AutoPlay = true,
-                AutoPlayInterval = 3000,
-                SlideDuration = 500,
-                MinDragOffsetToSlide = 20,
-                SlideSpacing = 0,
-                BulletNavigationDisplay = 2,
-                ArrowNavigationDisplay = 1,
-                WidgetZoneName = "home_page_top"
             };
 
             _settingService.SaveSetting(settings);
 
+            var widgetZone = new WidgetZone()
+            {
+                AutoPlay = true,
+                AutoPlayInterval = 3000,
+                SlideDuration = 500,
+                MinDragOffsetToSlide = 20,
+                MinSlideWidgetZoneWidth = 200,
+                MaxSlideWidgetZoneWidth = 1920,
+                SlideSpacing = 0,
+                BulletNavigationDisplayingTypeId = 2,
+                ArrowNavigationDisplayingTypeId = 1,
+                Name = "Main homepage slider",
+                SystemName = "home_page_top",
+                Published = true
+            };
+            _widgetZoneService.InsertWidgetZone(widgetZone);
+
             //install simple data
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
-            //var slides = _sliderContext.Set<Slide>();
+            var slides = _sliderContext.Set<Slide>();
 
             var picture1 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1").Id;
             var slide1 = new Slide()
@@ -207,6 +243,27 @@ namespace Nop.Plugin.Widgets.qBoSlider
             };
             _slideService.InsertSlide(slide3);
 
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            {
+                SlideId = slide1.Id,
+                WidgetZoneId = widgetZone.Id,
+                DisplayOrder = 0
+            });
+
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            {
+                SlideId = slide2.Id,
+                WidgetZoneId = widgetZone.Id,
+                DisplayOrder = 5
+            });
+
+            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            {
+                SlideId = slide3.Id,
+                WidgetZoneId = widgetZone.Id,
+                DisplayOrder = 10
+            });
+
             base.Install();
         }
 
@@ -217,17 +274,15 @@ namespace Nop.Plugin.Widgets.qBoSlider
         {
             var allSlides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
 
+            //delete slide localization resources and pictures
+            foreach (var slide in allSlides)
+            {
+                _garbageManager.DeleteSlidePicture(slide);
+                _garbageManager.DeleteSlideLocalizedValues(slide);
+            }
+
             //settings
             _settingService.DeleteSetting<qBoSliderSettings>();
-
-            //remove slides from database
-            while (allSlides.Any())
-            {
-                var slide = allSlides[0];
-
-                _slideService.DeleteSlide(slide);
-                allSlides.Remove(slide);
-            }
 
             base.Uninstall();
         }
