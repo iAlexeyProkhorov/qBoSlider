@@ -199,7 +199,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //install simple data
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
-            var slides = _sliderContext.Set<Slide>();
 
             var picture1 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1").Id;
             var slide1 = new Slide()
