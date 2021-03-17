@@ -1,8 +1,3 @@
-Hi everyone. Here is the simple instruction how to use updated qBoSlider. 
-As you can see we change slider configuration page. At now slider configuration page contains only **Switch on static cache** property, but don't panic, other slider configurations you can find at nopCommerce admin panel menu 😉. Just open admin side -> menu -> Plugins -> qBoSlider and you can configure all that you want.
-
-![](https://1drv.ms/u/s!ArjbDezvZ070grM2hwDV5nbCc-A5hg)
-
 ### Installation:
 * Uninstall and remove previous plugin version if you have it. Previous plugin versions aren't compatible with multiwidget zone version;
 * Download plugin archive.
@@ -11,6 +6,11 @@ As you can see we change slider configuration page. At now slider configuration 
 Scroll down through the list of plugins to find the newly installed plugin. And click on the "Install" button to install the plugin.
 * Find plugin in list or at admin area > configuration > widgets and mark plugin as active.
 Congratulations! You're installed qBoSlider. By default slider displays three slides on site homepage.
+
+Hi everyone. Here is the simple instruction how to use updated qBoSlider. 
+As you can see we change slider configuration page. At now slider configuration page contains only **Switch on static cache** property, but don't panic, other slider configurations you can find at nopCommerce admin panel menu 😉. Just open admin side -> menu -> Plugins -> qBoSlider and you can configure all that you want.
+
+![](https://1drv.ms/u/s!ArjbDezvZ070grM2hwDV5nbCc-A5hg)
 
 ## Menu
 The plugin menu contains three points:
