@@ -10,15 +10,15 @@
 
 @{
     const string hideSearchBlockAttributeName = "Baroque.qBoSlider.WidgetZone.HideSearchBlock";
-    var hideSearchBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSearchBlockAttributeName);
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
 }
 
 <nop-antiforgery-token />
 <div class="content-header clearfix">
-    <h1 class="pull-left">
+    <h1 class="float-left">
         @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.List")
     </h1>
-    <div class="pull-right">
+    <div class="float-right">
         <a asp-action="Create" class="btn bg-blue">
             <i class="fa fa-plus-square"></i>
             @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNew")
@@ -27,12 +27,12 @@
     </div>
 </div>
 
-<div class="content">
+<section class="content">
     <div class="form-horizontal">
-        <div class="panel-group">
+        <div class="cards-group">
             @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_WidgetZoneSearch.cshtml", Model)
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card card-default">
+                <div class="card-body">
                     @await Html.PartialAsync("Table", new DataTablesModel()
                {
                    Name = "widget-zone-grid",
@@ -74,4 +74,4 @@
             </div>
         </div>
     </div>
-</div>
+</section>

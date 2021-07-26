@@ -15,6 +15,7 @@
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Localization;
 using Nop.Services.Media;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -50,25 +51,25 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// Delete slide base picture from 'Picture' table.
         /// </summary>
         /// <param name="slide">Slide entitiy</param>
-        public virtual void DeleteSlidePicture(Slide slide)
+        public virtual async Task DeleteSlidePictureAsync(Slide slide)
         {
             //delete slide base picture
-            var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+            var picture = await _pictureService.GetPictureByIdAsync(slide.PictureId.GetValueOrDefault(0));
             if (picture != null)
-                _pictureService.DeletePicture(picture);
+                await _pictureService.DeletePictureAsync(picture);
         }
 
         /// <summary>
         /// Delete slide all localized resources include slide pictures
         /// </summary>
         /// <param name="slide"></param>
-        public virtual void DeleteSlideLocalizedValues(Slide slide)
+        public virtual async Task DeleteSlideLocalizedValuesAsync(Slide slide)
         {
-            var allLanguages = _languageService.GetAllLanguages(true);
+            var allLanguages = await _languageService.GetAllLanguagesAsync(true);
 
             if (allLanguages.Count > 1)
                 foreach (var language in allLanguages)
-                    DeleteSlideLocalizedValues(slide, language.Id);
+                    await DeleteSlideLocalizedValuesAsync(slide, language.Id);
         }
 
         /// <summary>
@@ -76,26 +77,26 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="slide">Slide entitiy</param>
         /// <param name="languageId">Language entitiy unique id number</param>
-        public virtual void DeleteSlideLocalizedValues(Slide slide, int languageId)
+        public virtual async Task DeleteSlideLocalizedValuesAsync(Slide slide, int languageId)
         {
-            var pictureIdLocalizaedValue = _localizedEntityService.GetLocalizedValue(languageId, slide.Id, "Slide", "PictureId");
+            var pictureIdLocalizaedValue = await _localizedEntityService.GetLocalizedValueAsync(languageId, slide.Id, "Slide", "PictureId");
             var isPictureValid = int.TryParse(pictureIdLocalizaedValue, out int localizePictureId);
 
             //delete localized values
-            _localizedEntityService.SaveLocalizedValue(slide, x => x.PictureId, null, languageId);
-            _localizedEntityService.SaveLocalizedValue(slide, x => x.HyperlinkAddress, null, languageId);
-            _localizedEntityService.SaveLocalizedValue(slide, x => x.Description, null, languageId);
+            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.PictureId, null, languageId);
+            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.HyperlinkAddress, null, languageId);
+            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.Description, null, languageId);
 
             //remove localized picture
             if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && isPictureValid)
             {
-                var localizedPicture = _pictureService.GetPictureById(localizePictureId);
+                var localizedPicture = await _pictureService.GetPictureByIdAsync(localizePictureId);
 
                 //go to next picture if current picture aren't exist
                 if (localizedPicture == null)
                     return;
 
-                _pictureService.DeletePicture(localizedPicture);
+                _pictureService.DeletePictureAsync(localizedPicture);
             }
         }
 

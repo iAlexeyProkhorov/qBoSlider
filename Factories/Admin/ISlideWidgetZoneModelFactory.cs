@@ -14,6 +14,7 @@
 
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -27,7 +28,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Widget zone search model</param>
         /// <returns>Slide widget zones list</returns>
-        SlideWidgetZoneSearchModel.WidgetZonePagedList PrepareWidgetZoneList(SlideWidgetZoneSearchModel searchModel);
+        Task<SlideWidgetZoneSearchModel.WidgetZonePagedList> PrepareWidgetZoneListAsync(SlideWidgetZoneSearchModel searchModel);
 
         /// <summary>
         /// Prepare slide widget zones list for 'Add widget zone' model
@@ -41,6 +42,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <returns>Edit slide widget zone model</returns>
-        EditSlideWidgetZoneModel PrepareEditSlideWidgetZoneModel(WidgetZoneSlide widgetZoneSlide);
+        Task<EditSlideWidgetZoneModel> PrepareEditSlideWidgetZoneModelAsync(WidgetZoneSlide widgetZoneSlide);
     }
 }

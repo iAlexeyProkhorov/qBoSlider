@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
@@ -27,22 +27,26 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
     /// </summary>
     public class DependencyRegistrar : IDependencyRegistrar
     {
-        public const string ContextName = "nop_object_context_slide";
-
-        public virtual void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
+        /// <summary>
+        /// Register services and interfaces
+        /// </summary>
+        /// <param name="services">Collection of service descriptors</param>
+        /// <param name="typeFinder">Type finder</param>
+        /// <param name="appSettings">App settings</param>
+        public void Register(IServiceCollection services, ITypeFinder typeFinder, AppSettings appSettings)
         {
-            //associate services
-            builder.RegisterType<SlideService>().As<ISlideService>().InstancePerLifetimeScope();
-            builder.RegisterType<WidgetZoneService>().As<IWidgetZoneService>().InstancePerLifetimeScope();
-            builder.RegisterType<WidgetZoneSlideService>().As<IWidgetZoneSlideService>().InstancePerLifetimeScope();
-            builder.RegisterType<GarbageManager>().As<IGarbageManager>().InstancePerLifetimeScope();
+            //services
+            services.AddScoped<ISlideService, SlideService>();
+            services.AddScoped<IWidgetZoneService, WidgetZoneService>();
+            services.AddScoped<IWidgetZoneSlideService, WidgetZoneSlideService>();
+            services.AddScoped<IGarbageManager, GarbageManager>();
 
             //factories
-            builder.RegisterType<SlideModelFactory>().As<ISlideModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<SlideWidgetZoneModelFactory>().As<ISlideWidgetZoneModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<WidgetZoneModelFactory>().As<IWidgetZoneModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<WidgetZoneSlideModelFactory>().As<IWidgetZoneSlideModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<PublicModelFactory>().As<IPublicModelFactory>().InstancePerLifetimeScope(); 
+            services.AddScoped<ISlideModelFactory, SlideModelFactory>();
+            services.AddScoped<ISlideWidgetZoneModelFactory, SlideWidgetZoneModelFactory>();
+            services.AddScoped<IWidgetZoneModelFactory, WidgetZoneModelFactory>();
+            services.AddScoped<IWidgetZoneSlideModelFactory, WidgetZoneSlideModelFactory>();
+            services.AddScoped<IPublicModelFactory, PublicModelFactory>();
         }
 
         public int Order

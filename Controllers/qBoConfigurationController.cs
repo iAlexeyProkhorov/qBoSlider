@@ -22,6 +22,7 @@ using Nop.Services.Security;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -62,13 +63,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Methods
 
-        public virtual IActionResult Configure()
+        public virtual async Task<IActionResult> Configure()
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeScope);
 
             var model = new ConfigurationModel()
             {
@@ -80,24 +81,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult Configure(ConfigurationModel model)
+        public virtual async Task<IActionResult> Configure(ConfigurationModel model)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(storeScope);
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeScope);
 
             settings.UseStaticCache = model.UseStaticCache;
 
-            _settingService.SaveSetting(settings, storeScope);
+            await _settingService.SaveSettingAsync(settings, storeScope);
 
             //now clear settings cache
-            _settingService.ClearCache();
+            await _settingService.ClearCacheAsync();
 
-            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
 
-            return Configure();
+            return await Configure();
         }
 
         #endregion

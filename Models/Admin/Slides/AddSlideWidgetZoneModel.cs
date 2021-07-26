@@ -20,7 +20,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represents add widget zone for slide editing
     /// </summary>
-    public class AddSlideWidgetZoneModel : BaseSearchModel, IWidgetZoneSearchModel
+    public record AddSlideWidgetZoneModel : BaseSearchModel, IWidgetZoneSearchModel
     {
         /// <summary>
         /// Gets or sets slide entity id
@@ -42,7 +42,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// </summary>
         public IList<int> SelectedWidgetZoneIds { get; set; } = new List<int>();
 
-        public class WidgetZonePagedList: BasePagedListModel<WidgetZoneModel>
+        public record WidgetZonePagedList: BasePagedListModel<WidgetZoneModel>
         {
 
         }
@@ -50,7 +50,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Represents widget zone model for slide editing
         /// </summary>
-        public class WidgetZoneModel : BaseNopEntityModel, ISlideWidgetZoneModel
+        public record WidgetZoneModel : BaseNopEntityModel, ISlideWidgetZoneModel
         {
             /// <summary>
             /// Gets or sets widget zone friendly name

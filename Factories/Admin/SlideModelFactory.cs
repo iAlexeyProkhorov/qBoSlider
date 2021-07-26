@@ -25,6 +25,7 @@ using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -76,13 +77,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="slide">Slide entity</param>
         /// <returns>Slide list model</returns>
-        protected virtual SlideSearchModel.SlideListItemModel PrepareSlideListItem(Slide slide)
+        protected virtual async Task<SlideSearchModel.SlideListItemModel> PrepareSlideListItemAsync(Slide slide)
         {
-            var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+            var picture = await _pictureService.GetPictureByIdAsync(slide.PictureId.GetValueOrDefault(0));
             return new SlideSearchModel.SlideListItemModel()
             {
                 Id = slide.Id,
-                Picture = _pictureService.GetPictureUrl(picture.Id, 300),
+                Picture = await _pictureService.GetPictureUrlAsync(picture.Id, 300),
                 Hyperlink = slide.HyperlinkAddress,
                 StartDateUtc = slide.StartDateUtc,
                 EndDateUtc = slide.EndDateUtc,
@@ -99,12 +100,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="slide">Slide entity</param>
         /// <param name="model">Slide model</param>
-        public virtual void PrepareStoreMapping(SlideModel model, Slide slide)
+        public virtual async Task PrepareStoreMappingAsync(SlideModel model, Slide slide)
         {
             if (model == null)
                 throw new ArgumentNullException("model");
 
-            model.AvailableStores = _storeService.GetAllStores().Select(x =>
+            model.AvailableStores = (await _storeService.GetAllStoresAsync()).Select(x =>
             {
                 return new SelectListItem()
                 {
@@ -114,7 +115,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             }).OrderBy(x => x.Text).ToList();
 
             if (slide != null)
-                model.SelectedStoreIds = _storeMappingService.GetStoresIdsWithAccess(slide).ToList();
+                model.SelectedStoreIds = (await _storeMappingService.GetStoresIdsWithAccessAsync(slide)).ToList();
         }
 
         /// <summary>
@@ -123,15 +124,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="model">Slide model</param>
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties"></param>
-        public virtual void PrepareAclModel(SlideModel model, Slide slide, bool excludeProperties)
+        public virtual async Task PrepareAclModelAsync(SlideModel model, Slide slide, bool excludeProperties)
         {
             if (model == null)
                 throw new ArgumentNullException("model");
 
             if (!excludeProperties && slide != null)
-                model.SelectedCustomerRoleIds = _aclService.GetCustomerRoleIdsWithAccess(slide).ToList();
+                model.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(slide)).ToList();
 
-            var allRoles = _customerService.GetAllCustomerRoles(true);
+            var allRoles = await _customerService.GetAllCustomerRolesAsync(true);
             foreach (var role in allRoles)
             {
                 model.AvailableCustomerRoles.Add(new SelectListItem
@@ -148,18 +149,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Slide search model</param>
         /// <returns>Slide paged list model</returns>
-        public virtual SlideSearchModel.SlidePagedListModel PrepareSlideListPagedModel(SlideSearchModel searchModel)
+        public virtual async Task<SlideSearchModel.SlidePagedListModel> PrepareSlideListPagedModelAsync(SlideSearchModel searchModel)
         {
-            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-            var gridModel = new SlideSearchModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
+            var slides = await _slideService.GetAllSlidesAsync(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var gridModel = await new SlideSearchModel.SlidePagedListModel().PrepareToGridAsync(searchModel, slides, () =>
             {
-                return slides.Select(slide =>
+                return slides.SelectAwait(async slide =>
                 {
                     var pictureId = slide.PictureId.GetValueOrDefault(0);
                     return new SlideSearchModel.SlideListItemModel()
                     {
                         Id = slide.Id,
-                        Picture = _pictureService.GetPictureUrl(pictureId, 300),
+                        Picture = await _pictureService.GetPictureUrlAsync(pictureId, 300),
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
@@ -178,7 +179,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties">Prepare localized values or not</param>
         /// <returns>Slide model</returns>
-        public virtual SlideModel PrepareSlideModel(SlideModel model, Slide slide, bool excludeProperties = false)
+        public virtual async Task<SlideModel> PrepareSlideModelAsync(SlideModel model, Slide slide, bool excludeProperties = false)
         {
             Action<SlideLocalizedModel, int> localizedModelConfiguration = null;
 
@@ -193,23 +194,23 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 model.Published = slide.Published;
 
                 //define localized model configuration action
-                localizedModelConfiguration = (locale, languageId) =>
+                localizedModelConfiguration = async (locale, languageId) =>
                 {
-                    locale.PictureId = _localizationService.GetLocalized(slide, x => x.PictureId, languageId, false, false).GetValueOrDefault(0);
-                    locale.Description = _localizationService.GetLocalized(slide, entity => entity.Description, languageId, false, false);
-                    locale.Hyperlink = _localizationService.GetLocalized(slide, entity => entity.HyperlinkAddress, languageId, false, false);
+                    locale.PictureId = (await _localizationService.GetLocalizedAsync(slide, x => x.PictureId, languageId, false, false)).GetValueOrDefault(0);
+                    locale.Description = await _localizationService.GetLocalizedAsync(slide, entity => entity.Description, languageId, false, false);
+                    locale.Hyperlink = await _localizationService.GetLocalizedAsync(slide, entity => entity.HyperlinkAddress, languageId, false, false);
                 };
             }
 
             //prepare slide store mappings
-            PrepareStoreMapping(model, slide);
+            await PrepareStoreMappingAsync(model, slide);
 
             //prepare slide ACL
-            PrepareAclModel(model, slide, false);
+            await PrepareAclModelAsync(model, slide, false);
 
             //prepare localized models
             if (!excludeProperties)
-                model.Locales = _localizedModelFactory.PrepareLocalizedModels(localizedModelConfiguration);
+                model.Locales = await _localizedModelFactory.PrepareLocalizedModelsAsync(localizedModelConfiguration);
 
             //prepare model widget zone search
             model.WidgetZoneSearchModel.SetGridPageSize();

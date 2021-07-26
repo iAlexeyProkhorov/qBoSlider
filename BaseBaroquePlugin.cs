@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace Nop.Plugin.Widgets.qBoSlider
@@ -30,7 +31,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
         private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
 
-        private readonly FileInfo _originalAssemblyFile;
+        #endregion
+
+        #region Properties
+
+        public FileInfo _originalAssemblyFile { get; private set; }
 
         #endregion
 
@@ -51,15 +56,15 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Utilites
 
-        /// <summary>
-        /// Generate localization file path by language culture
-        /// </summary>
-        /// <param name="culture">Language culture. For example 'en-US'</param>
-        /// <returns>Localization Xml file path</returns>
-        protected string GenerateLocalizationXmlFilePathByCulture(string culture = "en-US")
-        {
-            string fileName = string.Format("localization.{0}.xml", culture);
-            string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}\\Content\\";
+            /// <summary>
+            /// Generate localization file path by language culture
+            /// </summary>
+            /// <param name="culture">Language culture. For example 'en-US'</param>
+            /// <returns>Localization Xml file path</returns>
+            protected string GenerateLocalizationXmlFilePathByCulture(string culture = "en-US")
+            {
+                string fileName = string.Format("localization.{0}.xml", culture);
+                string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}\\Content\\";
 
             return $"{contentDirectoryPath}{fileName}";
         }
@@ -69,7 +74,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         protected virtual void InstallLocalization()
         {
-            var allLanguages = _languageService.GetAllLanguages();
+            var allLanguages = _languageService.GetAllLanguagesAsync().GetAwaiter().GetResult();
             var language = allLanguages.FirstOrDefault();
 
             //if shop have no available languages method generate exception
@@ -90,7 +95,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 {
                     using (var sr = new StreamReader(stream, Encoding.UTF8))
                     {
-                        _localizationService.ImportResourcesFromXml(l, sr);
+                        _localizationService.ImportResourcesFromXmlAsync(l, sr);
                     }
                 }
             }
@@ -113,17 +118,17 @@ namespace Nop.Plugin.Widgets.qBoSlider
             {
                 using (var sr = new StreamReader(stream, Encoding.UTF8))
                 {
-                    string result = sr.ReadToEnd();
-                    XmlDocument xLang = new XmlDocument();
+                    var result = sr.ReadToEnd();
+                    var xLang = new XmlDocument();
                     xLang.LoadXml(result);
 
                     //get localization keys
-                    XmlNodeList xNodeList = xLang.SelectNodes("Language/LocaleResource");
+                    var xNodeList = xLang.SelectNodes("Language/LocaleResource");
                     foreach (XmlNode elem in xNodeList)
                         if (elem.Name == "LocaleResource")
                         {
                             var localResource = elem.Attributes["Name"].Value;
-                            _localizationService.DeletePluginLocaleResource(localResource);
+                            _localizationService.DeleteLocaleResourceAsync(localResource);
                         }
                 }
             }
@@ -133,18 +138,21 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
         #region Methods
 
-        public override void Install()
+        public override async Task InstallAsync()
         {
-            this.InstallLocalization();
-            base.Install();
+
+            InstallLocalization();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+
+        public override async Task UninstallAsync()
         {
-            this.UninstallLocalization();
-            base.Uninstall();
+            UninstallLocalization();
+            await base.UninstallAsync();
         }
 
         #endregion
     }
 }
+

@@ -8,7 +8,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
     /// <summary>
     /// Represents widget zone slide model
     /// </summary>
-    public class WidgetZoneSlideModel : BaseNopEntityModel, ILocalizedModel<WidgetZoneSlideModel.LocalizationModel>
+    public record WidgetZoneSlideModel : BaseNopEntityModel, ILocalizedModel<WidgetZoneSlideModel.LocalizationModel>
     {
         /// <summary>
         /// Gets or sets slide picture id number

@@ -26,18 +26,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Mapping.Builders
     {
         public override void MapEntity(CreateTableExpressionBuilder builder)
         {
-            //builder.HasKey(x => x.Id);
-            //builder.ToTable("Baroque_qBoSlider_WidgetZone_Slide_Mapping");
-
-            //builder.HasOne(x => x.Slide)
-            //    .WithMany()
-            //    .HasForeignKey(x => x.SlideId)
-            //    .IsRequired();
-
-            //builder.HasOne(x => x.WidgetZone)
-            //    .WithMany(wz => wz.WidgetZoneSlides)
-            //    .HasForeignKey(x => x.WidgetZoneId)
-            //    .IsRequired();
             builder
                 .WithColumn(nameof(WidgetZoneSlide.OverrideDescription)).AsString().Nullable();
             builder

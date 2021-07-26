@@ -8,7 +8,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represents slide widget zone editing model
     /// </summary>
-    public class EditSlideWidgetZoneModel : BaseNopEntityModel, ILocalizedModel<EditSlideWidgetZoneModel.LocalizationModel>
+    public record EditSlideWidgetZoneModel : BaseNopEntityModel, ILocalizedModel<EditSlideWidgetZoneModel.LocalizationModel>
     {
         /// <summary>
         /// Gets or sets slide id number

@@ -8,7 +8,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
     /// <summary>
     /// Represents widget zone admin side model
     /// </summary>
-    public partial class WidgetZoneModel : BaseNopEntityModel
+    public partial record WidgetZoneModel : BaseNopEntityModel
     {
         /// <summary>
         /// Gets or sets the widget zone name
@@ -73,7 +73,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Gets or sets list of available slider arrow navigation types
         /// </summary>
-        public IList<SelectListItem> AvailableArrowNavigations { get; set; } = new List<SelectListItem>();
+        public SelectList AvailableArrowNavigations { get; set; } = new SelectList(new List<SelectListItem>());
 
         /// <summary>
         /// Gets or sets bullet navigation displaying type id
@@ -84,7 +84,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Gets or sets list of available slider bullet navigation types
         /// </summary>
-        public IList<SelectListItem> AvailableBulletNavigations { get; set; } = new List<SelectListItem>();
+        public SelectList AvailableBulletNavigations { get; set; } = new SelectList(new List<SelectListItem>());
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.

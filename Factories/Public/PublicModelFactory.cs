@@ -19,7 +19,6 @@ using Nop.Plugin.Widgets.qBoSlider.Extensions;
 using Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache;
 using Nop.Plugin.Widgets.qBoSlider.Models.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
-using Nop.Services.Caching;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
@@ -28,6 +27,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -40,7 +40,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Fields
 
         private readonly IAclService _aclService;
-        private readonly ICacheKeyService _cacheKeyService;
         private readonly ICustomerService _customerService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
@@ -59,7 +58,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         #region Constructor
 
         public PublicModelFactory(IAclService aclService,
-            ICacheKeyService cacheKeyService,
             ICustomerService customerService,
             ILocalizationService localizationService,
             IPictureService pictureService,
@@ -73,7 +71,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             IWorkContext workContext)
         {
             _aclService = aclService;
-            _cacheKeyService = cacheKeyService;
             _customerService = customerService;
             _localizationService = localizationService;
             _pictureService = pictureService;
@@ -98,21 +95,21 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Slide model</returns>
-        protected virtual WidgetZoneModel.SlideModel PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
+        protected virtual async Task<WidgetZoneModel.SlideModel> PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
         {
-            var pictureId = _localizationService.GetLocalized(slide, z => z.PictureId, languageId, true, false);
+            var pictureId = await _localizationService.GetLocalizedAsync(slide, z => z.PictureId, languageId, true, false);
 
             return new WidgetZoneModel.SlideModel()
             {
                 Id = slide.Id,
-                PictureUrl = _pictureService.GetPictureUrl(pictureId.GetValueOrDefault(0)),
-                Description = !string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, languageId) :
-                _localizationService.GetLocalized(slide, z => z.Description, languageId),
-                Hyperlink = _localizationService.GetLocalized(slide, z => z.HyperlinkAddress, languageId)
+                PictureUrl = await _pictureService.GetPictureUrlAsync(pictureId.GetValueOrDefault(0)),
+                Description = !string.IsNullOrEmpty(widgetZoneSlide.OverrideDescription) ? await _localizationService.GetLocalizedAsync(widgetZoneSlide, x => x.OverrideDescription, languageId) :
+                await _localizationService.GetLocalizedAsync(slide, z => z.Description, languageId),
+                Hyperlink = await _localizationService.GetLocalizedAsync(slide, z => z.HyperlinkAddress, languageId)
             };
         }
 
-        protected virtual WidgetZoneModel PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
+        protected virtual async Task<WidgetZoneModel> PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
         {
             //prepare slider model
             var model = new WidgetZoneModel()
@@ -133,23 +130,23 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
             foreach (var widgetSlide in widgetZoneSlides)
             {
-                var slide = _slideService.GetSlideById(widgetSlide.SlideId);
+                var slide = await _slideService.GetSlideByIdAsync(widgetSlide.SlideId);
 
                 //don't display unpublished slides
                 if (!slide.Published)
                     continue;
 
                 var today = slide.PublishToday();
-                var acl = _aclService.Authorize(slide);
-                var store = _storeMappingService.Authorize(slide, storeId);
+                var acl = await _aclService.AuthorizeAsync(slide);
+                var store = await _storeMappingService.AuthorizeAsync(slide, storeId);
 
                 //don't display slides, which shouldn't displays today or not authorized via ACL or not authorized in store
-                var display = slide.PublishToday() && _aclService.Authorize(slide) && _storeMappingService.Authorize(slide, storeId);
+                var display = slide.PublishToday() && acl && store;
                 if (!display)
                     continue;
 
                 //prepare slide model
-                var slideModel = PrepareSlideModel(widgetSlide, slide, languageId);
+                var slideModel = await PrepareSlideModel(widgetSlide, slide, languageId);
 
                 //add slide model to slider
                 model.Slides.Add(slideModel);
@@ -167,12 +164,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Widget zone model</returns>
-        public virtual WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone)
+        public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone)
         {
-            var languageId = _workContext.WorkingLanguage.Id;
-            var storeId = _storeContext.CurrentStore.Id;
+            var languageId = (await _workContext.GetWorkingLanguageAsync()).Id;
+            var storeId = _storeContext.GetCurrentStore().Id;
 
-            return PrepareWidgetZoneModel(widgetZone, languageId, storeId);
+            return await PrepareWidgetZoneModelAsync(widgetZone, languageId, storeId);
         }
 
         /// <summary>
@@ -182,25 +179,25 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="storeId">Store id number</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Widget zone model</returns>
-        public virtual WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone, int languageId, int storeId)
+        public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone, int languageId, int storeId)
         {
             if (widgetZone == null)
                 throw new Exception("Widget zone can't be null");
 
-            var settings = _settingService.LoadSetting<qBoSliderSettings>(storeId);
+            var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeId);
 
             //1.0.5 all with Alc
-            var customer = _workContext.CurrentCustomer;
-            var customerRoles = _customerService.GetCustomerRoleIds(customer);
+            var customer = await _workContext.GetCurrentCustomerAsync();
+            var customerRoles = await _customerService.GetCustomerRolesAsync(customer);
             var customerRolesString = string.Join(",", customerRoles);
 
             //prepare widget zone model with slide and prepare cache key to load slider faster next time
-            var cacheKey = _cacheKeyService.PrepareKey(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, widgetZone.Id, languageId, storeId, DateTime.UtcNow.ToShortDateString(), customerRolesString);
+            var cacheKey = _staticCacheManager.PrepareKeyForDefaultCache(ModelCacheEventConsumer.PICTURE_URL_MODEL_KEY, widgetZone.Id, languageId, storeId, DateTime.UtcNow.ToShortDateString(), customerRolesString);
             //load model from cache or process it
-            var model = settings.UseStaticCache ? _staticCacheManager.Get(cacheKey, () =>
+            var model = settings.UseStaticCache ?  await _staticCacheManager.GetAsync(cacheKey, async () =>
             {
-                return PrepareSliderModel(widgetZone, languageId, storeId);
-            }) : PrepareSliderModel(widgetZone, languageId, storeId);
+                return await PrepareSliderModel(widgetZone, languageId, storeId);
+            }) : await PrepareSliderModel(widgetZone, languageId, storeId);
 
             return model;
         }

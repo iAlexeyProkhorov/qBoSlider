@@ -31,12 +31,12 @@ else
                 &nbsp;
             </div>
         </div>
-        <div class="content">
+        <section class="content">
             <div class="form-horizontal">
-                <div class="panel-group">
+                <div class="cards-group">
                     @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_WidgetZoneSearch.cshtml", Model)
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+                    <div class="card card-default">
+                        <div class="card-body">
                             @await  Html.PartialAsync("Table", new DataTablesModel
                        {
                            Name = "widget-zones-grid",
@@ -79,15 +79,15 @@ else
                                    }
                        })
                         </div>
-                        <div class="panel-footer">
-                            <button type="submit" name="save" class="btn bg-blue">
-                                <i class="fa fa-floppy-o"></i>
+                        <div class="card-footer">
+                            <button type="submit" name="save" class="btn btn-primary">
+                                <i class="far fa-save"></i>
                                 @T("Admin.Common.Save")
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </form>
 }

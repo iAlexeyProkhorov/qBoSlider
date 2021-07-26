@@ -3,7 +3,7 @@
     var route = new Microsoft.AspNetCore.Routing.RouteValueDictionary();
     route.Add("WidgetZoneId", Model.Id);
 }
-<div class="panel-body">
+<div class="card-body">
     @await Html.PartialAsync("Table", new DataTablesModel()
 {
     Name = "widget-zone-slides-grid",
@@ -55,7 +55,7 @@
        }
 })
 </div>
-<div class="panel-footer">
+<div class="card-footer">
     <button type="submit" id="btnAddNewOption" onclick="javascript:OpenWindow('@(Url.Action("AddWidgetZoneSlidePopup", "qBoWidgetZone", new { widgetZoneId = Model.Id, btnId = "btnRefresh", formId = "widget-zone-form" }))', 1000, 800, true); return false;" class="btn btn-primary">
         @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AddNewSlide")
     </button>
@@ -75,6 +75,6 @@
 
 <script>
             function renderColumnEdit(data, type, row, meta) {
-                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/qBoWidgetZone/EditWidgetZoneSlidePopup/")' + data + '?btnId=btnRefresh&formId=widget-zone-form\', 800, 450, true); return false;\" class="btn btn-default"><i class="fa fa-pencil"></i>@T("Admin.Common.Edit")</button>';
+                return '<button onclick=\"javascript:OpenWindow(\'@Url.Content("~/Admin/qBoWidgetZone/EditWidgetZoneSlidePopup/")' + data + '?btnId=btnRefresh&formId=widget-zone-form\', 800, 450, true); return false;\" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.Common.Edit")</button>';
             }
 </script>

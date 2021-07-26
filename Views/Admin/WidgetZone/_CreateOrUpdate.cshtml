@@ -2,39 +2,41 @@
 
 @{
     const string hideInfoBlockAttributeName = "Baroque.qBoSlider.Admin.WidgetZone.HideInfoBlock";
-    var hideInfoBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideInfoBlockAttributeName);
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideInfoBlockAttributeName);
 
     const string hideSlidesBlockAttributeName = "Baroque.qBoSlider.Admin.WidgetZone.HideSlidesBlock";
-    var hideSlidesBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideSlidesBlockAttributeName);
+    var hideSlidesBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSlidesBlockAttributeName);
 
     const string hideMappingsBlockAttributeName = "Baroque.qBoSlider.Admin.WidgetZone.HideMappingsBlock";
-    var hideMappingsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideMappingsBlockAttributeName);
+    var hideMappingsBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideMappingsBlockAttributeName);
 }
 
 <div asp-validation-summary="All"></div>
 <input asp-for="Id" type="hidden" />
 
-<div class="content">
-    <div class="form-horizontal">
-        <nop-panels id="widget-zone-panel">
-            <nop-panel asp-name="info-panel" asp-icon="fa fa-info" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">
-                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Info.cshtml", Model)
-            </nop-panel>
-            <nop-panel asp-name="slides-panel" asp-icon="fa fa-th-list panel-icon" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Slides")" asp-hide-block-attribute-name="@hideSlidesBlockAttributeName" asp-hide="@hideSlidesBlock">
-                @if (Model.Id > 0)
-                {
-                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Slides.cshtml", Model)
-                }
-                else
-                {
-                    <div class="panel-body">
-                        @T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.YouCanAddSlidesToThisWidgetZoneAfterSaving")
-                    </div>
-                }
-            </nop-panel>
-            <nop-panel asp-name="mappings-panel" asp-icon="fa fa-bookmark panel-icon" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Mappings")" asp-hide-block-attribute-name="@hideMappingsBlockAttributeName" asp-hide="@hideMappingsBlock">
-                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Mappings.cshtml", Model)
-            </nop-panel>
-        </nop-panels>
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <nop-cards id="widget-zone-card">
+                <nop-card asp-name="info-card" asp-icon="fa fa-info" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">
+                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Info.cshtml", Model)
+                </nop-card>
+                <nop-card asp-name="slides-card" asp-icon="fa fa-th-list card-icon" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Slides")" asp-hide-block-attribute-name="@hideSlidesBlockAttributeName" asp-hide="@hideSlidesBlock">
+                    @if (Model.Id > 0)
+                    {
+                        @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Slides.cshtml", Model)
+                    }
+                    else
+                    {
+                        <div class="card-body">
+                            @T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.YouCanAddSlidesToThisWidgetZoneAfterSaving")
+                        </div>
+                    }
+                </nop-card>
+                <nop-card asp-name="mappings-card" asp-icon="fa fa-bookmark card-icon" asp-title="@T("Nop.Plugin.Baroque.Widgets.qBoSlide.Admin.WidgetZone.Mappings")" asp-hide-block-attribute-name="@hideMappingsBlockAttributeName" asp-hide="@hideMappingsBlock">
+                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/_CreateOrUpdate.Mappings.cshtml", Model)
+                </nop-card>
+            </nop-cards>
+        </div>
     </div>
-</div>
+</section>

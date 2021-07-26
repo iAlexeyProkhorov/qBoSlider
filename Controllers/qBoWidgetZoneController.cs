@@ -30,6 +30,7 @@ using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -99,10 +100,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         /// </summary>
         /// <param name="model">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        protected virtual void SaveWidgetZoneAcl(WidgetZoneModel model, WidgetZone widgetZone)
+        protected virtual async Task SaveWidgetZoneAcl(WidgetZoneModel model, WidgetZone widgetZone)
         {
-            var existingAclRecords = _aclService.GetAclRecords(widgetZone);
-            var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
+            var existingAclRecords = await _aclService.GetAclRecordsAsync(widgetZone);
+            var allCustomerRoles = await _customerService.GetAllCustomerRolesAsync(true);
 
             //processing customer roles dependencies
             foreach (var customerRole in allCustomerRoles)
@@ -111,14 +112,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 {
                     //add new role dependecy
                     if (existingAclRecords.Count(acl => acl.CustomerRoleId == customerRole.Id) == 0)
-                        _aclService.InsertAclRecord(widgetZone, customerRole.Id);
+                        await _aclService.InsertAclRecordAsync(widgetZone, customerRole.Id);
                 }
                 else
                 {
                     //remove role dependency
                     var aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
                     if (aclRecordToDelete != null)
-                        _aclService.DeleteAclRecord(aclRecordToDelete);
+                        await _aclService.DeleteAclRecordAsync(aclRecordToDelete);
                 }
             }
         }
@@ -128,10 +129,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         /// </summary>
         /// <param name="model">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        protected virtual void SaveWidgetZoneStoreMappings(WidgetZoneModel model, WidgetZone widgetZone)
+        protected virtual async Task SaveWidgetZoneStoreMappings(WidgetZoneModel model, WidgetZone widgetZone)
         {
-            var existingStoreMappings = _storeMappingService.GetStoreMappings(widgetZone);
-            var allStores = _storeService.GetAllStores();
+            var existingStoreMappings = await _storeMappingService.GetStoreMappingsAsync(widgetZone);
+            var allStores = await _storeService.GetAllStoresAsync();
 
             //process store mappings
             foreach (var store in allStores)
@@ -140,14 +141,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 {
                     //add new store mapping
                     if (existingStoreMappings.Count(sm => sm.StoreId == store.Id) == 0)
-                        _storeMappingService.InsertStoreMapping(widgetZone, store.Id);
+                        await _storeMappingService.InsertStoreMappingAsync(widgetZone, store.Id);
                 }
                 else
                 {
                     //remove store mapping
                     var storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
                     if (storeMappingToDelete != null)
-                        _storeMappingService.DeleteStoreMapping(storeMappingToDelete);
+                        await _storeMappingService.DeleteStoreMappingAsync(storeMappingToDelete);
                 }
             }
         }
@@ -156,10 +157,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Widget Zone
 
-        public virtual IActionResult List()
+        public virtual async Task<IActionResult> List()
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var model = new WidgetZoneSearchModel();
@@ -169,51 +170,51 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult List(WidgetZoneSearchModel searchModel)
+        public virtual async Task<IActionResult> List(WidgetZoneSearchModel searchModel)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedDataTablesJson();
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
 
             var gridModel = _widgetZoneModelFactory.PrepareWidgetZonePagedListModel(searchModel);
 
             return Json(gridModel);
         }
 
-        public virtual IActionResult Create()
+        public virtual async Task<IActionResult> Create()
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var model = new WidgetZoneModel();
 
             //prepare widget zone model
-            _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+            await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
             //prepare widget zone ACL
-            _widgetZoneModelFactory.PrepareAclModel(model, null);
+            await _widgetZoneModelFactory.PrepareAclModelAsync(model, null);
             //prepare widget zone store mappings
-            _widgetZoneModelFactory.PrepareStoreMappings(model, null);
+            await _widgetZoneModelFactory.PrepareStoreMappingsAsync(model, null);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Create.cshtml", model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public virtual IActionResult Create(WidgetZoneModel model, bool continueEditing)
+        public virtual async Task<IActionResult> Create(WidgetZoneModel model, bool continueEditing)
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             //return view if model state isn't valid
             if (!ModelState.IsValid)
             {
                 //prepare model values
-                model = _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+                model = await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
                 //prepare widget zone ACL
-                _widgetZoneModelFactory.PrepareAclModel(model, null);
+                await _widgetZoneModelFactory.PrepareAclModelAsync(model, null);
                 //prepare widget zone store mappings
-                _widgetZoneModelFactory.PrepareStoreMappings(model, null);
+                await _widgetZoneModelFactory.PrepareStoreMappingsAsync(model, null);
 
 
                 return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Create.cshtml", model);
@@ -240,19 +241,19 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             };
 
             //insert new widget zone
-            _widgetZoneService.InsertWidgetZone(widgetZone);
+            await _widgetZoneService.InsertWidgetZoneAsync(widgetZone);
 
             //save acl
-            SaveWidgetZoneAcl(model, widgetZone);
+            await SaveWidgetZoneAcl(model, widgetZone);
 
             //save store mappings
-            SaveWidgetZoneStoreMappings(model, widgetZone);
+            await SaveWidgetZoneStoreMappings(model, widgetZone);
 
             //clear cache
-            _settingService.ClearCache();
+            await _settingService.ClearCacheAsync();
 
             //notify admin
-            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.CreatedSuccessfully"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.CreatedSuccessfully"));
 
             //redirect on widget zone list page if customer don't want's to contiu editing
             if (!continueEditing)
@@ -261,46 +262,46 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return RedirectToAction("Edit", new { id = widgetZone.Id });
         }
 
-        public virtual IActionResult Edit(int id)
+        public virtual async Task<IActionResult> Edit(int id)
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             //get widget zone entity and validate entity existing
-            var widgetZone = _widgetZoneService.GetWidgetZoneById(id);
+            var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(id);
             if (widgetZone == null)
                 throw new Exception($"Widget zone by '{id}' isn't exist.");
 
-            var model = _widgetZoneModelFactory.PrepareWidgetZoneModel(new WidgetZoneModel(), widgetZone);
+            var model = await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(new WidgetZoneModel(), widgetZone);
 
             //prepare widget zone ACL
-            _widgetZoneModelFactory.PrepareAclModel(model, widgetZone);
+            await _widgetZoneModelFactory.PrepareAclModelAsync(model, widgetZone);
             //prepare widget zone store mappings
-            _widgetZoneModelFactory.PrepareStoreMappings(model, widgetZone);
+            await _widgetZoneModelFactory.PrepareStoreMappingsAsync(model, widgetZone);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Edit.cshtml", model);
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        public virtual IActionResult Edit(WidgetZoneModel model, bool continueEditing)
+        public virtual async Task<IActionResult> Edit(WidgetZoneModel model, bool continueEditing)
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             //get widget zone entity and validate entity existing
-            var widgetZone = _widgetZoneService.GetWidgetZoneById(model.Id);
+            var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(model.Id);
             if (widgetZone == null)
                 throw new Exception($"Widget zone by '{model.Id}' isn't exist.");
 
             if (!ModelState.IsValid)
             {
-                _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
+                await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
                 //prepare widget zone ACL
-                _widgetZoneModelFactory.PrepareAclModel(model, widgetZone);
+                await _widgetZoneModelFactory.PrepareAclModelAsync(model, widgetZone);
                 //prepare widget zone store mappings
-                _widgetZoneModelFactory.PrepareStoreMappings(model, widgetZone);
+                await _widgetZoneModelFactory.PrepareStoreMappingsAsync(model, widgetZone);
 
                 return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/Edit.cshtml", model);
             }
@@ -324,43 +325,43 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
 
             //update entity
-            _widgetZoneService.UpdateWidgetZone(widgetZone);
+            await _widgetZoneService.UpdateWidgetZoneAsync(widgetZone);
 
             //save acl
-            SaveWidgetZoneAcl(model, widgetZone);
+            await SaveWidgetZoneAcl(model, widgetZone);
 
             //save store mappings
-            SaveWidgetZoneStoreMappings(model, widgetZone);
+            await SaveWidgetZoneStoreMappings (model, widgetZone);
 
             //clear cache
-            _settingService.ClearCache();
+            await _settingService.ClearCacheAsync();
 
             //notify admin
-            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.ChangedSuccessfully"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.ChangedSuccessfully"));
 
             //redirect on widget zone list page if customer don't want's to contiu editing
             if (!continueEditing)
                 return RedirectToAction("List");
 
-            return Edit(model.Id);
+            return await Edit(model.Id);
         }
 
-        public virtual IActionResult Delete(int id)
+        public virtual async Task<IActionResult> Delete(int id)
         {
             //return access denied page if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             //get widget zone entity and validate entity existing
-            var widgetZone = _widgetZoneService.GetWidgetZoneById(id);
+            var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(id);
             if (widgetZone == null)
                 throw new Exception($"Widget zone by '{id}' isn't exist.");
 
             //delete entity
-            _widgetZoneService.DeleteWidgetZone(widgetZone);
+            await _widgetZoneService.DeleteWidgetZoneAsync(widgetZone);
 
             //notify admin
-            _notificationService.SuccessNotification(_localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.DeletedSuccessfully"));
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.DeletedSuccessfully"));
 
             return RedirectToAction("List");
         }
@@ -372,7 +373,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Json(widgetZones);
         }
 
-        public virtual IActionResult SystemNameReservedWarning(int widgetZoneId, string systemName)
+        public virtual async Task<IActionResult> SystemNameReservedWarning(int widgetZoneId, string systemName)
         {
             if (string.IsNullOrEmpty(systemName))
                 return Json(new { Result = string.Empty });
@@ -385,7 +386,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (widgetZone != null && widgetZone.Id == widgetZoneId)
                 return Json(new { Result = string.Empty });
 
-            return Json(new { Result = _localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.WidgetZoneAlreadyReserved") });
+            return Json(new { Result =await _localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.WidgetZoneAlreadyReserved") });
         }
 
         #endregion
@@ -393,39 +394,39 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         #region Slide List / Edit / Delete
 
         [HttpPost]
-        public virtual IActionResult WidgetZoneSlideList(WidgetZoneSlideSearchModel searchModel)
+        public virtual async Task<IActionResult> WidgetZoneSlideList(WidgetZoneSlideSearchModel searchModel)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedDataTablesJson();
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
 
-            var gridModel = _widgetZoneSlideModelFactory.PrepareSlidePagedListModel(searchModel);
+            var gridModel = await _widgetZoneSlideModelFactory.PrepareSlidePagedListModelAsync(searchModel);
 
             return Json(gridModel);
         }
 
-        public virtual IActionResult EditWidgetZoneSlidePopup(int id)
+        public virtual async Task<IActionResult> EditWidgetZoneSlidePopup(int id)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+            var widgetZoneSlide = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(id);
             if (widgetZoneSlide == null)
                 throw new Exception($"Widget zone slide with '{id}' id aren't exist");
 
-            var model = _widgetZoneSlideModelFactory.PrepareEditWidgetZoneSlideModel(widgetZoneSlide);
+            var model = await _widgetZoneSlideModelFactory.PrepareEditWidgetZoneSlideModelAsync(widgetZoneSlide);
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/EditWidgetZoneSlidePopup.cshtml", model);
         }
 
         [HttpPost]
-        public virtual IActionResult EditWidgetZoneSlidePopup(WidgetZoneSlideModel model)
+        public virtual async Task<IActionResult> EditWidgetZoneSlidePopup(WidgetZoneSlideModel model)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(model.Id);
+            var widgetZoneSlide = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(model.Id);
             if (widgetZoneSlide == null)
                 throw new Exception($"Widget zone slide with '{model.Id}' id aren't exist");
 
@@ -435,30 +436,30 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             //save localizaed values
             foreach (var locale in model.Locales)
-                _localizedEntityService.SaveLocalizedValue(widgetZoneSlide, x => x.OverrideDescription, locale.OverrideDescription, locale.LanguageId);
+                await _localizedEntityService.SaveLocalizedValueAsync(widgetZoneSlide, x => x.OverrideDescription, locale.OverrideDescription, locale.LanguageId);
 
             //update widget zone slide
-            _widgetZoneSlideService.UpdateWidgetZoneSlide(widgetZoneSlide);
+            await _widgetZoneSlideService.UpdateWidgetZoneSlideAsync(widgetZoneSlide);
 
             //close popup window
             ViewBag.RefreshPage = true;
 
-            return EditWidgetZoneSlidePopup(model.Id);
+            return await EditWidgetZoneSlidePopup(model.Id);
         }
 
         [HttpPost]
-        public virtual IActionResult DeleteSlide(int id)
+        public virtual async Task<IActionResult> DeleteSlide(int id)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedDataTablesJson();
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
 
-            var widgetZoneSlide = _widgetZoneSlideService.GetWidgetZoneSlide(id);
+            var widgetZoneSlide = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(id);
 
             if (widgetZoneSlide == null)
                 throw new Exception($"Can't delete widget zone slide, because entity by id '{id}' isn't exist.");
 
-            _widgetZoneSlideService.DeleteWidgetZoneSlide(widgetZoneSlide);
+            await _widgetZoneSlideService.DeleteWidgetZoneSlideAsync(widgetZoneSlide);
 
             return new NullJsonResult();
         }
@@ -467,10 +468,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Add slide to widget zone
 
-        public virtual IActionResult AddWidgetZoneSlidePopup(int widgetZoneId)
+        public virtual async Task<IActionResult> AddWidgetZoneSlidePopup(int widgetZoneId)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
             var model = new AddWidgetZoneSlideModel()
@@ -484,13 +485,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult AddWidgetZoneSlidePopup(AddWidgetZoneSlideModel model)
+        public virtual async Task<IActionResult> AddWidgetZoneSlidePopup(AddWidgetZoneSlideModel model)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var widgetZone = _widgetZoneService.GetWidgetZoneById(model.WidgetZoneId);
+            var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(model.WidgetZoneId);
             if (widgetZone == null)
                 throw new Exception($"Widget zone by id '{model.WidgetZoneId}' aren't exist.");
 
@@ -499,7 +500,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var displayOrder = widgetZoneSlides.Any() ? widgetZoneSlides.Max(x => x.DisplayOrder) : 0;
 
             foreach (var slideId in model.SelecetedSlideIds)
-                _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+                await _widgetZoneSlideService.InsertWidgetZoneSlideAsync(new WidgetZoneSlide()
                 {
                     SlideId = slideId,
                     WidgetZoneId = model.WidgetZoneId,
@@ -507,17 +508,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 });
 
             ViewBag.RefreshPage = true;
-            return AddWidgetZoneSlidePopup(model.WidgetZoneId);
+            return await AddWidgetZoneSlidePopup(model.WidgetZoneId);
         }
 
         [HttpPost]
-        public virtual IActionResult AddSlideList(AddWidgetZoneSlideModel searchModel)
+        public virtual async Task<IActionResult> AddSlideList(AddWidgetZoneSlideModel searchModel)
         {
             //return access denied result if customer has no permissions
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedDataTablesJson();
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
 
-            var gridModel = _widgetZoneSlideModelFactory.PrepareAddWidgetZoneSlideModel(searchModel);
+            var gridModel = await _widgetZoneSlideModelFactory.PrepareAddWidgetZoneSlideModelAsync(searchModel);
 
             return Json(gridModel);
         }

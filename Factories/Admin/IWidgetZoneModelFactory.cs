@@ -14,6 +14,7 @@
 
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -35,20 +36,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="model">Widget zone admin model</param>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Prepared widget zone model</returns>
-        WidgetZoneModel PrepareWidgetZoneModel(WidgetZoneModel model, WidgetZone widgetZone);
+        Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZoneModel model, WidgetZone widgetZone);
 
         /// <summary>
         /// Prepare widget zone ACL model
         /// </summary>
         /// <param name="widgetZoneModel">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        void PrepareAclModel(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone);
+        Task PrepareAclModelAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone);
 
         /// <summary>
         /// Prepare widget zone store mappings
         /// </summary>
         /// <param name="widgetZoneModel">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        void PrepareStoreMappings(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone);
+        Task PrepareStoreMappingsAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone);
     }
 }

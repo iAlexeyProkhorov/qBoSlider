@@ -26,14 +26,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Validators
     {
         public SlideModelValidator(ILocalizationService localizationService)
         {
-            RuleFor(x => x.PictureId).NotEqual(0).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.PictureId.IsRequired"));
+            RuleFor(x => x.PictureId).NotEqual(0).WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.PictureId.IsRequired"));
             RuleFor(x => x.EndDateUtc).Must((model, endDate) =>
             {
                 if (endDate.HasValue && model.StartDateUtc.HasValue && model.StartDateUtc.Value > endDate.Value)
                     return false;
 
                 return true;
-            }).WithMessage(localizationService.GetResource("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EndDateMustBeLaterThanStartDate"));
+            }).WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.EndDateMustBeLaterThanStartDate"));
         }
     }
 }
