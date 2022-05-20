@@ -1,14 +1,22 @@
+#qBoSlider
 Hi everyone👋!
+
 Today I want to present you my small slider project! 
 I had good expirience of work with nopCommerce CMS and sometimes I get multilanguage slider tasks. I work few years and I receive slider task often. nopCommerce plugins marketplace has no free plugin for multilanguage slides. That's why I start work on my own multilanguage slider for nopCommerce.
 
 Today qBoSlider is absolutely free nopCommerce slider with next features:
-1️⃣Create multilanguage slides;
-2️⃣Supports more than one widget zone;
-3️⃣Supports any number of slides and widget zones;
-4️⃣One slide can be used for any widget zones. This feature possible via additional mappings table between slides and widget zones. It's very important if slide has additional display configurations;
-5️⃣Supports nopCommerce multistore system for slides and widget zones. You're can configure individual slides and widget zones for different stores;
-6️⃣Slides has display time configuration. You can configure when your slide will be visible;
+
+  1️⃣ Create multilanguage slides;
+  
+  2️⃣ Supports more than one widget zone;
+  
+  3️⃣ Supports any number of slides and widget zones;
+
+  4️⃣ One slide can be used for any widget zones. This feature possible via additional mappings table between slides and widget zones. It's very important if slide has additional display configurations;
+
+  5️⃣ Supports nopCommerce multistore system for slides and widget zones. You're can configure individual slides and widget zones for different stores;
+
+  6️⃣ Slides has display time configuration. You can configure when your slide will be visible;
 
 ### Installation:
 * Uninstall and remove previous plugin version if you have it. Previous plugin versions aren't compatible with multiwidget zone version;
