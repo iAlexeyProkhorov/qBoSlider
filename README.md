@@ -1,4 +1,4 @@
-#qBoSlider
+# qBoSlider
 Hi everyone👋!
 
 Today I want to present you my small slider project! 
