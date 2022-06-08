@@ -19,7 +19,6 @@ using Nop.Plugin.Widgets.qBoSlider.Domain;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Data
 {
-    [SkipMigrationOnUpdate]
     [NopMigration("2020/05/24 15:33:23:6455432", "Widgets.qBoSlider base schema")]
     public class SchemaMigration : AutoReversingMigration
     {

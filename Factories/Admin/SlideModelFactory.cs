@@ -181,7 +181,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Slide model</returns>
         public virtual async Task<SlideModel> PrepareSlideModelAsync(SlideModel model, Slide slide, bool excludeProperties = false)
         {
-            Action<SlideLocalizedModel, int> localizedModelConfiguration = null;
+            Func<SlideLocalizedModel, int, Task> localizedModelConfiguration = null;
 
             if(slide != null)
             {

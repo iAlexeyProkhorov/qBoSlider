@@ -12,10 +12,10 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
-using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
@@ -25,15 +25,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
     /// <summary>
     /// Represents plugin dependencies
     /// </summary>
-    public class DependencyRegistrar : IDependencyRegistrar
+    public class NopStartup : INopStartup
     {
         /// <summary>
-        /// Register services and interfaces
+        /// Add and configure any of the middleware
         /// </summary>
         /// <param name="services">Collection of service descriptors</param>
-        /// <param name="typeFinder">Type finder</param>
-        /// <param name="appSettings">App settings</param>
-        public void Register(IServiceCollection services, ITypeFinder typeFinder, AppSettings appSettings)
+        /// <param name="configuration">Configuration of the application</param>
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             //services
             services.AddScoped<ISlideService, SlideService>();
@@ -47,6 +46,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             services.AddScoped<IWidgetZoneModelFactory, WidgetZoneModelFactory>();
             services.AddScoped<IWidgetZoneSlideModelFactory, WidgetZoneSlideModelFactory>();
             services.AddScoped<IPublicModelFactory, PublicModelFactory>();
+        }
+
+        /// <summary>
+        /// Configure the using of added middleware
+        /// </summary>
+        /// <param name="application">Builder for configuring an application's request pipeline</param>
+        public void Configure(IApplicationBuilder application)
+        {
+
         }
 
         public int Order
