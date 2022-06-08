@@ -15,8 +15,8 @@
 using Nop.Core;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Services.Events;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -27,18 +27,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
     {
         #region Fields
 
-        private readonly IEventPublisher _eventPublisher;
         private readonly IRepository<WidgetZoneSlide> _widgetZoneSlideRepository;
 
         #endregion
 
         #region Constructor
 
-        public WidgetZoneSlideService(IEventPublisher eventPublisher,
-            IRepository<WidgetZoneSlide> widgetZoneSlideRepository)
+        public WidgetZoneSlideService(IRepository<WidgetZoneSlide> widgetZoneSlideRepository)
         {
-            this._eventPublisher = eventPublisher;
-            this._widgetZoneSlideRepository = widgetZoneSlideRepository;
+            _widgetZoneSlideRepository = widgetZoneSlideRepository;
         }
 
         #endregion
@@ -50,9 +47,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="id">Slide entity id number</param>
         /// <returns>Widget zone entity</returns>
-        public virtual WidgetZoneSlide GetWidgetZoneSlide(int id)
+        public virtual async Task<WidgetZoneSlide> GetWidgetZoneSlideAsync(int id)
         {
-            return _widgetZoneSlideRepository.GetById(id);
+            return await _widgetZoneSlideRepository.GetByIdAsync(id);
         }
 
         /// <summary>
@@ -77,40 +74,34 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
             query = query.OrderBy(x => x.Id);
 
-            return new PagedList<WidgetZoneSlide>(query, pageIndex, pageSize);
+            return new PagedList<WidgetZoneSlide>(query.ToList(), pageIndex, pageSize);
         }
 
         /// <summary>
         /// Insert new widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        public virtual void InsertWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide)
+        public virtual async Task InsertWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide)
         {
-            _widgetZoneSlideRepository.Insert(widgetZoneSlide);
-
-            _eventPublisher.EntityInserted(widgetZoneSlide);
+            await _widgetZoneSlideRepository.InsertAsync(widgetZoneSlide);
         }
 
         /// <summary>
         /// Update widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        public virtual void UpdateWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide)
+        public virtual async Task UpdateWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide)
         {
-            _widgetZoneSlideRepository.Update(widgetZoneSlide);
-
-            _eventPublisher.EntityUpdated(widgetZoneSlide);
+            await _widgetZoneSlideRepository.UpdateAsync(widgetZoneSlide);
         }
 
         /// <summary>
         /// Delete widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        public virtual void DeleteWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide)
+        public virtual async Task DeleteWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide)
         {
-            _widgetZoneSlideRepository.Delete(widgetZoneSlide);
-
-            _eventPublisher.EntityDeleted(widgetZoneSlide);
+            await _widgetZoneSlideRepository.DeleteAsync(widgetZoneSlide);
         }
 
         #endregion

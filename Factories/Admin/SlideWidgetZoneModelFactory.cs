@@ -21,6 +21,7 @@ using Nop.Services.Media;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -70,10 +71,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <typeparam name="TModel">Slide widget zone model interface</typeparam>
         /// <param name="widgetZoneSlide">Widget zone slide</param>
         /// <returns>Slide widget zone model</returns>
-        protected virtual TModel PrepareSlideWidgetZoneModel<TModel>(WidgetZoneSlide widgetZoneSlide) where TModel: BaseNopEntityModel, ISlideWidgetZoneModel, new()
+        protected virtual async Task<TModel> PrepareSlideWidgetZoneModelAsync<TModel>(WidgetZoneSlide widgetZoneSlide) where TModel: BaseNopEntityModel, ISlideWidgetZoneModel, new()
         {
             var model = new TModel();
-            var widgetZone = _widgetZoneService.GetWidgetZoneById(widgetZoneSlide.WidgetZoneId);
+            var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(widgetZoneSlide.WidgetZoneId);
 
             model.Id = widgetZoneSlide.Id;
             model.Name = widgetZone.Name;
@@ -109,15 +110,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Widget zone search model</param>
         /// <returns>Slide widget zones list</returns>
-        public virtual SlideWidgetZoneSearchModel.WidgetZonePagedList PrepareWidgetZoneList(SlideWidgetZoneSearchModel searchModel)
+        public virtual async Task<SlideWidgetZoneSearchModel.WidgetZonePagedList> PrepareWidgetZoneListAsync(SlideWidgetZoneSearchModel searchModel)
         {
             var allSlideWidgetZones = _widgetZoneSlideService.GetWidgetZoneSlides(slideId: searchModel.SlideId);
-            var gridModel = new SlideWidgetZoneSearchModel.WidgetZonePagedList().PrepareToGrid(searchModel, allSlideWidgetZones, () =>
+            var gridModel = await new SlideWidgetZoneSearchModel.WidgetZonePagedList().PrepareToGridAsync(searchModel, allSlideWidgetZones, () =>
             {
-                return allSlideWidgetZones.Select(slideWidgetZone =>
+                return allSlideWidgetZones.SelectAwait(async slideWidgetZone =>
                 {
-                    var widgetZone = _widgetZoneService.GetWidgetZoneById(slideWidgetZone.WidgetZoneId);
-                    return PrepareSlideWidgetZoneModel<SlideWidgetZoneSearchModel.WidgetZoneModel>(slideWidgetZone);
+                    var widgetZone = await _widgetZoneService.GetWidgetZoneByIdAsync(slideWidgetZone.WidgetZoneId);
+                    return await PrepareSlideWidgetZoneModelAsync<SlideWidgetZoneSearchModel.WidgetZoneModel>(slideWidgetZone);
                 });
             });
 
@@ -148,10 +149,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <returns>Edit slide widget zone model</returns>
-        public virtual EditSlideWidgetZoneModel PrepareEditSlideWidgetZoneModel(WidgetZoneSlide widgetZoneSlide)
+        public virtual async Task<EditSlideWidgetZoneModel> PrepareEditSlideWidgetZoneModelAsync(WidgetZoneSlide widgetZoneSlide)
         {
-            var allLanguages = _languageService.GetAllLanguages();
+            var allLanguages = await _languageService.GetAllLanguagesAsync();
             var allWidgetZones = _widgetZoneService.GetWidgetZones();
+
             var model = new EditSlideWidgetZoneModel()
             {
                 Id = widgetZoneSlide.Id,
@@ -173,7 +175,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 model.Locales.Add(new EditSlideWidgetZoneModel.LocalizationModel()
                 {
                     LanguageId = language.Id,
-                    OverrideDescription = _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, language.Id)
+                    OverrideDescription = await _localizationService.GetLocalizedAsync(widgetZoneSlide, x => x.OverrideDescription, language.Id)
                 });
 
             return model;

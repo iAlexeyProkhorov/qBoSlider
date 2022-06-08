@@ -4,18 +4,18 @@
 @model ConfigurationModel
 
 <form asp-controller="qBoConfiguration" asp-action="Configure" method="post">
-    <div class="panel-group">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="form-group">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
                     <div class="content-header clearfix">
                         <div class="ui-state-highlight ui-corner-all" style="margin-top:0;padding:10px">
                             <span class="ui-icon ui-icon-info" style="float:left;margin-right:.3em"></span>
-                            qBoSlider extend nopCommerce menu and now you can edit slide collection from admin menu panel. <a target="_blank" href="/Admin/qBoSlide/List">Click here to edit <strong>SLIDES</strong></a>, and <a target="_blank" href="/Admin/qBoWidgetZone/List">here to edit <strong>WIDGET ZONES</strong></a>. <a target="_blank" href="https://github.com/iAlexeyProkhorov/qBoSlider/wiki/Get-started"><strong>Visit 'Get Started' page</strong>.</a>
+                            qBoSlider extend nopCommerce menu and now you can edit slide collection from admin menu card. <a target="_blank" href="/Admin/qBoSlide/List">Click here to edit <strong>SLIDES</strong></a>, and <a target="_blank" href="/Admin/qBoWidgetZone/List">here to edit <strong>WIDGET ZONES</strong></a>. <a target="_blank" href="https://github.com/iAlexeyProkhorov/qBoSlider/wiki/Get-started"><strong>Visit 'Get Started' page</strong>.</a>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col-md-3">
                         <nop-label asp-for="UseStaticCache" />
                     </div>
@@ -26,11 +26,11 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3">
-                        <input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
                     </div>
                 </div>
             </div>

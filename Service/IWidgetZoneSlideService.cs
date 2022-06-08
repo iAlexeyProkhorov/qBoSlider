@@ -13,6 +13,7 @@
 //limitations under the License.
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -26,7 +27,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="id">Slide entity id number</param>
         /// <returns>Widget zone entity</returns>
-        WidgetZoneSlide GetWidgetZoneSlide(int id);
+        Task<WidgetZoneSlide> GetWidgetZoneSlideAsync(int id);
 
         /// <summary>
         /// Get widget zones slide relations
@@ -42,18 +43,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// Insert new widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        void InsertWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide);
+        Task InsertWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide);
 
         /// <summary>
         /// Update widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        void UpdateWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide);
+        Task UpdateWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide);
 
         /// <summary>
         /// Delete widget zone slide mapping
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide mapping entity</param>
-        void DeleteWidgetZoneSlide(WidgetZoneSlide widgetZoneSlide);
+        Task DeleteWidgetZoneSlideAsync(WidgetZoneSlide widgetZoneSlide);
     }
 }

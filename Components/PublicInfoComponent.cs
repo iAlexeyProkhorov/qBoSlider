@@ -20,6 +20,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Components
 {
@@ -53,7 +54,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         #region Methods
 
-        public IViewComponentResult Invoke(string widgetZone, object additionalData)
+        public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
             var widget = _widgetZoneService.GetWidgetZoneBySystemName(widgetZone);
 
@@ -66,11 +67,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
                 return Content(string.Empty);
 
             //return empty page if widget zone aren't authorized
-            if (!_aclService.Authorize(widget))
+            if (!await _aclService.AuthorizeAsync(widget))
                 return Content(string.Empty);
 
             //return nothing if widget zone aren't authorized in current store
-            if (!_storeMappingService.Authorize(widget))
+            if (!await _storeMappingService.AuthorizeAsync(widget))
                 return Content(string.Empty);
 
             //return empty result, if widget zone has no published slides
@@ -78,7 +79,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
             if (!slides.Any())
                 return Content(string.Empty);
 
-            var model = _publicModelFactory.PrepareWidgetZoneModel(widget);
+            var model = await _publicModelFactory.PrepareWidgetZoneModelAsync(widget);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Public/PublicInfo.cshtml", model);
         }

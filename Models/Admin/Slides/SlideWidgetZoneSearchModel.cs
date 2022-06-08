@@ -5,7 +5,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represents widget zone searching model for slide editing page
     /// </summary>
-    public class SlideWidgetZoneSearchModel : BaseSearchModel
+    public record SlideWidgetZoneSearchModel : BaseSearchModel
     {
         /// <summary>
         /// Gets or sets slide entity id number
@@ -15,12 +15,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Represents list model
         /// </summary>
-        public class WidgetZonePagedList: BasePagedListModel<WidgetZoneModel>
+        public record WidgetZonePagedList: BasePagedListModel<WidgetZoneModel>
         {
 
         }
 
-        public class WidgetZoneModel : BaseNopEntityModel, ISlideWidgetZoneModel
+        public record WidgetZoneModel : BaseNopEntityModel, ISlideWidgetZoneModel
         {
             /// <summary>
             /// Gets or sets widget zone friendly name

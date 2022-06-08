@@ -10,7 +10,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represents slide model for editing
     /// </summary>
-    public partial class SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
+    public record SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
     {
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId")]
         [UIHint("Picture")]

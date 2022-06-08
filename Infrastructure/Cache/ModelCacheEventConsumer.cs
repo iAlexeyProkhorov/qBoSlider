@@ -16,6 +16,7 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Configuration;
 using Nop.Core.Events;
 using Nop.Services.Events;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache
 {
@@ -47,17 +48,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache
             this._staticCacheManager = staticCacheManager;
         }
 
-        public void HandleEvent(EntityInsertedEvent<Setting> eventMessage)
+        public async Task HandleEventAsync(EntityInsertedEvent<Setting> eventMessage)
         {
-            _staticCacheManager.RemoveByPrefix(PICTURE_URL_PATTERN_KEY);
+            await _staticCacheManager.RemoveByPrefixAsync(PICTURE_URL_PATTERN_KEY);
         }
-        public void HandleEvent(EntityUpdatedEvent<Setting> eventMessage)
+        public async Task HandleEventAsync(EntityUpdatedEvent<Setting> eventMessage)
         {
-            _staticCacheManager.RemoveByPrefix(PICTURE_URL_PATTERN_KEY);
+            await _staticCacheManager.RemoveByPrefixAsync(PICTURE_URL_PATTERN_KEY);
         }
-        public void HandleEvent(EntityDeletedEvent<Setting> eventMessage)
+        public async Task HandleEventAsync(EntityDeletedEvent<Setting> eventMessage)
         {
-            _staticCacheManager.RemoveByPrefix(PICTURE_URL_PATTERN_KEY);
+            await _staticCacheManager.RemoveByPrefixAsync(PICTURE_URL_PATTERN_KEY);
         }
     }
 }

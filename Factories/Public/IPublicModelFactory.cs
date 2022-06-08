@@ -14,6 +14,7 @@
 
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Public;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -28,7 +29,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Widget zone model</returns>
-        WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone);
+        Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone);
 
         /// <summary>
         /// Prepare widget zone model
@@ -37,6 +38,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="storeId">Store id number</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Widget zone model</returns>
-        WidgetZoneModel PrepareWidgetZoneModel(WidgetZone widgetZone, int languageId, int storeId);
+        Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone, int languageId, int storeId);
     }
 }

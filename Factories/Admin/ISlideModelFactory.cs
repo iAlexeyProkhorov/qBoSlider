@@ -14,6 +14,7 @@
 
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -27,7 +28,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="slide">Slide entity</param>
         /// <param name="model">Slide model</param>
-        void PrepareStoreMapping(SlideModel model, Slide slide);
+        Task PrepareStoreMappingAsync(SlideModel model, Slide slide);
 
         /// <summary>
         /// Prepare acl models
@@ -35,14 +36,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="model">Slide model</param>
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties"></param>
-        void PrepareAclModel(SlideModel model, Slide slide, bool excludeProperties);
+        Task PrepareAclModelAsync(SlideModel model, Slide slide, bool excludeProperties);
 
         /// <summary>
         /// Prepare slide paged list model
         /// </summary>
         /// <param name="searchModel">Slide search model</param>
         /// <returns>Slide paged list model</returns>
-        SlideSearchModel.SlidePagedListModel PrepareSlideListPagedModel(SlideSearchModel searchModel);
+        Task<SlideSearchModel.SlidePagedListModel> PrepareSlideListPagedModelAsync(SlideSearchModel searchModel);
 
         /// <summary>
         /// Prepare slide model
@@ -51,6 +52,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties">Prepare localized values or not</param>
         /// <returns>Slide model</returns>
-        SlideModel PrepareSlideModel(SlideModel model, Slide slide, bool excludeProperties = false);
+        Task<SlideModel> PrepareSlideModelAsync(SlideModel model, Slide slide, bool excludeProperties = false);
     }
 }

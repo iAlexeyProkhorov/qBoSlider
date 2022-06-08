@@ -6,7 +6,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
     /// <summary>
     /// Represents slider parameters and widgets for current widget zone
     /// </summary>
-    public class WidgetZoneModel : BaseNopEntityModel
+    public record WidgetZoneModel : BaseNopEntityModel
     {
         /// <summary>
         /// Gets or sets arrow navigation type id
@@ -38,8 +38,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
         /// </summary>
         public int SlideSpacing { get; set; }
 
+        /// <summary>
+        /// Gets or sets minimal slider width
+        /// </summary>
         public int MinSliderWidth { get; set; }
 
+        /// <summary>
+        /// Gets or sets maximal slider width
+        /// </summary>
         public int MaxSliderWidth { get; set; }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
         /// <summary>
         /// Represents slide model
         /// </summary>
-        public class SlideModel : BaseNopEntityModel
+        public record SlideModel : BaseNopEntityModel
         {
             /// <summary>
             /// Gets or sets picture url

@@ -1,3 +1,17 @@
+//Copyright 2020 Alexey Prokhorov
+
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+
+//    http://www.apache.org/licenses/LICENSE-2.0
+
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
+
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
@@ -11,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider
 {
@@ -85,18 +100,21 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// Gets widget zones where this widget should be rendered
         /// </summary>
         /// <returns>Widget zones</returns>
-        public IList<string> GetWidgetZones()
+        public async Task<IList<string>> GetWidgetZonesAsync()
         {
             //need to prepare all available widget zone names, but we can't call widget zone service in plugin constructor
             //that's why we use here 'EngineContext'
             //var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
 
             //get active widget zones system names
-            var activeWidgetZones = _widgetZoneService.GetWidgetZones();
-            var widgetZoneSystemNames = activeWidgetZones
-                //process only authorized widget zones 
-                .Where(widgetZone => _aclService.Authorize(widgetZone) && _storeMappingService.Authorize(widgetZone))
-                .Select(x => x.SystemName).Distinct().ToList();
+            var activeWidgetZones = _widgetZoneService.GetWidgetZones().ToList();
+            activeWidgetZones = await activeWidgetZones
+                //process only authorized by ACL widget zones 
+                .WhereAwait(async widgetZone => await _aclService.AuthorizeAsync(widgetZone)).ToListAsync();
+                //prepare of store mapped widget zones
+            var widgetZoneSystemNames = await activeWidgetZones
+                .WhereAwait(async widgetZone => await _storeMappingService.AuthorizeAsync(widgetZone))
+                .Select(x => x.SystemName).Distinct().ToListAsync();
 
             return widgetZoneSystemNames;
         }
@@ -115,10 +133,10 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// Manage sitemap. You can use "SystemName" of menu items to manage existing sitemap or add a new menu item.
         /// </summary>
         /// <param name="rootNode">Root node of the sitemap.</param>
-        public void ManageSiteMap(SiteMapNode rootNode)
+        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
         {
             //do nothing if customer can't manage plugins
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return;
 
             //do nothing if menu item not found
@@ -130,7 +148,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
             {
                 SystemName = "Baroque-qboSlider",
                 Title = this.PluginDescriptor.FriendlyName,
-                IconClass = "fa-dot-circle-o",
+                IconClass = "far fa-dot-circle",
                 Visible = true,
                 ChildNodes = new List<SiteMapNode>()
                 {
@@ -140,7 +158,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                         Title = "Widget zones",
                         ControllerName ="qBoWidgetZone",
                         ActionName = "List",
-                        IconClass = "fa fa-genderless",
+                        IconClass = "far fa-circle",
                         Visible = true
                     },
                     new SiteMapNode()
@@ -149,7 +167,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                         Title = "Slides",
                         ControllerName ="qBoSlide",
                         ActionName = "List",
-                        IconClass = "fa fa-genderless",
+                        IconClass = "far fa-circle",
                         Visible = true
                     },
                     new SiteMapNode()
@@ -158,7 +176,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                         Title = "Configuration",
                         ControllerName ="qBoConfiguration",
                         ActionName = "Configure",
-                        IconClass = "fa fa-genderless",
+                        IconClass = "far fa-circle",
                         Visible = true
                     }
                 }
@@ -170,14 +188,14 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <summary>
         /// Install plugin
         /// </summary>
-        public override void Install()
+        public override async Task InstallAsync()
         {
             //settings
             var settings = new qBoSliderSettings
             {
             };
 
-            _settingService.SaveSetting(settings);
+            await _settingService.SaveSettingAsync(settings);
 
             var widgetZone = new WidgetZone()
             {
@@ -194,13 +212,13 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 SystemName = "home_page_top",
                 Published = true
             };
-            _widgetZoneService.InsertWidgetZone(widgetZone);
+            await _widgetZoneService.InsertWidgetZoneAsync(widgetZone);
 
             //install simple data
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
 
-            var picture1 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1").Id;
+            var picture1 = (await _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1")).Id;
             var slide1 = new Slide()
             {
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
@@ -212,9 +230,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture1,
                 Published = true
             };
-            _slideService.InsertSlide(slide1);
+            await _slideService.InsertSlideAsync(slide1);
 
-            var picture2 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").Id;
+            var picture2 = _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").GetAwaiter().GetResult().Id;
             var slide2 = new Slide()
             {
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
@@ -225,9 +243,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture2,
                 Published = true,
             };
-            _slideService.InsertSlide(slide2);
+            await _slideService.InsertSlideAsync(slide2);
 
-            var picture3 = _pictureService.InsertPicture(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").Id;
+            var picture3 = _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").GetAwaiter().GetResult().Id;
             var slide3 = new Slide()
             {
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
@@ -240,50 +258,50 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 PictureId = picture3,
                 Published = true
             };
-            _slideService.InsertSlide(slide3);
+            await _slideService.InsertSlideAsync(slide3);
 
-            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            await _widgetZoneSlideService.InsertWidgetZoneSlideAsync(new WidgetZoneSlide()
             {
                 SlideId = slide1.Id,
                 WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 0
             });
 
-            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            await _widgetZoneSlideService.InsertWidgetZoneSlideAsync(new WidgetZoneSlide()
             {
                 SlideId = slide2.Id,
                 WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 5
             });
 
-            _widgetZoneSlideService.InsertWidgetZoneSlide(new WidgetZoneSlide()
+            await _widgetZoneSlideService.InsertWidgetZoneSlideAsync(new WidgetZoneSlide()
             {
                 SlideId = slide3.Id,
                 WidgetZoneId = widgetZone.Id,
                 DisplayOrder = 10
             });
 
-            base.Install();
+            await base.InstallAsync();
         }
 
         /// <summary>
         /// Uninstall plugin
         /// </summary>
-        public override void Uninstall()
+        public override async Task UninstallAsync()
         {
-            var allSlides = _slideService.GetAllSlides(storeId: _storeContext.CurrentStore.Id);
+            var allSlides = await _slideService.GetAllSlidesAsync(storeId: _storeContext.GetCurrentStore().Id);
 
             //delete slide localization resources and pictures
             foreach (var slide in allSlides)
             {
-                _garbageManager.DeleteSlidePicture(slide);
-                _garbageManager.DeleteSlideLocalizedValues(slide);
+                await _garbageManager.DeleteSlidePictureAsync(slide);
+                await _garbageManager.DeleteSlideLocalizedValuesAsync(slide);
             }
 
             //settings
-            _settingService.DeleteSetting<qBoSliderSettings>();
+            await _settingService.DeleteSettingAsync<qBoSliderSettings>();
 
-            base.Uninstall();
+            await base.UninstallAsync();
         }
 
         #endregion

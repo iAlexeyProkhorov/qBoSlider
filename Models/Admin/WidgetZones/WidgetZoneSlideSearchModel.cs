@@ -6,7 +6,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
     /// <summary>
     /// Represents widget zone slide search model
     /// </summary>
-    public class WidgetZoneSlideSearchModel : BaseSearchModel
+    public record WidgetZoneSlideSearchModel : BaseSearchModel
     {
         /// <summary>
         /// Gets or sets widget zone entity unique id number
@@ -16,7 +16,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Represents slide list item paged list model
         /// </summary>
-        public class SlideList : BasePagedListModel<SlideListItem>
+        public record SlideList : BasePagedListModel<SlideListItem>
         {
 
         }
@@ -24,7 +24,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Represents slide lsit item
         /// </summary>
-        public class SlideListItem : BaseNopEntityModel
+        public record SlideListItem : BaseNopEntityModel
         {
             /// <summary>
             /// Gets or sets slide background picture URL

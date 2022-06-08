@@ -23,6 +23,7 @@ using Nop.Services.Stores;
 using Nop.Web.Framework.Models.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -96,7 +97,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="model">Widget zone admin model</param>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Prepared widget zone model</returns>
-        public virtual WidgetZoneModel PrepareWidgetZoneModel(WidgetZoneModel model, WidgetZone widgetZone)
+        public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZoneModel model, WidgetZone widgetZone)
         {
             if (model == null)
                 throw new Exception("Widget zone model are nullable");
@@ -107,11 +108,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 model = new WidgetZoneModel()
                 {
                     ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
-                    AvailableArrowNavigations = NavigationType.Always.ToSelectList().ToList(),
+                    AvailableArrowNavigations = await NavigationType.Always.ToSelectListAsync(),
                     AutoPlay = widgetZone.AutoPlay,
                     AutoPlayInterval = widgetZone.AutoPlayInterval,
                     BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
-                    AvailableBulletNavigations = NavigationType.Always.ToSelectList().ToList(),
+                    AvailableBulletNavigations = await NavigationType.Always.ToSelectListAsync(),
                     Id = widgetZone.Id,
                     MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
                     MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
@@ -128,7 +129,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             }
 
             //prepare list of availbale navigation types
-            var navigationTypes = NavigationType.Always.ToSelectList(false).ToList();
+            var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
             model.AvailableArrowNavigations = navigationTypes;
             model.AvailableBulletNavigations = navigationTypes;
 
@@ -143,17 +144,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="widgetZoneModel">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        public virtual void PrepareAclModel(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
+        public virtual async Task PrepareAclModelAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
         {
             if (widgetZoneModel == null)
                 throw new Exception("Widget zone model are null.");
 
             //prepare widget zone customer roles
             if (widgetZone != null)
-                widgetZoneModel.SelectedCustomerRoleIds = _aclService.GetCustomerRoleIdsWithAccess(widgetZone).ToList();
+                widgetZoneModel.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(widgetZone)).ToList();
 
             //prepare available customer roles list
-            var customerRoles = _customerService.GetAllCustomerRoles(true);
+            var customerRoles = await _customerService.GetAllCustomerRolesAsync(true);
             widgetZoneModel.AvailableCustomerRoles = customerRoles.Select(x =>
             {
                 return new SelectListItem()
@@ -170,17 +171,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="widgetZoneModel">Widget zone model</param>
         /// <param name="widgetZone">Widget zone entity</param>
-        public virtual void PrepareStoreMappings(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
+        public virtual async Task PrepareStoreMappingsAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
         {
             if (widgetZoneModel == null)
                 throw new Exception("Widget zone model are null.");
 
             //load selected stores for current widget zone
             if (widgetZone != null)
-                widgetZoneModel.SelectedStoreIds = _storeMappingService.GetStoresIdsWithAccess(widgetZone).ToList();
+                widgetZoneModel.SelectedStoreIds = (await _storeMappingService.GetStoresIdsWithAccessAsync(widgetZone)).ToList();
 
             //get all available stores
-            var availableStores = _storeService.GetAllStores();
+            var availableStores = await _storeService.GetAllStoresAsync();
             widgetZoneModel.AvailableStores = availableStores.Select(x =>
             {
                 return new SelectListItem()

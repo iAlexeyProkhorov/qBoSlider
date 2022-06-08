@@ -3,26 +3,26 @@
     //page title
     ViewBag.Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Create").Text;
     //active menu item (system name)
-    Html.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
+    nopHtml.SetActiveMenuItemSystemName("Baroque-qBoSlider-WidgetZone");
     Layout = "_AdminLayout";
 }
 
 <form asp-controller="qBoWidgetZone" asp-action="Create" method="post" id="widget-zone-form">
     <div class="content-header clearfix">
-        <h1 class="pull-left">
+        <h1 class="float-left">
             @T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Create")
             <small>
                 <i class="fa fa-arrow-circle-left"></i>
                 <a asp-action="List">@T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.BackToList")</a>
             </small>
         </h1>
-        <div class="pull-right">
-            <button type="submit" name="save" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
                 @T("Admin.Common.Save")
             </button>
-            <button type="submit" name="save-continue" class="btn bg-blue">
-                <i class="fa fa-floppy-o"></i>
+            <button type="submit" name="save-continue" class="btn btn-primary">
+                <i class="far fa-save"></i>
                 @T("Admin.Common.SaveContinue")
             </button>
             @await Component.InvokeAsync("AdminWidget", new { widgetZone = "qBo_slider_widget_create_buttons" })

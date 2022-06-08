@@ -14,6 +14,7 @@
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using System;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -27,7 +28,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="id">Slide individual number</param>
         /// <returns>Slide</returns>
-        Slide GetSlideById(int id);
+        Task<Slide> GetSlideByIdAsync(int id);
 
         /// <summary>
         /// Get all slides for current store
@@ -39,24 +40,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageSize">Page sizer</param>
         /// <param name="storeId">Store id number</param>
         /// <returns></returns>
-        IPagedList<Slide> GetAllSlides(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0);
+        Task<IPagedList<Slide>> GetAllSlidesAsync(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0);
 
         /// <summary>
         /// Insert slide
         /// </summary>
         /// <param name="slide">Inserting slide</param>
-        void InsertSlide(Slide slide);
+        Task InsertSlideAsync(Slide slide);
 
         /// <summary>
         /// Update already exist slide
         /// </summary>
         /// <param name="slide">Updating slide</param>
-        void UpdateSlide(Slide slide);
+        Task UpdateSlideAsync(Slide slide);
 
         /// <summary>
         /// Delete slide from database
         /// </summary>
         /// <param name="slide">Deleting slide</param>
-        void DeleteSlide(Slide slide);
+        Task DeleteSlideAsync(Slide slide);
     }
 }

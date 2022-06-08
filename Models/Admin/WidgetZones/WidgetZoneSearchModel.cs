@@ -6,7 +6,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
     /// <summary>
     /// Represents widget zone search model
     /// </summary>
-    public partial class WidgetZoneSearchModel : BaseSearchModel, IWidgetZoneSearchModel
+    public partial record WidgetZoneSearchModel : BaseSearchModel, IWidgetZoneSearchModel
     {
         /// <summary>
         /// Gets or sets searching widget zone friendly name
@@ -21,7 +21,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Represents widget zone paged list model
         /// </summary>
-        public class WidgetZoneList : BasePagedListModel<WidgetZoneListItem>
+        public record WidgetZoneList : BasePagedListModel<WidgetZoneListItem>
         {
 
         }
@@ -29,7 +29,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Represents widget zone paged list item
         /// </summary>
-        public class WidgetZoneListItem : BaseNopEntityModel
+        public record WidgetZoneListItem : BaseNopEntityModel
         {
             /// <summary>
             /// Gets or sets widget zone friendly name

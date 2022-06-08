@@ -15,11 +15,11 @@
 using Nop.Core;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Services.Events;
 using Nop.Services.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -32,7 +32,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
         private readonly IRepository<Slide> _slideRepository;
 
-        private readonly IEventPublisher _eventPublisher;
         private readonly IStoreMappingService _storeMappingService;
 
         #endregion
@@ -40,12 +39,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         #region Constructor
 
         public SlideService(IRepository<Slide> slideRepository,
-            IEventPublisher eventPublisher,
             IStoreMappingService storeMappingService)
         { 
             this._slideRepository = slideRepository;
 
-            this._eventPublisher = eventPublisher;
             this._storeMappingService = storeMappingService;
         }
 
@@ -58,9 +55,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="id">Slide individual number</param>
         /// <returns>Slide</returns>
-        public virtual Slide GetSlideById(int id)
+        public virtual async Task<Slide> GetSlideByIdAsync(int id)
         {
-            return _slideRepository.GetById(id);
+            return await _slideRepository.GetByIdAsync(id);
         }
 
         /// <summary>
@@ -73,7 +70,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageSize">Page sizer</param>
         /// <param name="storeId">Store id number</param>
         /// <returns></returns>
-        public virtual IPagedList<Slide> GetAllSlides(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0)
+        public virtual async Task<IPagedList<Slide>> GetAllSlidesAsync(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0)
         {
             var query = _slideRepository.Table;
 
@@ -92,7 +89,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             var result = new List<Slide>();
 
             foreach (var s in query)
-                if (_storeMappingService.Authorize(s, storeId))
+                if (await _storeMappingService.AuthorizeAsync(s, storeId))
                     result.Add(s);
 
             return new PagedList<Slide>(result, pageIndex, pageSize);
@@ -102,34 +99,28 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// Insert slide
         /// </summary>
         /// <param name="slide">Inserting slide</param>
-        public virtual void InsertSlide(Slide slide)
+        public virtual async Task InsertSlideAsync(Slide slide)
         {
-            _slideRepository.Insert(slide);
-
-            _eventPublisher.EntityInserted(slide);
+            await _slideRepository.InsertAsync(slide);
         }
 
         /// <summary>
         /// Update already exist slide
         /// </summary>
         /// <param name="slide">Updating slide</param>
-        public virtual void UpdateSlide(Slide slide)
+        public virtual async Task UpdateSlideAsync(Slide slide)
         {
-            _slideRepository.Update(slide);
-
-            _eventPublisher.EntityUpdated(slide);
+            await _slideRepository.UpdateAsync(slide);
         }
 
         /// <summary>
         /// Delete slide from database
         /// </summary>
         /// <param name="slide">Deleting slide</param>
-        public virtual void DeleteSlide(Slide slide)
+        public virtual async Task DeleteSlideAsync(Slide slide)
         {
             //delete slide entity
-            _slideRepository.Delete(slide);
-
-            _eventPublisher.EntityDeleted(slide);
+            await _slideRepository.DeleteAsync(slide);
         }
 
         #endregion

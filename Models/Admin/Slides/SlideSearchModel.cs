@@ -21,12 +21,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// <summary>
     /// Represent slide search model
     /// </summary>
-    public class SlideSearchModel : BaseSearchModel
+    public record SlideSearchModel : BaseSearchModel
     {
         /// <summary>
         /// Represent slide page list model
         /// </summary>
-        public class SlidePagedListModel :BasePagedListModel<SlideListItemModel>
+        public record SlidePagedListModel :BasePagedListModel<SlideListItemModel>
         {
 
         }
@@ -34,7 +34,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Represents slide in list
         /// </summary>
-        public class SlideListItemModel : BaseNopEntityModel
+        public record SlideListItemModel : BaseNopEntityModel
         {
             /// <summary>
             /// Gets or sets slide picture Url

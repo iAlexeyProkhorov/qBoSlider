@@ -20,6 +20,7 @@ using Nop.Services.Media;
 using Nop.Web.Framework.Models.Extensions;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -65,16 +66,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Widget zone slide search model</param>
         /// <returns>Widget zone slides paged list</returns>
-        public virtual WidgetZoneSlideSearchModel.SlideList PrepareSlidePagedListModel(WidgetZoneSlideSearchModel searchModel)
+        public virtual async Task<WidgetZoneSlideSearchModel.SlideList> PrepareSlidePagedListModelAsync(WidgetZoneSlideSearchModel searchModel)
         {
             var slides = _widgetZoneSlideService.GetWidgetZoneSlides(searchModel.WidgetZoneId, null, searchModel.Page - 1, searchModel.PageSize);
-            var gridModel = new WidgetZoneSlideSearchModel.SlideList().PrepareToGrid(searchModel, slides, () =>
+            var gridModel = await new WidgetZoneSlideSearchModel.SlideList().PrepareToGridAsync(searchModel, slides, () =>
             {
-                return slides.Select(widgetZoneSlide =>
+                return slides.SelectAwait(async widgetZoneSlide =>
                 {
-                    var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
-                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-                    var pictureUrl = _pictureService.GetPictureUrl(picture.Id, 300);
+                    var slide = await _slideService.GetSlideByIdAsync(widgetZoneSlide.SlideId);
+                    var picture = await _pictureService.GetPictureByIdAsync(slide.PictureId.GetValueOrDefault(0));
+                    var pictureUrl = await _pictureService.GetPictureUrlAsync(picture.Id, 300);
 
                     return new WidgetZoneSlideSearchModel.SlideListItem()
                     {
@@ -96,15 +97,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Add widget zone slide search model</param>
         /// <returns>Add widget zone slide model</returns>
-        public virtual AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel)
+        public virtual async Task<AddWidgetZoneSlideModel.SlidePagedListModel> PrepareAddWidgetZoneSlideModelAsync(AddWidgetZoneSlideModel searchModel)
         {
-            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
-            var gridModel = new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
+            var slides = await _slideService.GetAllSlidesAsync(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var gridModel = await new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGridAsync(searchModel, slides, () =>
             {
-                return slides.Select(slide =>
+                return slides.SelectAwait(async slide =>
                 {
-                    var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
-                    var pictureUrl = _pictureService.GetPictureUrl(picture.Id, 300);
+                    var picture = await _pictureService.GetPictureByIdAsync(slide.PictureId.GetValueOrDefault(0));
+                    var pictureUrl = await _pictureService.GetPictureUrlAsync(picture.Id, 300);
 
                     return new AddWidgetZoneSlideModel.SlideModel()
                     {
@@ -125,11 +126,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <returns></returns>
-        public virtual WidgetZoneSlideModel PrepareEditWidgetZoneSlideModel(WidgetZoneSlide widgetZoneSlide)
+        public virtual async Task<WidgetZoneSlideModel> PrepareEditWidgetZoneSlideModelAsync(WidgetZoneSlide widgetZoneSlide)
         {
-            var allLanguages = _languageService.GetAllLanguages(true);
-            var slide = _slideService.GetSlideById(widgetZoneSlide.SlideId);
-            var picture = _pictureService.GetPictureById(slide.PictureId.GetValueOrDefault(0));
+            var allLanguages = await _languageService.GetAllLanguagesAsync(true);
+            var slide = await _slideService.GetSlideByIdAsync(widgetZoneSlide.SlideId);
+            var picture = await _pictureService.GetPictureByIdAsync(slide.PictureId.GetValueOrDefault(0));
 
             if (picture == null)
                 throw new Exception("Picture aren't exist");
@@ -138,18 +139,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 Id = widgetZoneSlide.Id,
                 PictureId = picture.Id,
-                PictureUrl = _pictureService.GetPictureUrl(picture.Id, 200),
+                PictureUrl = await _pictureService.GetPictureUrlAsync(picture.Id, 200),
                 SlideId = slide.Id,
                 DisplayOrder = widgetZoneSlide.DisplayOrder,
                 OverrideDescription = widgetZoneSlide.OverrideDescription
             };
-            
+
             //add locales
-            foreach(var language in allLanguages)
+            foreach (var language in allLanguages)
                 model.Locales.Add(new WidgetZoneSlideModel.LocalizationModel()
                 {
                     LanguageId = language.Id,
-                    OverrideDescription = _localizationService.GetLocalized(widgetZoneSlide, x => x.OverrideDescription, language.Id)
+                    OverrideDescription = await _localizationService.GetLocalizedAsync(widgetZoneSlide, x => x.OverrideDescription, language.Id)
                 });
 
             return model;

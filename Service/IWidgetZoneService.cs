@@ -13,6 +13,7 @@
 //limitations under the License.
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {
@@ -26,7 +27,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="id">Widget zone id number</param>
         /// <returns>Widget zone</returns>
-        WidgetZone GetWidgetZoneById(int id);
+        Task<WidgetZone> GetWidgetZoneByIdAsync(int id);
 
         /// <summary>
         /// Get widget zone by system name
@@ -68,18 +69,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// Insert new widget zone in database
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
-        void InsertWidgetZone(WidgetZone widgetZone);
+        Task InsertWidgetZoneAsync(WidgetZone widgetZone);
 
         /// <summary>
         /// Update already existing widget zone entity
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
-        void UpdateWidgetZone(WidgetZone widgetZone);
+        Task UpdateWidgetZoneAsync(WidgetZone widgetZone);
 
         /// <summary>
         /// Delete already existing widget zone entity from database
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
-        void DeleteWidgetZone(WidgetZone widgetZone);
+        Task DeleteWidgetZoneAsync(WidgetZone widgetZone);
     }
 }
