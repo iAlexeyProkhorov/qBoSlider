@@ -12,8 +12,8 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Public;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Security;
@@ -41,7 +41,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
         public PublicInfoComponent(IAclService aclService,
             IPublicModelFactory publicModelFactory,
             IStoreMappingService storeMappingService,
-            IWidgetZoneService widgetZoneService)
+            IWidgetZoneService widgetZoneService
+            )
         {
             _aclService = aclService;
             _publicModelFactory = publicModelFactory;

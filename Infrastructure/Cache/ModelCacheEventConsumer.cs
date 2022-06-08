@@ -32,7 +32,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure.Cache
         /// Key for caching
         /// </summary>
         /// <remarks>
-        /// {0} : picture id
+        /// {0} : working language id
+        /// {1} : working store id
+        /// {2} : short date. Cache key will be actual only one day
+        /// {3} : customer roles(coma separated)
         /// </remarks>
         public static CacheKey PICTURE_URL_MODEL_KEY = new CacheKey("qbo-slider-publicinfo-{0}-{1}-{2}-{3}-{4}");
         public const string PICTURE_URL_PATTERN_KEY = "Nop.plugins.widgets.qBoSlider";
