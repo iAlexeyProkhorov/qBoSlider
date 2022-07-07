@@ -26,6 +26,7 @@
     <div class="form-horizontal">
         <form id="slide-collection-form" method="post">
             <div class="panel-group">
+                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_SlideSearch.cshtml", Model)
                 <div class="panel panel-default">
                     <div class="panel-body">
                         @await Html.PartialAsync("Table", new DataTablesModel
@@ -33,8 +34,17 @@
                        Name = "slider-grid",
                        UrlRead = new DataUrl("List", "qBoSlide", null),
                        UrlDelete = new DataUrl("Delete", "qBoSlide", null),
+                       SearchButtonId = "search-slides",
                        Length = Model.PageSize,
                        LengthMenu = Model.AvailablePageSizes,
+                       Filters = new List<FilterParameter>()
+                       {
+                           new FilterParameter(nameof(SlideSearchModel.SearchName)),
+                           new FilterParameter(nameof(SlideSearchModel.SearchWidgetZoneId)),
+                           new FilterParameter(nameof(SlideSearchModel.SearchStartDateOnUtc)),
+                           new FilterParameter(nameof(SlideSearchModel.SearchFinishDateOnUtc)),
+                           new FilterParameter(nameof(SlideSearchModel.SearchPublicationStateId))
+                       },
                        ColumnCollection = new List<ColumnProperty>
                                {
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Picture))
@@ -43,6 +53,12 @@
                                        Width = "300",
                                        Visible = true,
                                        Render = new RenderPicture()
+                                   },
+                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Name))
+                                   {
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Name").Text,
+                                       Width = "200",
+                                       Visible = true,
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.StartDateUtc))
                                    {

@@ -32,14 +32,23 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <summary>
         /// Get all slides for current store
         /// </summary>
+        /// <param name="name">Searching slider name</param>
+        /// <param name="widgetZoneIds">Slides for widget zones</param>
         /// <param name="startDate">Publication start date</param>
         /// <param name="endDate">Publication end date</param>
-        /// <param name="showHidden">Show unpublished slides too</param>
+        /// <param name="publicationState">Searching slides publication state</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page sizer</param>
         /// <param name="storeId">Store id number</param>
-        /// <returns></returns>
-        IPagedList<Slide> GetAllSlides(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0);
+        /// <returns>Paged slides list</returns>
+        IPagedList<Slide> GetAllSlides(string name = null,
+            int[] widgetZoneIds = null,
+            DateTime? startDate = null,
+            DateTime? endDate = null,
+            PublicationState publicationState = 0,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            int storeId = 0);
 
         /// <summary>
         /// Insert slide

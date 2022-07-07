@@ -1,13 +1,28 @@
-﻿using Nop.Web.Framework.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Web.Framework.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
 {
     /// <summary>
     /// Represent slide search model
     /// </summary>
-    public class SlideSearchModel : BaseSearchModel
+    public class SlideSearchModel : BaseSearchModel, ISlideSearchModel
     {
+        public string SearchName { get; set; }
+
+        public int SearchWidgetZoneId { get; set; }
+
+        public IList<SelectListItem> AvailableWidgetZones { get; set; } = new List<SelectListItem>();
+
+        public DateTime? SearchStartDateOnUtc { get; set; }
+
+        public DateTime? SearchFinishDateOnUtc { get; set; }
+
+        public int SearchPublicationStateId { get; set; }
+        public IList<SelectListItem> AvailablePublicationStates { get; set; } = new List<SelectListItem>();
+
         /// <summary>
         /// Represent slide page list model
         /// </summary>
@@ -25,6 +40,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
             /// Gets or sets slide picture Url
             /// </summary>
             public string Picture { get; set; }
+
+            /// <summary>
+            /// Gets or sets slide name
+            /// </summary>
+            public string Name { get; set; }
 
             /// <summary>
             /// Gets or sets slide hyperlink

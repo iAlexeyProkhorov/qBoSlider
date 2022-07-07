@@ -31,6 +31,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         #region Fields
 
         private readonly IRepository<Slide> _slideRepository;
+        private readonly IRepository<WidgetZoneSlide> _widgetZoneSlideRepository;
 
         private readonly IEventPublisher _eventPublisher;
         private readonly IStoreMappingService _storeMappingService;
@@ -40,13 +41,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         #region Constructor
 
         public SlideService(IRepository<Slide> slideRepository,
+            IRepository<WidgetZoneSlide> widgetZoneSlideRepository,
             IEventPublisher eventPublisher,
             IStoreMappingService storeMappingService)
         { 
-            this._slideRepository = slideRepository;
+            _slideRepository = slideRepository;
+            _widgetZoneSlideRepository = widgetZoneSlideRepository;
 
-            this._eventPublisher = eventPublisher;
-            this._storeMappingService = storeMappingService;
+            _eventPublisher = eventPublisher;
+            _storeMappingService = storeMappingService;
         }
 
         #endregion
@@ -66,28 +69,51 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <summary>
         /// Get all slides for current store
         /// </summary>
+        /// <param name="name">Searching slider name</param>
+        /// <param name="widgetZoneIds">Slides for widget zones</param>
         /// <param name="startDate">Publication start date</param>
         /// <param name="endDate">Publication end date</param>
-        /// <param name="showHidden">Show unpublished slides too</param>
+        /// <param name="publicationState">Searching slides publication state</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page sizer</param>
         /// <param name="storeId">Store id number</param>
-        /// <returns></returns>
-        public virtual IPagedList<Slide> GetAllSlides(DateTime? startDate = null, DateTime? endDate = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue, int storeId = 0)
+        /// <returns>Paged slides list</returns>
+        public virtual IPagedList<Slide> GetAllSlides(string name = null,
+            int[] widgetZoneIds = null,
+            DateTime? startDate = null, 
+            DateTime? endDate = null, 
+            PublicationState publicationState = 0, 
+            int pageIndex = 0, 
+            int pageSize = int.MaxValue, 
+            int storeId = 0)
         {
             var query = _slideRepository.Table;
 
-            //filter unpublished slides
-            if (!showHidden)
-                query = query.Where(x => x.Published);
+            //filter slides, which contains part of searchable slide name
+            if (!string.IsNullOrEmpty(name))
+                query = query.Where(x => x.Name.Contains(name));
+
+            //filter slides, which linked to searchable widget zones
+            if (widgetZoneIds != null && widgetZoneIds.Any())
+                query = from slide in query
+                        join widgetZoneSlide in _widgetZoneSlideRepository.Table on slide.Id equals widgetZoneSlide.SlideId
+                        where widgetZoneIds.Contains(widgetZoneSlide.WidgetZoneId)
+                        select slide;
 
             //filter by start date
             if (startDate.HasValue)
-                query = query.Where(x => x.StartDateUtc <= DateTime.UtcNow);
+                query = query.Where(x => !x.StartDateUtc.HasValue || x.StartDateUtc >= startDate.Value);
 
             //filter by end publishing date
             if (endDate.HasValue)
-                query = query.Where(x => x.EndDateUtc >= DateTime.UtcNow);
+                query = query.Where(x => !x.EndDateUtc.HasValue || x.EndDateUtc <= endDate.Value);
+
+            //filter unpublished slides
+            if (publicationState == PublicationState.Published)
+                query = query.Where(x => x.Published);
+
+            if (publicationState == PublicationState.Unpublished)
+                query = query.Where(x => !x.Published);
 
             var result = new List<Slide>();
 

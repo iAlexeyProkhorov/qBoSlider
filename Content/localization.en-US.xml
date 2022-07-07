@@ -239,6 +239,9 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.PictureUrl">
 		<Value>Picture</Value>
 	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.Name">
+		<Value>Name</Value>
+	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.StartDateUtc">
 		<Value>Start date</Value>
 	</LocaleResource>
@@ -401,5 +404,45 @@
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideWidgetZone.Fields.OverrideDescription.Hint">
 		<Value>Put here HTML content to override original slide HTML content. Keep empty if you're don't want to chnage content.</Value>
+	</LocaleResource>
+	<!--ADMIN SLIDE LIST-->
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchName">
+		<Value>Slide name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchName.hint">
+		<Value>Put here part of searchable slide name.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchWidgetZoneId">
+		<Value>Widget zone</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchWidgetZoneId.hint">
+		<Value>Select searchable widnget zone</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchStartDateOnUtc">
+		<Value>Start date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchStartDateOnUtc.hint">
+		<Value>Put slide start publication date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchFinishDateOnUtc">
+		<Value>Finish date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.SearchFinishDateOnUtc.hint">
+		<Value>Put slide finish publication date</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Name.hint">
+		<Value>Slide search name. This property is using only for search purposes.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.PublicationStateId">
+		<Value>Published</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.PublicationStateId.hint">
+		<Value>Select searchable slide publication state.</Value>
 	</LocaleResource>
 </Language>

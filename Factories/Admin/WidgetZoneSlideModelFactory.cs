@@ -78,6 +78,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     return new WidgetZoneSlideSearchModel.SlideListItem()
                     {
                         Id = slide.Id,
+                        Name = slide.Slide.Name,
                         PictureUrl = pictureUrl,
                         StartDateUtc = slide.Slide.StartDateUtc,
                         EndDateUtc = slide.Slide.EndDateUtc,
@@ -97,7 +98,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Add widget zone slide model</returns>
         public virtual AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel)
         {
-            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var slides = _slideService.GetAllSlides(name: searchModel.SearchName, 
+                searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId} : null,
+                startDate: searchModel.SearchStartDateOnUtc,
+                endDate: searchModel.SearchFinishDateOnUtc,
+                publicationState: (PublicationState)searchModel.SearchPublicationStateId,
+                pageIndex: searchModel.Page - 1, 
+                pageSize: searchModel.PageSize);
             var gridModel = new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
             {
                 return slides.Select(slide =>
@@ -109,6 +116,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     {
                         Id = slide.Id,
                         PictureUrl = pictureUrl,
+                        Name = slide.Name,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
                         Published = slide.Published

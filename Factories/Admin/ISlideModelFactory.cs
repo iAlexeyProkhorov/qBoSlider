@@ -13,7 +13,9 @@
 //limitations under the License.
 
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
+using Nop.Web.Framework.Models;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -36,6 +38,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <param name="slide">Slide entity</param>
         /// <param name="excludeProperties"></param>
         void PrepareAclModel(SlideModel model, Slide slide, bool excludeProperties);
+
+        /// <summary>
+        /// Prepares slide search model
+        /// </summary>
+        /// <param name="model">Slide search model</param>
+        /// <returns>Slide search model</returns>
+        void PrepareSlideSearchModel<TModel>(TModel model) where TModel : BaseSearchModel, ISlideSearchModel;
 
         /// <summary>
         /// Prepare slide paged list model

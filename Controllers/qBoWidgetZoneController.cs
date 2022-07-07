@@ -46,6 +46,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
+        private readonly ISlideModelFactory _slideModelFactory;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
         private readonly IWidgetZoneModelFactory _widgetZoneModelFactory;
@@ -63,6 +64,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
             IPermissionService permissionService,
+            ISlideModelFactory slideModelFactory,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
             IWidgetZoneModelFactory widgetZoneModelFactory,
@@ -76,6 +78,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _localizedEntityService = localizedEntityService;
             _notificationService = notificationService;
             _permissionService = permissionService;
+            _slideModelFactory = slideModelFactory;
             _storeMappingService = storeMappingService;
             _storeService = storeService;
             _widgetZoneModelFactory = widgetZoneModelFactory;
@@ -180,7 +183,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var model = new WidgetZoneModel();
+            var model = new WidgetZoneModel()
+            {
+                Published = true
+            };
 
             //prepare widget zone model
             _widgetZoneModelFactory.PrepareWidgetZoneModel(model, null);
@@ -464,7 +470,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 WidgetZoneId = widgetZoneId
             };
 
-            model.SetPopupGridPageSize();
+
+            _slideModelFactory.PrepareSlideSearchModel(model);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/AddWidgetZoneSlidePopup.cshtml", model);
         }

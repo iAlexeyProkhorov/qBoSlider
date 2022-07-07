@@ -70,7 +70,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <returns>Widget zone entity</returns>
         public virtual WidgetZone GetWidgetZoneBySystemName(string systemName)
         {
-            return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase));
+            return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName, StringComparison.InvariantCultureIgnoreCase) && x.Published);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             {
                 var value = property.GetValue(null);
                 return value != null ? value.ToString() : string.Empty;
-            }).Where(x => !string.IsNullOrEmpty(x) && x.Contains(systemName)).ToList();
+            }).Where(x => !string.IsNullOrEmpty(x) && x.Contains(systemName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 
             return new PagedList<string>(publicWidgetZones, pageIndex, pageSize);
         }

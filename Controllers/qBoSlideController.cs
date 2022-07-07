@@ -199,9 +199,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         public virtual IActionResult List()
         {
-            var model = new SlideSearchModel();
-            model.SetGridPageSize();
+            //redirect customer on accessdenied view, if client has no permissions
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedDataTablesJson();
 
+            var model = new SlideSearchModel();
+            _slideModelFactory.PrepareSlideSearchModel(model);
+            
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/List.cshtml", model);
         }
 
@@ -248,6 +252,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var slide = new Slide()
             {
+                Name = model.Name,
                 Description = model.Description,
                 HyperlinkAddress = model.Hyperlink,
                 PictureId = model.PictureId,
@@ -325,6 +330,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             }
 
             //set values
+            slide.Name = model.Name;
             slide.Description = model.Description;
             slide.HyperlinkAddress = model.Hyperlink;
             slide.PictureId = model.PictureId;
