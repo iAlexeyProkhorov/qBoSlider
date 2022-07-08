@@ -99,7 +99,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual AddWidgetZoneSlideModel.SlidePagedListModel PrepareAddWidgetZoneSlideModel(AddWidgetZoneSlideModel searchModel)
         {
             var slides = _slideService.GetAllSlides(name: searchModel.SearchName, 
-                searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId} : null,
+                widgetZoneIds: searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId} : null,
                 startDate: searchModel.SearchStartDateOnUtc,
                 endDate: searchModel.SearchFinishDateOnUtc,
                 publicationState: (PublicationState)searchModel.SearchPublicationStateId,

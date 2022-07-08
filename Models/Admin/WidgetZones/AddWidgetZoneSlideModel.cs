@@ -22,6 +22,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         public DateTime? SearchFinishDateOnUtc { get; set; }
 
         public int SearchPublicationStateId { get; set; }
+
         public IList<SelectListItem> AvailablePublicationStates { get; set; } = new List<SelectListItem>();
 
         /// <summary>

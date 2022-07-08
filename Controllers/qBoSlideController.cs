@@ -52,6 +52,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISearchModelFactory _searchModelFactory;
         private readonly ISlideModelFactory _slideModelFactory;
         private readonly ISlideWidgetZoneModelFactory _slideWidgetZoneModelFactory;
         private readonly ISlideService _slideService;
@@ -75,6 +76,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISearchModelFactory searchModelFactory,
             ISlideModelFactory slideModelFactory,
             ISlideWidgetZoneModelFactory slideWidgetZoneModelFactory,
             ISlideService slideService,
@@ -95,6 +97,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             this._permissionService = permissionService;
             this._pictureService = pictureService;
             this._settingService = settingService;
+            this._searchModelFactory = searchModelFactory;
             this._slideModelFactory = slideModelFactory;
             this._slideWidgetZoneModelFactory = slideWidgetZoneModelFactory;
             this._slideService = slideService;
@@ -204,7 +207,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 return AccessDeniedDataTablesJson();
 
             var model = new SlideSearchModel();
-            _slideModelFactory.PrepareSlideSearchModel(model);
+            _searchModelFactory.PrepareSlideSearchModel(model);
             
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/List.cshtml", model);
         }

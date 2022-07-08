@@ -46,6 +46,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly INotificationService _notificationService;
         private readonly IPermissionService _permissionService;
+        private readonly ISearchModelFactory _searchModelFactory;
         private readonly ISlideModelFactory _slideModelFactory;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
@@ -64,6 +65,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ILocalizedEntityService localizedEntityService,
             INotificationService notificationService,
             IPermissionService permissionService,
+            ISearchModelFactory searchModelFactory,
             ISlideModelFactory slideModelFactory,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
@@ -78,6 +80,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _localizedEntityService = localizedEntityService;
             _notificationService = notificationService;
             _permissionService = permissionService;
+            _searchModelFactory = searchModelFactory;
             _slideModelFactory = slideModelFactory;
             _storeMappingService = storeMappingService;
             _storeService = storeService;
@@ -470,8 +473,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 WidgetZoneId = widgetZoneId
             };
 
-
-            _slideModelFactory.PrepareSlideSearchModel(model);
+            _searchModelFactory.PrepareSlideSearchModel(model);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/WidgetZone/AddWidgetZoneSlidePopup.cshtml", model);
         }

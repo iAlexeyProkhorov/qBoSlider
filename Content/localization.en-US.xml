@@ -156,6 +156,9 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.PictureUrl">
 		<Value>Picture</Value>
 	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.Name">
+		<Value>Name</Value>
+	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideList.StartDateUtc">
 		<Value>Start date</Value>
 	</LocaleResource>

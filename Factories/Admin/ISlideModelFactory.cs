@@ -40,13 +40,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         void PrepareAclModel(SlideModel model, Slide slide, bool excludeProperties);
 
         /// <summary>
-        /// Prepares slide search model
-        /// </summary>
-        /// <param name="model">Slide search model</param>
-        /// <returns>Slide search model</returns>
-        void PrepareSlideSearchModel<TModel>(TModel model) where TModel : BaseSearchModel, ISlideSearchModel;
-
-        /// <summary>
         /// Prepare slide paged list model
         /// </summary>
         /// <param name="searchModel">Slide search model</param>
