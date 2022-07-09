@@ -52,6 +52,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly IPermissionService _permissionService;
         private readonly IPictureService _pictureService;
         private readonly ISettingService _settingService;
+        private readonly ISearchModelFactory _searchModelFactory;
         private readonly ISlideModelFactory _slideModelFactory;
         private readonly ISlideWidgetZoneModelFactory _slideWidgetZoneModelFactory;
         private readonly ISlideService _slideService;
@@ -75,6 +76,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             IPermissionService permissionService,
             IPictureService pictureService,
             ISettingService settingService,
+            ISearchModelFactory searchModelFactory,
             ISlideModelFactory slideModelFactory,
             ISlideWidgetZoneModelFactory slideWidgetZoneModelFactory,
             ISlideService slideService,
@@ -95,6 +97,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             this._permissionService = permissionService;
             this._pictureService = pictureService;
             this._settingService = settingService;
+            this._searchModelFactory = searchModelFactory;
             this._slideModelFactory = slideModelFactory;
             this._slideWidgetZoneModelFactory = slideWidgetZoneModelFactory;
             this._slideService = slideService;
@@ -199,7 +202,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         public virtual IActionResult List()
         {
             var model = new SlideSearchModel();
-            model.SetGridPageSize();
+            _searchModelFactory.PrepareSlideSearchModel(model);
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Slide/List.cshtml", model);
         }
@@ -247,6 +250,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
             var slide = new Slide()
             {
+                Name = model.Name,
                 Description = model.Description,
                 HyperlinkAddress = model.Hyperlink,
                 PictureId = model.PictureId,
@@ -323,6 +327,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             }
 
             //set values
+            slide.Name = model.Name;
             slide.Description = model.Description;
             slide.HyperlinkAddress = model.Hyperlink;
             slide.PictureId = model.PictureId;

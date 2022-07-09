@@ -38,6 +38,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             builder.RegisterType<GarbageManager>().As<IGarbageManager>().InstancePerLifetimeScope();
 
             //factories
+            builder.RegisterType<SearchModelFactory>().As<ISearchModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<SlideModelFactory>().As<ISlideModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<SlideWidgetZoneModelFactory>().As<ISlideWidgetZoneModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<WidgetZoneModelFactory>().As<IWidgetZoneModelFactory>().InstancePerLifetimeScope();

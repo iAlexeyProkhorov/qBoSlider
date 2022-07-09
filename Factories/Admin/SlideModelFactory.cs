@@ -14,14 +14,17 @@
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides;
 using Nop.Plugin.Widgets.qBoSlider.Service;
+using Nop.Services;
 using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Factories;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
 using System;
 using System.Linq;
@@ -43,6 +46,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         private readonly ISlideService _slideService;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
+        private readonly IWidgetZoneService _widgetZoneService;
 
         #endregion
 
@@ -55,7 +59,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             IPictureService pictureService,
             ISlideService slideService,
             IStoreMappingService storeMappingService,
-            IStoreService storeService)
+            IStoreService storeService,
+            IWidgetZoneService widgetZoneService)
         {
             this._aclService = aclService;
             this._customerService = customerService;
@@ -65,6 +70,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             this._slideService = slideService;
             this._storeMappingService = storeMappingService;
             this._storeService = storeService;
+            _widgetZoneService = widgetZoneService;
         }
 
         #endregion
@@ -83,6 +89,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 Id = slide.Id,
                 Picture = _pictureService.GetPictureUrl(picture.Id, 300),
+                Name = slide.Name,
                 Hyperlink = slide.HyperlinkAddress,
                 StartDateUtc = slide.StartDateUtc,
                 EndDateUtc = slide.EndDateUtc,
@@ -144,13 +151,43 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         }
 
         /// <summary>
+        /// Prepares slide search model
+        /// </summary>
+        /// <param name="model">Slide search model</param>
+        /// <returns>Slide search model</returns>
+        public virtual void PrepareSlideSearchModel<TModel>(TModel model) where TModel : BaseSearchModel, ISlideSearchModel
+        {
+            model.AvailableWidgetZones = _widgetZoneService.GetWidgetZones().Select(x =>
+            {
+                return new SelectListItem()
+                {
+                    Value = x.Id.ToString(),
+                    Text = $"{x.Name} ({x.SystemName})"
+                };
+            }).ToList();
+            model.AvailablePublicationStates = PublicationState.All.ToSelectList(useLocalization: true).ToList();
+            model.SetGridPageSize();
+            model.AvailableWidgetZones.Insert(0,
+                new SelectListItem()
+                {
+                    Value = "0",
+                    Text = _localizationService.GetResource("admin.common.all")
+                });
+        }
+
+        /// <summary>
         /// Prepare slide paged list model
         /// </summary>
         /// <param name="searchModel">Slide search model</param>
         /// <returns>Slide paged list model</returns>
         public virtual SlideSearchModel.SlidePagedListModel PrepareSlideListPagedModel(SlideSearchModel searchModel)
         {
-            var slides = _slideService.GetAllSlides(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var slides = _slideService.GetAllSlides(searchModel.SearchName,
+                searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId } : null,
+                searchModel.SearchStartDateOnUtc,
+                searchModel.SearchFinishDateOnUtc,
+                (PublicationState)searchModel.SearchPublicationStateId, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
             var gridModel = new SlideSearchModel.SlidePagedListModel().PrepareToGrid(searchModel, slides, () =>
             {
                 return slides.Select(slide =>
@@ -160,6 +197,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     {
                         Id = slide.Id,
                         Picture = _pictureService.GetPictureUrl(pictureId, 300),
+                        Name = slide.Name,
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
@@ -182,10 +220,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         {
             Action<SlideLocalizedModel, int> localizedModelConfiguration = null;
 
-            if(slide != null)
+            if (slide != null)
             {
                 model.Id = slide.Id;
                 model.Hyperlink = slide.HyperlinkAddress;
+                model.Name = slide.Name;
                 model.PictureId = slide.PictureId.GetValueOrDefault(0);
                 model.Description = slide.Description;
                 model.StartDateUtc = slide.StartDateUtc;

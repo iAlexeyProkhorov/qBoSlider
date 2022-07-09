@@ -12,6 +12,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
     /// </summary>
     public partial class SlideModel : BaseNopEntityModel, ILocalizedModel<SlideLocalizedModel>
     {
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Name")]
+        public string Name { get; set; }
+
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.PictureId")]
         [UIHint("Picture")]
         public int PictureId { get; set; }

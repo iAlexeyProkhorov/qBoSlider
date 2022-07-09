@@ -1,15 +1,33 @@
-﻿using Nop.Web.Framework.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
 {
     /// <summary>
     /// Represents add widget zone slide model
     /// </summary>
-    public class AddWidgetZoneSlideModel : BaseSearchModel
+    public class AddWidgetZoneSlideModel : BaseSearchModel, ISlideSearchModel
     {
+        public string SearchName { get; set; }
+
+        public int SearchWidgetZoneId { get; set; }
+
+        public IList<SelectListItem> AvailableWidgetZones { get; set; } = new List<SelectListItem>();
+
+        [UIHint("DateTimeNullable")]
+        public DateTime? SearchStartDateOnUtc { get; set; }
+
+        [UIHint("DateTimeNullable")]
+        public DateTime? SearchFinishDateOnUtc { get; set; }
+
+        public int SearchPublicationStateId { get; set; }
+
+        public IList<SelectListItem> AvailablePublicationStates { get; set; } = new List<SelectListItem>();
+
         /// <summary>
         /// Gets or sets widget zone unique id number
         /// </summary>
@@ -38,6 +56,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
             /// </summary>
             [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.PictureUrl")]
             public string PictureUrl { get; set; }
+
+            /// <summary>
+            /// Gets or sets slide search name
+            /// </summary>
+            [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.Name")]
+            public string Name { get; set; }
 
             /// <summary>
             /// Gets or sets slide publishing start date 
