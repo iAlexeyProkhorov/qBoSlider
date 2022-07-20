@@ -81,6 +81,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     {
                         Id = widgetZoneSlide.Id,
                         PictureUrl = pictureUrl,
+                        Name = slide.Name,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
                         Published = slide.Published,
@@ -99,7 +100,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Add widget zone slide model</returns>
         public virtual async Task<AddWidgetZoneSlideModel.SlidePagedListModel> PrepareAddWidgetZoneSlideModelAsync(AddWidgetZoneSlideModel searchModel)
         {
-            var slides = await _slideService.GetAllSlidesAsync(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var slides = await _slideService.GetAllSlidesAsync(name: searchModel.SearchName,
+                widgetZoneIds: searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId } : null,
+                startDate: searchModel.SearchStartDateOnUtc,
+                endDate: searchModel.SearchFinishDateOnUtc,
+                publicationState: (PublicationState)searchModel.SearchPublicationStateId,
+                pageIndex: searchModel.Page - 1,
+                pageSize: searchModel.PageSize);
+
             var gridModel = await new AddWidgetZoneSlideModel.SlidePagedListModel().PrepareToGridAsync(searchModel, slides, () =>
             {
                 return slides.SelectAwait(async slide =>
@@ -110,6 +118,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     return new AddWidgetZoneSlideModel.SlideModel()
                     {
                         Id = slide.Id,
+                        Name = slide.Name,
                         PictureUrl = pictureUrl,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,

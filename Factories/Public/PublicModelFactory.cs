@@ -127,7 +127,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             };
 
             //add slide models to widget zone slider
-            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
+            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id)
+                .OrderBy(s => s.DisplayOrder);
+                
+
             foreach (var widgetSlide in widgetZoneSlides)
             {
                 var slide = await _slideService.GetSlideByIdAsync(widgetSlide.SlideId);

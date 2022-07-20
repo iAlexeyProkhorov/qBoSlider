@@ -34,14 +34,24 @@ else
         <section class="content">
             <div class="form-horizontal">
                 <div class="cards-group">
+                    @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_SlideSearch.cshtml", Model)
                     <div class="card card-default">
                         <div class="card-body">
-                            @await  Html.PartialAsync("Table", new DataTablesModel
+                            @await Html.PartialAsync("Table", new DataTablesModel
                        {
                            Name = "slides-grid",
                            UrlRead = new DataUrl("AddSlideList", "qBoWidgetZone", null),
                            Length = Model.PageSize,
                            LengthMenu = Model.AvailablePageSizes,
+                           SearchButtonId = "search-slides",
+                           Filters = new List<FilterParameter>()
+                           {
+                               new FilterParameter(nameof(SlideSearchModel.SearchName)),
+                               new FilterParameter(nameof(SlideSearchModel.SearchWidgetZoneId)),
+                               new FilterParameter(nameof(SlideSearchModel.SearchStartDateOnUtc)),
+                               new FilterParameter(nameof(SlideSearchModel.SearchFinishDateOnUtc)),
+                               new FilterParameter(nameof(SlideSearchModel.SearchPublicationStateId))
+                           },
                            ColumnCollection = new List<ColumnProperty>
                                    {
                                        new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.Id))
@@ -57,6 +67,11 @@ else
                                            ClassName = NopColumnClassDefaults.CenterAll,
                                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.PictureUrl").Text,
                                            Width = "300"
+                                       },
+                                       new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.Name))
+                                       {
+                                           Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.AddWidgetZoneSlide.Fields.Name").Text,
+                                           Width = "150"
                                        },
                                        new ColumnProperty(nameof(AddWidgetZoneSlideModel.SlideModel.StartDateUtc))
                                        {

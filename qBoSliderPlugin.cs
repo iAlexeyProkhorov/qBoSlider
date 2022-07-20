@@ -218,36 +218,39 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //get sample pictures path
             var sampleImagesPath = CommonHelper.DefaultFileProvider.MapPath("~/Plugins/Widgets.qBoSlider/Content/sample-images/");
 
-            var picture1 = (await _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1")).Id;
+            var picture1Id = (await _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner1.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-1")).Id;
             var slide1 = new Slide()
             {
+                Name = "New comfort mouse",
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>NEW COMFORT MOUSE<br /></strong></span></p>" +
                 "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>CHOOSE FROM HUNDREDS<br /></strong></span></p>" +
                 "<p style='margin-top: 5px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>OF MODELS</strong></span></p>" +
                 "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>FROM ONLY $59.00</span></p>" +
                 "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
-                PictureId = picture1,
+                PictureId = picture1Id,
                 Published = true
             };
             await _slideService.InsertSlideAsync(slide1);
 
-            var picture2 = _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2").GetAwaiter().GetResult().Id;
+            var picture2Id = (await _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner2.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-2")).Id;
             var slide2 = new Slide()
             {
+                Name = "HD Pro Webcam H320",
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>HD PRO WEBCAM H320<br /></strong></span></p>" +
                 "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>720P FOR TRUE HD-QUALITY<br />VIDEO CHAT<br /></strong></span></p>" +
                 "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $79.00</span></p>" +
                 "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
-                PictureId = picture2,
+                PictureId = picture2Id,
                 Published = true,
             };
             await _slideService.InsertSlideAsync(slide2);
 
-            var picture3 = _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3").GetAwaiter().GetResult().Id;
+            var picture3Id = (await _pictureService.InsertPictureAsync(File.ReadAllBytes(string.Format("{0}banner3.jpg", sampleImagesPath)), "image/pjpeg", "qboslide-3")).Id;
             var slide3 = new Slide()
             {
+                Name = "Compact camera SP120",
                 Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>COMPACT CAMERA SP120</strong></span></p>" +
                 "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>20X WIDE ZOOM, 2.5 LCD, </strong></span></p>" +
@@ -255,7 +258,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $159.00</span></p>" +
                 "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p>" +
                 "</div>",
-                PictureId = picture3,
+                PictureId = picture3Id,
                 Published = true
             };
             await _slideService.InsertSlideAsync(slide3);

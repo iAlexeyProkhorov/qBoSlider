@@ -42,6 +42,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             services.AddScoped<IGarbageManager, GarbageManager>();
 
             //factories
+            services.AddScoped<ISearchModelFactory, SearchModelFactory>();
             services.AddScoped<ISlideModelFactory, SlideModelFactory>();
             services.AddScoped<ISlideWidgetZoneModelFactory, SlideWidgetZoneModelFactory>();
             services.AddScoped<IWidgetZoneModelFactory, WidgetZoneModelFactory>();

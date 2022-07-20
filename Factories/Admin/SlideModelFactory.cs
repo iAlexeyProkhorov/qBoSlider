@@ -151,7 +151,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Slide paged list model</returns>
         public virtual async Task<SlideSearchModel.SlidePagedListModel> PrepareSlideListPagedModelAsync(SlideSearchModel searchModel)
         {
-            var slides = await _slideService.GetAllSlidesAsync(showHidden: true, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+            var slides = await _slideService.GetAllSlidesAsync(searchModel.SearchName,
+                searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId } : null,
+                searchModel.SearchStartDateOnUtc,
+                searchModel.SearchFinishDateOnUtc,
+                (PublicationState)searchModel.SearchPublicationStateId, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
+
             var gridModel = await new SlideSearchModel.SlidePagedListModel().PrepareToGridAsync(searchModel, slides, () =>
             {
                 return slides.SelectAwait(async slide =>
@@ -161,6 +166,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     {
                         Id = slide.Id,
                         Picture = await _pictureService.GetPictureUrlAsync(pictureId, 300),
+                        Name = slide.Name,
                         Hyperlink = slide.HyperlinkAddress,
                         StartDateUtc = slide.StartDateUtc,
                         EndDateUtc = slide.EndDateUtc,
@@ -188,6 +194,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 model.Id = slide.Id;
                 model.Hyperlink = slide.HyperlinkAddress;
                 model.PictureId = slide.PictureId.GetValueOrDefault(0);
+                model.Name = slide.Name;
                 model.Description = slide.Description;
                 model.StartDateUtc = slide.StartDateUtc;
                 model.EndDateUtc = slide.EndDateUtc;
