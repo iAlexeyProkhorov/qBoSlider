@@ -32,6 +32,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
             public string PictureUrl { get; set; }
 
             /// <summary>
+            /// Gets or sets slide search name
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
             /// Gets or sets slide displaying start date
             /// </summary>
             public DateTime? StartDateUtc { get; set; }

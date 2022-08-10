@@ -26,6 +26,7 @@
     <div class="form-horizontal">
         <form id="slide-collection-form" method="post">
             <div class="cards-group">
+                @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_SlideSearch.cshtml", Model)
                 <div class="card card-default">
                     <div class="card-body">
                         @await Html.PartialAsync("Table", new DataTablesModel
@@ -43,6 +44,12 @@
                                        Width = "300",
                                        Visible = true,
                                        Render = new RenderPicture()
+                                   },
+                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Name))
+                                   {
+                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Name").Text,
+                                       Width = "300",
+                                       Visible = true
                                    },
                                    new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.StartDateUtc))
                                    {

@@ -12,105 +12,59 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
+namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin
 {
     /// <summary>
-    /// Represent slide search model
+    /// Represents slide search model
     /// </summary>
-    public record SlideSearchModel : BaseSearchModel, ISlideSearchModel
+    public interface ISlideSearchModel
     {
         /// <summary>
         /// Gets or sets slide search name
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchName")]
-        public string SearchName { get; set; }
+        string SearchName { get; set; }
 
         /// <summary>
         /// Gets or sets search slide widget zone 
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchWidgetZoneId")]
-        public int SearchWidgetZoneId { get; set; }
+        int SearchWidgetZoneId { get; set; }
 
         /// <summary>
         /// Gets or sets available widget zones
         /// </summary>
-        public IList<SelectListItem> AvailableWidgetZones { get; set; } = new List<SelectListItem>();
+        IList<SelectListItem> AvailableWidgetZones { get; set; }
 
         /// <summary>
         /// Gets or sets slide search start date
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateOnUtc")]
         [UIHint("DateTimeNullable")]
-        public DateTime? SearchStartDateOnUtc { get; set; }
+        DateTime? SearchStartDateOnUtc { get; set; }
 
         /// <summary>
         /// Gets or sets slide search finish date
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateOnUtc")]
         [UIHint("DateTimeNullable")]
-        public DateTime? SearchFinishDateOnUtc { get; set; }
+        DateTime? SearchFinishDateOnUtc { get; set; }
 
         /// <summary>
         /// Gets or sets slide search publication status
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.PublicationStateId")]
-        public int SearchPublicationStateId { get; set; }
+        int SearchPublicationStateId { get; set; }
 
         /// <summary>
         /// Gets or sets list of available publication states
         /// </summary>
-        public IList<SelectListItem> AvailablePublicationStates { get; set; } = new List<SelectListItem>();
-
-        /// <summary>
-        /// Represent slide page list model
-        /// </summary>
-        public record SlidePagedListModel :BasePagedListModel<SlideListItemModel>
-        {
-
-        }
-
-        /// <summary>
-        /// Represents slide in list
-        /// </summary>
-        public record SlideListItemModel : BaseNopEntityModel
-        {
-            /// <summary>
-            /// Gets or sets slide picture Url
-            /// </summary>
-            public string Picture { get; set; }
-
-            /// <summary>
-            /// Gets or sets slide name
-            /// </summary>
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Gets or sets slide hyperlink
-            /// </summary>
-            public string Hyperlink { get; set; }
-
-            /// <summary>
-            /// Gets or sets slide displaying start date
-            /// </summary>
-            public DateTime? StartDateUtc { get; set; }
-
-            /// <summary>
-            /// Gets or sets slide displaying end date
-            /// </summary>
-            public DateTime? EndDateUtc { get; set; }
-
-            /// <summary>
-            /// Gest or sets slide published or not
-            /// </summary>
-            public bool Published { get; set; }
-        }
+        IList<SelectListItem> AvailablePublicationStates { get; set; }
     }
 }

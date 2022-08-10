@@ -16,6 +16,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         [UIHint("Picture")]
         public int PictureId { get; set; }
 
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Name")]
+        public string Name { get; set; }
+
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.Fields.Description")]
         public string Description { get; set; }
 
