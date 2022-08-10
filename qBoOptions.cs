@@ -46,4 +46,14 @@ namespace Nop.Plugin.Widgets.qBoSlider
         Vertical = 2, 
         Both = 3
     }
+
+    /// <summary>
+    /// Represents entity publication state variants
+    /// </summary>
+    public enum PublicationState : int
+    {
+        All = 0,
+        Published = 5,
+        Unpublished = 10
+    }
 }
