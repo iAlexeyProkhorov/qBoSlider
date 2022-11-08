@@ -64,7 +64,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
             protected string GenerateLocalizationXmlFilePathByCulture(string culture = "en-US")
             {
                 string fileName = string.Format("localization.{0}.xml", culture);
-                string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}\\Content\\";
+                string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}{Path.DirectorySeparatorChar}Content{Path.DirectorySeparatorChar}";
 
             return $"{contentDirectoryPath}{fileName}";
         }
@@ -72,9 +72,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <summary>
         /// Install available plugin localizations
         /// </summary>
-        protected virtual void InstallLocalization()
+        protected virtual async Task InstallLocalizationAsync()
         {
-            var allLanguages = _languageService.GetAllLanguagesAsync().GetAwaiter().GetResult();
+            var allLanguages = await _languageService.GetAllLanguagesAsync();
             var language = allLanguages.FirstOrDefault();
 
             //if shop have no available languages method generate exception
@@ -95,7 +95,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 {
                     using (var sr = new StreamReader(stream, Encoding.UTF8))
                     {
-                        _localizationService.ImportResourcesFromXmlAsync(l, sr);
+                        await _localizationService.ImportResourcesFromXmlAsync(l, sr);
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <summary>
         /// Uninstall plugin localization
         /// </summary>
-        protected virtual void UninstallLocalization()
+        protected virtual async Task UninstallLocalizationAsync()
         {
             var localizationPath = GenerateLocalizationXmlFilePathByCulture();
 
@@ -118,7 +118,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
             {
                 using (var sr = new StreamReader(stream, Encoding.UTF8))
                 {
-                    var result = sr.ReadToEnd();
+                    var result = await sr.ReadToEndAsync();
                     var xLang = new XmlDocument();
                     xLang.LoadXml(result);
 
@@ -128,7 +128,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                         if (elem.Name == "LocaleResource")
                         {
                             var localResource = elem.Attributes["Name"].Value;
-                            _localizationService.DeleteLocaleResourceAsync(localResource);
+                            await _localizationService.DeleteLocaleResourceAsync(localResource);
                         }
                 }
             }
@@ -141,14 +141,14 @@ namespace Nop.Plugin.Widgets.qBoSlider
         public override async Task InstallAsync()
         {
 
-            InstallLocalization();
+            await InstallLocalizationAsync();
             await base.InstallAsync();
         }
 
 
         public override async Task UninstallAsync()
         {
-            UninstallLocalization();
+            await UninstallLocalizationAsync();
             await base.UninstallAsync();
         }
 
