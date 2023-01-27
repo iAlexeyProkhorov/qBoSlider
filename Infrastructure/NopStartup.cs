@@ -60,7 +60,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
 
         public int Order
         {
-            get { return 1; }
+            get { return 1000; }
         }
     }
 }

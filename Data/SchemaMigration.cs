@@ -14,12 +14,13 @@
 
 
 using FluentMigrator;
+using Nop.Data.Extensions;
 using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Data
 {
-    [NopMigration("2020/05/24 15:33:23:6455432", "Widgets.qBoSlider base schema")]
+    [NopMigration("2020/05/24 15:33:23:6455432", "Widgets.qBoSlider base schema", MigrationProcessType.Installation)]
     public class SchemaMigration : AutoReversingMigration
     {
         protected IMigrationManager _migrationManager;
@@ -31,7 +32,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Data
 
         public override void Up()
         {
-            //_migrationManager.BuildTable<Slide>(Create);
+            Create.TableFor<WidgetZone>();
+            Create.TableFor<Slide>();
+            Create.TableFor<WidgetZoneSlide>();
         }
     }
 }

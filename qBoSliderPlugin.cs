@@ -13,6 +13,7 @@
 //limitations under the License.
 
 using Nop.Core;
+using Nop.Plugin.Widgets.qBoSlider.Components;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
@@ -124,9 +125,9 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// </summary>
         /// <param name="widgetZone">Name of the widget zone</param>
         /// <returns>View component name</returns>
-        public string GetWidgetViewComponentName(string widgetZone)
+        public Type GetWidgetViewComponent(string widgetZone)
         {
-            return "Baroque.qBoSlider.PublicInfo";
+            return typeof(PublicInfoComponent);
         }
 
         /// <summary>

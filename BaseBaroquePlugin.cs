@@ -45,11 +45,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
         {
             //get plugin descriptor
             var pluginsInfo = Singleton<IPluginsInfo>.Instance;
-            var descriptor = pluginsInfo.PluginDescriptors.FirstOrDefault(x => x.PluginType == this.GetType());
+            var descriptor = pluginsInfo.PluginDescriptors.FirstOrDefault(x => x.pluginDescriptor.PluginType == this.GetType());
             //intialize varialbes
             this._localizationService = EngineContext.Current.Resolve<ILocalizationService>();
             this._languageService = EngineContext.Current.Resolve<ILanguageService>();
-            this._originalAssemblyFile = new FileInfo(descriptor.OriginalAssemblyFile);
+            this._originalAssemblyFile = new FileInfo(descriptor.pluginDescriptor.OriginalAssemblyFile);
         }
 
         #endregion
