@@ -16,7 +16,7 @@
 		<PackageProjectUrl></PackageProjectUrl>
 		<RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<Version>1.4.2</Version>
+		<Version>1.4.3</Version>
 		<OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.qBoSlider</OutputPath>
 		<OutDir>$(OutputPath)</OutDir>
 	</PropertyGroup>
