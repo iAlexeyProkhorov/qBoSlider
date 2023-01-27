@@ -83,9 +83,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
             var isPictureValid = int.TryParse(pictureIdLocalizaedValue, out int localizePictureId);
 
             //delete localized values
-            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.PictureId, null, languageId);
-            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.HyperlinkAddress, null, languageId);
-            _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.Description, null, languageId);
+            await _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.PictureId, null, languageId);
+            await _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.HyperlinkAddress, null, languageId);
+            await _localizedEntityService.SaveLocalizedValueAsync(slide, x => x.Description, null, languageId);
 
             //remove localized picture
             if (!string.IsNullOrEmpty(pictureIdLocalizaedValue) && isPictureValid)
@@ -96,7 +96,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
                 if (localizedPicture == null)
                     return;
 
-                _pictureService.DeletePictureAsync(localizedPicture);
+                await _pictureService.DeletePictureAsync(localizedPicture);
             }
         }
 

@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<Copyright>Copyright © Baroque Team</Copyright>
 		<Company></Company>
 		<Authors>Baroque Team</Authors>
@@ -16,7 +16,7 @@
 		<PackageProjectUrl></PackageProjectUrl>
 		<RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<Version>1.4.2</Version>
+		<Version>1.4.3</Version>
 		<OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.qBoSlider</OutputPath>
 		<OutDir>$(OutputPath)</OutDir>
 	</PropertyGroup>
@@ -32,9 +32,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Data\**" />
+	  <EmbeddedResource Remove="Data\**" />
+	  <None Remove="Data\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Remove="Infrastructure\EfStartUpTask.cs" />
 		<Compile Remove="Infrastructure\qBoSliderContext.cs" />
 		<Compile Remove="Infrastructure\RouteProvider.cs" />
+		<Compile Remove="Mapping\qBoSliderNamesCompatibility.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -58,9 +65,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj">
-			<Private>false</Private>
-		</ProjectReference>
+	  <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Content\images\a17.png">
