@@ -115,6 +115,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     AvailableBulletNavigations = await NavigationType.Always.ToSelectListAsync(),
                     Id = widgetZone.Id,
                     MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                    SliderAlignmentId = widgetZone.SliderAlignmentId,
+                    AvailableSliderAlignments = await SliderAlignment.Center.ToSelectListAsync(),
                     MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
                     MaxSlideWidgetZoneWidth = widgetZone.MaxSlideWidgetZoneWidth,
                     Name = widgetZone.Name,
@@ -129,9 +131,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             }
 
             //prepare list of availbale navigation types
-            var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
-            model.AvailableArrowNavigations = navigationTypes;
-            model.AvailableBulletNavigations = navigationTypes;
+            //var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
+            //var alignments = await SliderAlignment.Center.ToSelectListAsync();
+            //model.AvailableArrowNavigations = navigationTypes;
+            //model.AvailableBulletNavigations = navigationTypes;
+            //model.AvailableSliderAlignments = alignments;
 
             //prepare slide search model
             model.SlideSearchModel.SetGridPageSize();

@@ -122,6 +122,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                 SlideSpacing = widgetZone.SlideSpacing,
                 ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
                 BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
+                AlignmentId = widgetZone.SliderAlignmentId,
                 MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
                 MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
             };

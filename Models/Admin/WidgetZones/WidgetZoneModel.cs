@@ -47,6 +47,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         public int SlideSpacing { get; set; }
 
         /// <summary>
+        /// Gets or sets slider alignment type
+        /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SliderAlignment")]
+        public int SliderAlignmentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of available slider alignments
+        /// </summary>
+        public SelectList AvailableSliderAlignments { get; set; } = new SelectList(new List<SelectListItem>());
+
+        /// <summary>
         /// Gets or sets minimum slider width
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth")]

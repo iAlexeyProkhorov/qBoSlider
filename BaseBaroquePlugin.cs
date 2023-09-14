@@ -72,14 +72,15 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <summary>
         /// Install available plugin localizations
         /// </summary>
-        protected virtual async Task InstallLocalizationAsync()
+        /// <param name="updateExistingResources">A value indicating whether to update existing resources</param>
+        protected virtual async Task InstallLocalizationAsync(bool updateExistingResources = true)
         {
             var allLanguages = await _languageService.GetAllLanguagesAsync();
             var language = allLanguages.FirstOrDefault();
 
             //if shop have no available languages method generate exception
             if (language == null)
-                throw new Exception("Your store have no available language.");
+                throw new Exception("Your store has no available language.");
 
             foreach (var l in allLanguages)
             {
@@ -95,7 +96,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 {
                     using (var sr = new StreamReader(stream, Encoding.UTF8))
                     {
-                        await _localizationService.ImportResourcesFromXmlAsync(l, sr);
+                        await _localizationService.ImportResourcesFromXmlAsync(l, sr, updateExistingResources);
                     }
                 }
             }

@@ -13,8 +13,11 @@
 //limitations under the License.
 
 using Nop.Core;
+using Nop.Core.Infrastructure;
+using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Components;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
+using Nop.Plugin.Widgets.qBoSlider.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
@@ -103,10 +106,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// <returns>Widget zones</returns>
         public async Task<IList<string>> GetWidgetZonesAsync()
         {
-            //need to prepare all available widget zone names, but we can't call widget zone service in plugin constructor
-            //that's why we use here 'EngineContext'
-            //var widgetZoneService = EngineContext.Current.Resolve<IWidgetZoneService>();
-
             //get active widget zones system names
             var activeWidgetZones = _widgetZoneService.GetWidgetZones().ToList();
             activeWidgetZones = await activeWidgetZones
@@ -206,6 +205,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 MinDragOffsetToSlide = 20,
                 MinSlideWidgetZoneWidth = 200,
                 MaxSlideWidgetZoneWidth = 1920,
+                SliderAlignmentId = 5,
                 SlideSpacing = 0,
                 BulletNavigationDisplayingTypeId = 2,
                 ArrowNavigationDisplayingTypeId = 1,
@@ -306,6 +306,19 @@ namespace Nop.Plugin.Widgets.qBoSlider
             await _settingService.DeleteSettingAsync<qBoSliderSettings>();
 
             await base.UninstallAsync();
+        }
+
+        /// <summary>
+        /// Exesutes plugin upgrade, if current vershion not equals already installed vershion
+        /// </summary>
+        /// <param name="currentVersion">Installed plugin version</param>
+        /// <param name="targetVersion">Actual plugin version from plugin descriptior file 'plugin.json'</param>
+        /// <returns></returns>
+        public override async Task UpdateAsync(string currentVersion, string targetVersion)
+        {
+            //install not existing localization values
+            //DO NOT update already existing values
+            await InstallLocalizationAsync(false);
         }
 
         #endregion

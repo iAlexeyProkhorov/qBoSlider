@@ -59,6 +59,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public int SlideSpacing { get; set; }
 
         /// <summary>
+        /// Gets or sets slider alignment type
+        /// </summary>
+        public int SliderAlignmentId { get; set; }
+
+        /// <summary>
         /// Gets or sets minimum slider width
         /// </summary>
         public int MinSlideWidgetZoneWidth { get; set; } = 200;

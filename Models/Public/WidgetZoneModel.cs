@@ -24,6 +24,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
         public int AutoPlayInterval { get; set; }
 
         /// <summary>
+        /// Gets or sets slider alignment id number
+        /// </summary>
+        public int AlignmentId { get; set; }
+
+        /// <summary>
         /// Gets or sets slide duration
         /// </summary>
         public int SlideDuration { get; set; }
