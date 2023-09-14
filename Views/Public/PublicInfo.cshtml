@@ -1,4 +1,5 @@
-﻿@model WidgetZoneModel
+﻿@using Nop.Plugin.Widgets.qBoSlider;
+@model WidgetZoneModel
 @{
     Layout = "";
     //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
@@ -8,11 +9,26 @@
     nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
 
     string autoPlay = Model.AutoPlay ? "True" : string.Empty;
+    string alignment = string.Empty;
+    switch(Model.AlignmentId)
+    {
+        case (int)SliderAlignment.Left:
+            alignment = "margin-right: auto;";
+            break;
+        case (int)SliderAlignment.Center:
+            alignment = "margin-left: auto; margin-right: auto;";
+            break;
+        case (int)SliderAlignment.Right:
+            alignment = "margin-left: auto;";
+            break;
+        default:
+            break;
+    }
 }
 @using Nop.Web.Framework.UI
 
 
-<div class="slider-container" id="slider-@Model.Id">
+<div class="slider-container" id="slider-@Model.Id" style="@alignment">
     <div u="loading" id="slider-loading">
         <div id="slider-loading-background">
         </div>

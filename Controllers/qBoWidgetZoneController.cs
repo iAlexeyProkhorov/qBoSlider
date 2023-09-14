@@ -235,6 +235,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth,
                 SlideDuration = model.SlideDuration,
                 SlideSpacing = model.SlideSpacing,
+                SliderAlignmentId = model.SliderAlignmentId,
                 //put widget zone properties
                 Name = model.Name,
                 SystemName = model.SystemName,
@@ -317,6 +318,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             //apply widget zone slider properties
             widgetZone.ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId;
             widgetZone.BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId;
+            widgetZone.SliderAlignmentId = model.SliderAlignmentId;
             widgetZone.AutoPlay = model.AutoPlay;
             widgetZone.AutoPlayInterval = model.AutoPlayInterval;
             widgetZone.MinDragOffsetToSlide = model.MinDragOffsetToSlide;

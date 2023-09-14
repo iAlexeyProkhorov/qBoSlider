@@ -203,9 +203,15 @@
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels">
 		<Value>Maximum slider width must be greater then minimum slider width on {0} pixels</Value>
-	</LocaleResource>
+	</LocaleResource> 
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.widgetzonealreadyreserved">
 		<Value>This system name is already reserved by another widget zone.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SliderAlignment">
+		<Value>Alignment</Value>
+	</LocaleResource>
+	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SliderAlignment.Hint">
+		<Value>Slider alignment for selected widget zone.</Value>
 	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
@@ -448,5 +454,51 @@
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.PublicationStateId.hint">
 		<Value>Select searchable slide publication state.</Value>
+	</LocaleResource>
+	<!--ENUMS-->
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.SliderAlignment.Left">
+		<Value>Left</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.SliderAlignment.Center">
+		<Value>Center</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.SliderAlignment.Right">
+		<Value>Right</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.PublicationState.All">
+		<Value>All</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.PublicationState.Published">
+		<Value>Published</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.PublicationState.Unpublished">
+		<Value>Unpublished</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.NavigationType.None">
+		<Value>None</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.NavigationType.OnMouseDrag">
+		<Value>On mouse drag</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.NavigationType.Always">
+		<Value>Always</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.TransitionPlay.Random">
+		<Value>Random</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.TransitionPlay.Sequence">
+		<Value>Sequence</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.None">
+		<Value>None</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Horizontal">
+		<Value>Horizontal</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Vertical">
+		<Value>Vertical</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.Nop.Plugin.Widgets.qBoSlider.DragOrientation.Both">
+		<Value>Both</Value>
 	</LocaleResource>
 </Language>

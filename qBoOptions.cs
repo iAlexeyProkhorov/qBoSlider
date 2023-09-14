@@ -56,4 +56,14 @@ namespace Nop.Plugin.Widgets.qBoSlider
         Published = 5,
         Unpublished = 10
     }
+
+    /// <summary>
+    /// Represents slider alignment for defined widget zone
+    /// </summary>
+    public enum SliderAlignment : int
+    {
+        Left = 0,
+        Center = 5,
+        Right = 10
+    }
 }
