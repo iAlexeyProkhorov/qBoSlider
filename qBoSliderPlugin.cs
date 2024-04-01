@@ -13,11 +13,8 @@
 //limitations under the License.
 
 using Nop.Core;
-using Nop.Core.Infrastructure;
-using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Components;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
-using Nop.Plugin.Widgets.qBoSlider.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
