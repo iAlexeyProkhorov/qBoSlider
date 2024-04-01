@@ -131,11 +131,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             }
 
             //prepare list of availbale navigation types
-            //var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
-            //var alignments = await SliderAlignment.Center.ToSelectListAsync();
-            //model.AvailableArrowNavigations = navigationTypes;
-            //model.AvailableBulletNavigations = navigationTypes;
-            //model.AvailableSliderAlignments = alignments;
+            var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
+            var alignments = await SliderAlignment.Center.ToSelectListAsync();
+            model.AvailableArrowNavigations = navigationTypes;
+            model.AvailableBulletNavigations = navigationTypes;
+            model.AvailableSliderAlignments = alignments;
 
             //prepare slide search model
             model.SlideSearchModel.SetGridPageSize();
