@@ -190,7 +190,12 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
                 return AccessDeniedView();
 
-            var model = new WidgetZoneModel();
+            var model = new WidgetZoneModel()
+            {
+                ArrowNavigationDisplayingTypeId = (int)NavigationType.OnMouseDrag,
+                BulletNavigationDisplayingTypeId = (int)NavigationType.Always,
+                SliderAlignmentId = (int)SliderAlignment.Center,
+            };
 
             //prepare widget zone model
             await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
