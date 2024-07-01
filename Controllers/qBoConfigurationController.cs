@@ -30,7 +30,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     /// Represents plugin configuration controller
     /// </summary>
     [AuthorizeAdmin]
-    [Area(AreaNames.Admin)]
+    [Area(AreaNames.ADMIN)]
     public class qBoConfigurationController : BasePluginController
     {
         #region Fields

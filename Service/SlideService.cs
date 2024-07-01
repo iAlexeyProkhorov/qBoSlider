@@ -17,7 +17,6 @@ using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Services.Stores;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
