@@ -20,8 +20,6 @@ using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Models.Extensions;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -130,9 +128,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Add slide widget zone model</param>
         /// <returns>Slide widget zone list</returns>
-        public virtual AddSlideWidgetZoneModel.WidgetZonePagedList PrepareWidgetZoneList(AddSlideWidgetZoneModel searchModel)
+        public virtual async Task<AddSlideWidgetZoneModel.WidgetZonePagedList> PrepareWidgetZoneListAsync(AddSlideWidgetZoneModel searchModel)
         {
-            var allWidgetZones = _widgetZoneService.GetWidgetZones(searchModel.SearchWidgetZoneName, searchModel.SearchWidgetZoneSystemName, true, searchModel.Page - 1, searchModel.PageSize);
+            var allWidgetZones = await _widgetZoneService.GetWidgetZonesAsync(searchModel.SearchWidgetZoneName, searchModel.SearchWidgetZoneSystemName, true, searchModel.Page - 1, searchModel.PageSize);
             var gridModel = new AddSlideWidgetZoneModel.WidgetZonePagedList().PrepareToGrid(searchModel, allWidgetZones, () =>
             {
                 return allWidgetZones.Select(widgetZone =>
@@ -152,7 +150,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual async Task<EditSlideWidgetZoneModel> PrepareEditSlideWidgetZoneModelAsync(WidgetZoneSlide widgetZoneSlide)
         {
             var allLanguages = await _languageService.GetAllLanguagesAsync();
-            var allWidgetZones = _widgetZoneService.GetWidgetZones();
+            var allWidgetZones = await _widgetZoneService.GetWidgetZonesAsync();
 
             var model = new EditSlideWidgetZoneModel()
             {

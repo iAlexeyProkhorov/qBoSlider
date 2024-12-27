@@ -130,7 +130,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                 throw new ArgumentNullException("model");
 
             if (!excludeProperties && slide != null)
-                model.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(slide)).ToList();
+                model.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(slide.Id, nameof(Slide))).ToList();
 
             var allRoles = await _customerService.GetAllCustomerRolesAsync(true);
             foreach (var role in allRoles)

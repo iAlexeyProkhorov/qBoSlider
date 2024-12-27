@@ -66,9 +66,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Search model</param>
         /// <returns>Paged list model</returns>
-        public virtual WidgetZoneSearchModel.WidgetZoneList PrepareWidgetZonePagedListModel(WidgetZoneSearchModel searchModel)
+        public virtual async Task<WidgetZoneSearchModel.WidgetZoneList> PrepareWidgetZonePagedListModelAsync(WidgetZoneSearchModel searchModel)
         {
-            var widgetZones = _widgetZoneService.GetWidgetZones(
+            var widgetZones = await _widgetZoneService.GetWidgetZonesAsync(
                 name: searchModel.SearchWidgetZoneName,
                 systemName: searchModel.SearchWidgetZoneSystemName, 
                 showHidden: true, 
@@ -155,7 +155,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 
             //prepare widget zone customer roles
             if (widgetZone != null)
-                widgetZoneModel.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(widgetZone)).ToList();
+                widgetZoneModel.SelectedCustomerRoleIds = (await _aclService.GetCustomerRoleIdsWithAccessAsync(widgetZone.Id, nameof(WidgetZone))).ToList();
 
             //prepare available customer roles list
             var customerRoles = await _customerService.GetAllCustomerRolesAsync(true);

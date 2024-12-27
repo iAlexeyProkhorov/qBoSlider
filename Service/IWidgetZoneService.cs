@@ -34,7 +34,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="systemName">Widget zone system name</param>
         /// <returns>Widget zone entity</returns>
-        WidgetZone GetWidgetZoneBySystemName(string systemName);
+        Task<WidgetZone> GetWidgetZoneBySystemNameAsync(string systemName);
 
         /// <summary>
         /// Get list of all existing nopCommerce widget zones
@@ -54,7 +54,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zones collection</returns>
-        IPagedList<WidgetZone> GetWidgetZones(string name = null, string systemName = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<WidgetZone>> GetWidgetZonesAsync(string name = null, string systemName = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Get widget zone slides
@@ -63,7 +63,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zone slides</returns>
-        IPagedList<Slide> GetWidgetZoneSlides(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<Slide>> GetWidgetZoneSlidesAsync(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Insert new widget zone in database

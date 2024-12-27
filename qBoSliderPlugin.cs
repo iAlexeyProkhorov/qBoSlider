@@ -1,4 +1,4 @@
-//Copyright 2020 Alexey Prokhorov
+﻿//Copyright 2020 Alexey Prokhorov
 
 //Licensed under the Apache License, Version 2.0 (the "License");
 //you may not use this file except in compliance with the License.
@@ -21,19 +21,13 @@ using Nop.Services.Configuration;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
-using Nop.Web.Framework.Menu;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider
 {
     /// <summary>
     /// Base plugin class
     /// </summary>
-    public class qBoSliderPlugin : BaseBaroquePlugin, IWidgetPlugin, IAdminMenuPlugin
+    public class qBoSliderPlugin : BaseBaroquePlugin, IWidgetPlugin
     {
         #region Fields
 
@@ -104,7 +98,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
         public async Task<IList<string>> GetWidgetZonesAsync()
         {
             //get active widget zones system names
-            var activeWidgetZones = _widgetZoneService.GetWidgetZones().ToList();
+            var activeWidgetZones = (await _widgetZoneService.GetWidgetZonesAsync()).ToList();
             activeWidgetZones = await activeWidgetZones
                 //process only authorized by ACL widget zones 
                 .WhereAwait(async widgetZone => await _aclService.AuthorizeAsync(widgetZone)).ToListAsync();
@@ -124,62 +118,6 @@ namespace Nop.Plugin.Widgets.qBoSlider
         public Type GetWidgetViewComponent(string widgetZone)
         {
             return typeof(PublicInfoComponent);
-        }
-
-        /// <summary>
-        /// Manage sitemap. You can use "SystemName" of menu items to manage existing sitemap or add a new menu item.
-        /// </summary>
-        /// <param name="rootNode">Root node of the sitemap.</param>
-        public async Task ManageSiteMapAsync(SiteMapNode rootNode)
-        {
-            //do nothing if customer can't manage plugins
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return;
-
-            //do nothing if menu item not found
-            var thirdPartPluginsNode = rootNode.ChildNodes.FirstOrDefault(x => x.SystemName.Equals("Third party plugins", StringComparison.InvariantCultureIgnoreCase));
-            if (thirdPartPluginsNode == null)
-                return;
-
-            var pluginNode = new SiteMapNode()
-            {
-                SystemName = "Baroque-qboSlider",
-                Title = this.PluginDescriptor.FriendlyName,
-                IconClass = "far fa-dot-circle",
-                Visible = true,
-                ChildNodes = new List<SiteMapNode>()
-                {
-                    new SiteMapNode()
-                    {
-                        SystemName = "Baroque-qBoSlider-WidgetZone",
-                        Title = "Widget zones",
-                        ControllerName ="qBoWidgetZone",
-                        ActionName = "List",
-                        IconClass = "far fa-circle",
-                        Visible = true
-                    },
-                    new SiteMapNode()
-                    {
-                        SystemName = "Baroque-qBoSlider-Slide",
-                        Title = "Slides",
-                        ControllerName ="qBoSlide",
-                        ActionName = "List",
-                        IconClass = "far fa-circle",
-                        Visible = true
-                    },
-                    new SiteMapNode()
-                    {
-                        SystemName = "Baroque-qBoSlider-Configuration",
-                        Title = "Configuration",
-                        ControllerName ="qBoConfiguration",
-                        ActionName = "Configure",
-                        IconClass = "far fa-circle",
-                        Visible = true
-                    }
-                }
-            };
-
-            thirdPartPluginsNode.ChildNodes.Add(pluginNode);
         }
 
         /// <summary>

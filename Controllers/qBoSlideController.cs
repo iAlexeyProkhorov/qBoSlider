@@ -40,6 +40,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     /// </summary>
     [AuthorizeAdmin]
     [Area(AreaNames.ADMIN)]
+
     public class qBoSlideController : BasePluginController
     {
         #region Fields
@@ -209,23 +210,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> List(SlideSearchModel searchModel)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return await AccessDeniedDataTablesJson();
-
             var gridModel = await _slideModelFactory.PrepareSlideListPagedModelAsync(searchModel);
 
             return Json(gridModel);
         }
 
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create()
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var model = new SlideModel();
             await _slideModelFactory.PrepareSlideModelAsync(model, null);
 
@@ -233,12 +228,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create(SlideModel model, bool continueEditing)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             //return on slide creation page if model invalid
             if (!ModelState.IsValid)
             {
@@ -289,12 +281,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return RedirectToAction("Edit", new { id = slide.Id });
         }
 
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Edit(int id)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slide = await _slideService.GetSlideByIdAsync(id);
             if (slide == null)
                 throw new Exception($"Slide by id: {id} isn't exist.");
@@ -307,12 +296,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Edit(SlideModel model, bool continueEditing)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slide = await _slideService.GetSlideByIdAsync(model.Id);
             if (slide == null)
                 throw new Exception($"Slide by id: {model.Id} isn't exist.");
@@ -365,12 +351,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return await Edit(model.Id);
         }
 
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Delete(int id)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return await AccessDeniedDataTablesJson();
-
             var slide = await _slideService.GetSlideByIdAsync(id);
             if (slide == null)
                 throw new Exception("Slide aren't exist");
@@ -393,23 +376,17 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         #region Widget zone List / Edit / Delete
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> GetWidgetZoneList(SlideWidgetZoneSearchModel searchModel)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return await AccessDeniedDataTablesJson();
-
             var gridModel = await _slideWidgetZoneModelFactory.PrepareWidgetZoneListAsync(searchModel);
 
             return Json(gridModel);
         }
 
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> EditSlideWidgetZonePopup(int id)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slideWidgetZone = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(id);
             if (slideWidgetZone == null)
                 throw new Exception($"Slide widget zone by id: '{id}' aren't exist");
@@ -419,12 +396,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> EditSlideWidgetZonePopup(EditSlideWidgetZoneModel model)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slideWidgetZone = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(model.Id);
             if (slideWidgetZone == null)
                 throw new Exception($"Slide widget zone by id: '{model.Id}' aren't exist");
@@ -447,12 +421,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> DeleteSlideWidgetZone(int id)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return await AccessDeniedDataTablesJson();
-
             var slideWidgetZone = await _widgetZoneSlideService.GetWidgetZoneSlideAsync(id);
             if (slideWidgetZone == null)
                 throw new Exception($"Slide widget zone by id {id} isn't exist");
@@ -465,12 +436,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Add widget zone
 
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> AddSlideWidgetZonePopup(int slideId)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slide = await _slideService.GetSlideByIdAsync(slideId);
             if (slide == null)
                 throw new Exception($"Slide by id '{slideId}' aren't exist");
@@ -485,12 +453,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> AddSlideWidgetZonePopup(AddSlideWidgetZoneModel searchModel)
         {
-            //return access denied result if customer has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return AccessDeniedView();
-
             var slide = await _slideService.GetSlideByIdAsync(searchModel.SlideId);
             if (slide == null)
                 throw new Exception($"Slide by id '{searchModel.SlideId}' isn't exist");
@@ -509,13 +474,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         }
 
         [HttpPost]
+        [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> GetWidgetZoneListPopup(AddSlideWidgetZoneModel searchModel)
         {
-            //redirect customer on accessdenied view, if client has no permissions
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-                return await AccessDeniedDataTablesJson();
-
-            var gridModel = _slideWidgetZoneModelFactory.PrepareWidgetZoneList(searchModel);
+            var gridModel = await _slideWidgetZoneModelFactory.PrepareWidgetZoneListAsync(searchModel);
             return Json(gridModel);
         }
 
