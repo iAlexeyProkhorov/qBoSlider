@@ -16,7 +16,7 @@
 		<PackageProjectUrl></PackageProjectUrl>
 		<RepositoryUrl>https://github.com/iAlexeyProkhorov/qBoSlider</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
-		<Version>1.4.3</Version>
+		<Version>1.4.6</Version>
 		<OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.qBoSlider</OutputPath>
 		<OutDir>$(OutputPath)</OutDir>
 	</PropertyGroup>
@@ -45,6 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="Content\images\b14.png" />
 		<None Remove="Scripts\jssor.js" />
 		<None Remove="Scripts\jssor.slider.js" />
 		<None Remove="Scripts\slideshow-transition-builder-controller.min.js" />
@@ -68,13 +69,7 @@
 	  <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Content\images\a17.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="Content\images\ajax_loader.gif">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Content\images\b14.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Content\localization.en-US.xml">

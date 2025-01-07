@@ -1,128 +1,125 @@
 ﻿.slider-container {
-    position: relative;
-    top: 0px;
-    left: 0px;
-    width: 600px;
-    height: 300px;
-    overflow: hidden;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 600px;
+  height: 300px;
+  overflow: hidden;
 }
 
-    .slider-container #slider-loading {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-
-#slider-loading-background {
-    filter: alpha(opacity=70);
-    opacity: 0.7;
+  .slider-container #slider-loading {
     position: absolute;
-    display: block;
-    background-color: #000000;
     top: 0px;
     left: 0px;
-    width: 100%;
-    height: 100%;
+  }
+
+#slider-loading-background {
+  filter: alpha(opacity=70);
+  opacity: 0.7;
+  position: absolute;
+  display: block;
+  background-color: #000000;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 #slider-loading #loading {
-    position: absolute;
-    display: block;
-    background: url(../Content/Images/ajax_loader.gif) no-repeat center center;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  display: block;
+  background: url(../Content/Images/ajax_loader.gif) no-repeat center center;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 #slide-collection {
-    cursor: pointer;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 600px;
-    height: 300px;
-    overflow: hidden;
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 600px;
+  height: 300px;
+  overflow: hidden;
 }
 
 .jssorb05 {
-    position: absolute;
-    transform: none !important;
+  position: absolute;
+  transform: none !important;
 }
 
-    .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-        position: absolute;
-        /* size of bullet elment */
-        width: 20px;
-        height: 20px;
-        /*background: url(../Content/Images/b14.png) no-repeat;*/
-        background:#4ab2f1;
-        overflow: hidden;
-        cursor: pointer;
+  .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
+    position: absolute;
+    /* size of bullet elment */
+    width: 20px;
+    height: 20px;
+    background: #4ab2f1;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .jssorb05 div {
+    background: #eaeaea;
+    /*background-position: -7px -7px;*/
+  }
+
+    .jssorb05 div:hover, .jssorb05 .av:hover {
+      background-position: -37px -7px;
     }
 
-    .jssorb05 div {
-        background:#eaeaea;
-        /*background-position: -7px -7px;*/
-    }
+  .jssorb05 .av {
+    background-position: -67px -7px;
+  }
 
-        .jssorb05 div:hover, .jssorb05 .av:hover {
-            background-position: -37px -7px;
-        }
-
-    .jssorb05 .av {
-        background-position: -67px -7px;
-    }
-
-    .jssorb05 .dn, .jssorb05 .dn:hover {
-        background-position: -97px -7px;
-    }
+  .jssorb05 .dn, .jssorb05 .dn:hover {
+    background-position: -97px -7px;
+  }
 
 /*<!--#endregion Bullet Navigator Skin End -->
     <!--#region Arrow Navigator Skin Begin -->
     <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->*/
 .jssora12l, .jssora12r {
-    display: block;
-    position: absolute;
-    /* size of arrow element */
-    width: 45px;
-    height: 46px;
-    cursor: pointer;
-    background: url(../Content/Images/a17.png) no-repeat;
-    overflow: hidden;
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .jssora12l {
-    background-position: -10px -37px;
-    top: 123px; 
-    left: 10px;
+  left: 10px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid #eaeaea;
 }
 
 .jssora12r {
-    background-position: -72px -37px;
-    top: 123px;
-     right: 10px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #eaeaea;
+  right: 10px;
 }
 
 .jssora12l:hover {
-    background-position: -130px -37px;
+  border-right: 15px solid #4ab2f1;
 }
 
 .jssora12r:hover {
-    background-position: -191px -37px;
+  border-left: 15px solid #4ab2f1;
 }
 
 .jssora12l.jssora12ldn {
-    background-position: -251px -37px;
+  border-right: 15px solid #4ab2f1;
 }
 
 .jssora12r.jssora12rdn {
-    background-position: -311px -37px;
+
 }
 
 .slide-description {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
 }
