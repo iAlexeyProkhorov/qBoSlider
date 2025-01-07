@@ -56,7 +56,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Slide search model</returns>
         public virtual async Task PrepareSlideSearchModelAsync<TModel>(TModel model) where TModel : BaseSearchModel, ISlideSearchModel
         {
-            model.AvailableWidgetZones = _widgetZoneService.GetWidgetZones().Select(x =>
+            model.AvailableWidgetZones = (await _widgetZoneService.GetWidgetZonesAsync()).Select(x =>
             {
                 return new SelectListItem()
                 {

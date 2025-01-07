@@ -16,6 +16,7 @@ using Nop.Core;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Web.Framework.Infrastructure;
+using Nop.Web.Framework.Models.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,9 +66,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="systemName">Widget zone system name</param>
         /// <returns>Widget zone entity</returns>
-        public virtual WidgetZone GetWidgetZoneBySystemName(string systemName)
+        public virtual async Task<WidgetZone> GetWidgetZoneBySystemNameAsync(string systemName)
         {
-            return _widgetZoneRepository.Table.FirstOrDefault(x => x.SystemName.Equals(systemName) && x.Published);
+            return await _widgetZoneRepository.Table.FirstOrDefaultAsync(x => x.SystemName.Equals(systemName) && x.Published);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zones collection</returns>
-        public virtual IPagedList<WidgetZone> GetWidgetZones(string name = null, string systemName = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual async Task<IPagedList<WidgetZone>> GetWidgetZonesAsync(string name = null, string systemName = null, bool showHidden = false, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _widgetZoneRepository.Table;
 
@@ -116,7 +117,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
             query = query.OrderBy(x => x.Id);
 
-            return new PagedList<WidgetZone>(query.ToList(), pageIndex, pageSize);
+            return await query.ToPagedListAsync(pageIndex, pageSize); 
         }
 
         /// <summary>
@@ -126,16 +127,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zone slides</returns>
-        public virtual IPagedList<Slide> GetWidgetZoneSlides(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual async Task<IPagedList<Slide>> GetWidgetZoneSlidesAsync(int widgetZoneId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = (from zoneSlide in _widgetZoneSlideRepository.Table
+            var query = from zoneSlide in _widgetZoneSlideRepository.Table
                         join slide in _slideRepository.Table on zoneSlide.SlideId equals slide.Id
                         join zone in _widgetZoneRepository.Table on zoneSlide.WidgetZoneId equals zone.Id
                         where zoneSlide.WidgetZoneId == widgetZoneId && slide.Published && zone.Published
                         orderby zoneSlide.DisplayOrder
-                        select slide).ToList();
+                        select slide;
 
-            return new PagedList<Slide>(query, pageIndex, pageSize);
+            return await query.ToPagedListAsync(pageIndex, pageSize);
         }
 
         /// <summary>

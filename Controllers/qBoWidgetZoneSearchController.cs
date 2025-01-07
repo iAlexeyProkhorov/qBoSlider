@@ -15,7 +15,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Web.Framework.Controllers;
-using System.Linq;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -38,9 +37,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         #region Methods
 
-        public virtual IActionResult FindSliderWidgetZoneByName(string name)
+        public virtual async Task<IActionResult> FindSliderWidgetZoneByName(string name)
         {
-            var widgetZones = _widgetZoneService.GetWidgetZones(name, null, true, 0, 10).Select(wz =>
+            var widgetZones = (await _widgetZoneService.GetWidgetZonesAsync(name, null, true, 0, 10)).Select(wz =>
             {
                 return wz.Name;
             }).ToList();
@@ -48,9 +47,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             return Json(widgetZones);
         }
 
-        public virtual IActionResult FindSliderWidgetZoneBySystemName(string systemName)
+        public virtual async Task<IActionResult> FindSliderWidgetZoneBySystemName(string systemName)
         {
-            var widgetZones = _widgetZoneService.GetWidgetZones(null, systemName, true, 0, 10).Select(wz =>
+            var widgetZones = (await _widgetZoneService.GetWidgetZonesAsync(null, systemName, true, 0, 10)).Select(wz =>
             {
                 return wz.SystemName;
             }).ToList();

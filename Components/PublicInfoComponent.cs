@@ -56,7 +56,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
 
         public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData)
         {
-            var widget = _widgetZoneService.GetWidgetZoneBySystemName(widgetZone);
+            var widget = await _widgetZoneService.GetWidgetZoneBySystemNameAsync(widgetZone);
 
             //return empty result if widget zone has no slider
             if (widget == null)
@@ -75,7 +75,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Components
                 return Content(string.Empty);
 
             //return empty result, if widget zone has no published slides
-            var slides = _widgetZoneService.GetWidgetZoneSlides(widget.Id);
+            var slides = await _widgetZoneService.GetWidgetZoneSlidesAsync(widget.Id);
             if (!slides.Any())
                 return Content(string.Empty);
 

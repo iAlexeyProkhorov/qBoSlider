@@ -28,7 +28,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// </summary>
         /// <param name="searchModel">Search model</param>
         /// <returns>Paged list model</returns>
-        WidgetZoneSearchModel.WidgetZoneList PrepareWidgetZonePagedListModel(WidgetZoneSearchModel searchModel);
+        Task<WidgetZoneSearchModel.WidgetZoneList> PrepareWidgetZonePagedListModelAsync(WidgetZoneSearchModel searchModel);
 
         /// <summary>
         /// Prepare widget zone model
