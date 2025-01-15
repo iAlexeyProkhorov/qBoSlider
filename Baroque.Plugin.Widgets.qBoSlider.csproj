@@ -69,7 +69,19 @@
 	  <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Content\images\ajax_loader.gif">
+		<None Update="Content\fonts\slick.eot">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\fonts\slick.svg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\fonts\slick.ttf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\fonts\slick.woff">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\ajax_loader.gif">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Content\localization.en-US.xml">
@@ -84,14 +96,20 @@
 		<None Update="Content\sample-images\banner3.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Content\slick-theme.css">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\slick.css">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Content\slider.css">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="logo.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Scripts\jssor.slider.min.js">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<None Update="Scripts\slick.min.js">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Views\Admin\Configure.cshtml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -162,6 +180,9 @@
 		<None Update="Views\Public\PublicInfo.cshtml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Content\images\" />
 	</ItemGroup>
 	<!-- This target execute after "Build" target -->
 	<Target Name="NopTarget" AfterTargets="Build">

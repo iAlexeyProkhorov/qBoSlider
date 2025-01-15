@@ -158,12 +158,12 @@ namespace Nop.Plugin.Widgets.qBoSlider
             var slide1 = new Slide()
             {
                 Name = "New comfort mouse",
-                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
+                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 28pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>NEW COMFORT MOUSE<br /></strong></span></p>" +
-                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>CHOOSE FROM HUNDREDS<br /></strong></span></p>" +
-                "<p style='margin-top: 5px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>OF MODELS</strong></span></p>" +
-                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>FROM ONLY $59.00</span></p>" +
-                "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
+                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 18pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>CHOOSE FROM HUNDREDS<br /></strong></span></p>" +
+                "<p style='margin-top: 5px; margin-bottom: 0px;'><span style='font-size: 18pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>OF MODELS</strong></span></p>" +
+                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 20pt; font-family: tahoma,arial,helvetica,sans-serif;'>FROM ONLY $59.00</span></p>" +
+                "<p style='margin-top: 10px;'><span style='font-size: 15pt; padding: 10px 20px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
                 PictureId = picture1Id,
                 Published = true
             };
@@ -173,11 +173,11 @@ namespace Nop.Plugin.Widgets.qBoSlider
             var slide2 = new Slide()
             {
                 Name = "HD PRO WEBCAM H320",
-                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
+                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 28pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>HD PRO WEBCAM H320<br /></strong></span></p>" +
-                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>720P FOR TRUE HD-QUALITY<br />VIDEO CHAT<br /></strong></span></p>" +
-                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $79.00</span></p>" +
-                "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
+                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 18pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>720P FOR TRUE HD-QUALITY<br />VIDEO CHAT<br /></strong></span></p>" +
+                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 20pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $79.00</span></p>" +
+                "<p style='margin-top: 10px;'><span style='font-size: 15pt; padding: 10px 20px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p></div>",
                 PictureId = picture2Id,
                 Published = true,
             };
@@ -187,12 +187,12 @@ namespace Nop.Plugin.Widgets.qBoSlider
             var slide3 = new Slide()
             {
                 Name = "Compact camera SP120",
-                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 16pt; font-family: arial,helvetica,sans-serif;'>" +
+                Description = "<div style='color: #111; margin-top: 5%; margin-left: 5%; font-size: 28pt; font-family: arial,helvetica,sans-serif;'>" +
                 "<p style='margin: 0px;'><span style='font-family: tahoma,arial,helvetica,sans-serif;'><strong>COMPACT CAMERA SP120</strong></span></p>" +
-                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>20X WIDE ZOOM, 2.5 LCD, </strong></span></p>" +
-                "<p style='margin-top: 5px; margin-bottom: 0px;'><span style='font-size: 12pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>720P HD VIDEO</strong></span></p>" +
-                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 15pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $159.00</span></p>" +
-                "<p style='margin-top: 10px;'><span style='font-size: 10pt; padding: 5px 10px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p>" +
+                "<p style='margin-top: 10px; margin-bottom: 0px;'><span style='font-size: 18pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>20X WIDE ZOOM, 2.5 LCD, </strong></span></p>" +
+                "<p style='margin-top: 5px; margin-bottom: 0px;'><span style='font-size: 18pt; font-family: tahoma,arial,helvetica,sans-serif;'><strong>720P HD VIDEO</strong></span></p>" +
+                "<p style='margin-top: 25px; color: #44b4f4; font-weight: bold;'><span style='font-size: 20pt; font-family: tahoma,arial,helvetica,sans-serif;'>ONLY $159.00</span></p>" +
+                "<p style='margin-top: 10px;'><span style='font-size: 15pt; padding: 10px 20px; background: none repeat scroll 0% 0% #44b4f4; color: #ffffff; border-radius: 5px; font-family: tahoma,arial,helvetica,sans-serif;'><strong>SHOP NOW</strong></span></p>" +
                 "</div>",
                 PictureId = picture3Id,
                 Published = true

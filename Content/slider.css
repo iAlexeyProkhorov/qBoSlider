@@ -1,9 +1,6 @@
 ﻿.slider-container {
-  position: relative;
   top: 0px;
   left: 0px;
-  width: 600px;
-  height: 300px;
   overflow: hidden;
 }
 
@@ -35,91 +32,16 @@
   height: 100%;
 }
 
-#slide-collection {
-  cursor: pointer;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 600px;
-  height: 300px;
-  overflow: hidden;
-}
-
-.jssorb05 {
-  position: absolute;
-  transform: none !important;
-}
-
-  .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-    position: absolute;
-    /* size of bullet elment */
-    width: 20px;
-    height: 20px;
-    background: #4ab2f1;
-    overflow: hidden;
-    cursor: pointer;
-  }
-
-  .jssorb05 div {
-    background: #eaeaea;
-    /*background-position: -7px -7px;*/
-  }
-
-    .jssorb05 div:hover, .jssorb05 .av:hover {
-      background-position: -37px -7px;
-    }
-
-  .jssorb05 .av {
-    background-position: -67px -7px;
-  }
-
-  .jssorb05 .dn, .jssorb05 .dn:hover {
-    background-position: -97px -7px;
-  }
-
-/*<!--#endregion Bullet Navigator Skin End -->
-    <!--#region Arrow Navigator Skin Begin -->
-    <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->*/
-.jssora12l, .jssora12r {
-  display: block;
-  position: absolute;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.jssora12l {
-  left: 10px;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-right: 15px solid #eaeaea;
-}
-
-.jssora12r {
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-left: 15px solid #eaeaea;
-  right: 10px;
-}
-
-.jssora12l:hover {
-  border-right: 15px solid #4ab2f1;
-}
-
-.jssora12r:hover {
-  border-left: 15px solid #4ab2f1;
-}
-
-.jssora12l.jssora12ldn {
-  border-right: 15px solid #4ab2f1;
-}
-
-.jssora12r.jssora12rdn {
-
-}
-
 .slide-description {
   position: absolute;
   z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
+}
+
+.slick-slide {
+  position: relative;
 }
