@@ -12,7 +12,7 @@
 
     string autoPlay = Model.AutoPlay ? "True" : string.Empty;
     string alignment = string.Empty;
-    switch(Model.AlignmentId)
+    switch (Model.AlignmentId)
     {
         case (int)SliderAlignment.Left:
             alignment = "margin-right: auto;";
@@ -30,7 +30,7 @@
 @using Nop.Web.Framework.UI
 
 
-<div class="slider-container" id="slider-container-@Model.Id">
+<div class="slider-container" id="slider-container-@Model.Id" style="@alignment">
     <div class="slider" id="slider-@Model.Id">
         @foreach (var slide in Model.Slides)
         {
@@ -38,15 +38,19 @@
                 @if (!string.IsNullOrEmpty(slide.Hyperlink))
                 {
                     <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
-                        <img src="@slide.PictureUrl" />
+                        <div class="slide-background">
+                            <img src="@slide.PictureUrl" />
+                        </div>
                         <div class="slide-description">
-                             @Html.Raw(slide.Description) 
+                            @Html.Raw(slide.Description)
                         </div>
                     </a>
                 }
                 else
                 {
-                    <img src="@slide.PictureUrl" />
+                    <div class="slide-background">
+                        <img src="@slide.PictureUrl" />
+                    </div>
                     <div class="slide-description">
                         @Html.Raw(slide.Description)
                     </div>
@@ -57,6 +61,16 @@
 </div>
 
 <script>
-    $('#slider-@Model.Id').slick();
+    $('#slider-@Model.Id').slick({
+        autoplay: @Model.AutoPlay.ToString().ToLower(),
+        autoplaySpeed: @Model.AutoPlayInterval,
+        centerMode: true, // выравнивание содержимого слайда по центру
+        centerPadding: '50px',
+        arrows: true, //navigation arrows displaying. Not working on currrent moment
+        dots: true,
+        swipe: true, //allows to change slides via finger swiping
+        swipeToSlide: true, //I don't know what is that shit
+        touchThreshold: @Model.MinDragOffsetToSlide
+    });
 </script>
 
