@@ -2,13 +2,11 @@
 @model WidgetZoneModel
 @{
     Layout = "";
-    //Html.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/jssor.js");
-    nopHtml.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Scripts/slick.min.js");
+    nopHtml.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Content/js/swiper-bundle.min.js");
 
 
-    nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slick-theme.css");
-    nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slick.css");
-    nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
+    nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/css/swiper-bundle.min.css");
+    nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/css/slider.css");
 
     string alignment = string.Empty;
     switch (Model.AlignmentId)
@@ -28,51 +26,80 @@
 }
 @using Nop.Web.Framework.UI
 
-
 <div class="slider-container" id="slider-container-@Model.Id" style="@alignment">
-    <div class="slider" id="slider-@Model.Id">
-        @foreach (var slide in Model.Slides)
-        {
-            <div class="qbo-slide">
-                @if (!string.IsNullOrEmpty(slide.Hyperlink))
-                {
-                    <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
+    <div class="swiper qbo-slider" id="qbo-slider-@Model.Id">
+        <div class="swiper-wrapper">
+            @foreach (var slide in Model.Slides)
+            {
+                <div class="swiper-slide">
+
+                    @if (!string.IsNullOrEmpty(slide.Hyperlink))
+                    {
+                        <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
+                            <div class="slide-background">
+                                <img src="@slide.PictureUrl" />
+                            </div>
+                            <div class="slide-description">
+                                @Html.Raw(slide.Description)
+                            </div>
+                        </a>
+                    }
+                    else
+                    {
                         <div class="slide-background">
                             <img src="@slide.PictureUrl" />
                         </div>
                         <div class="slide-description">
                             @Html.Raw(slide.Description)
                         </div>
-                    </a>
-                }
-                else
-                {
-                    <div class="slide-background">
-                        <img src="@slide.PictureUrl" />
-                    </div>
-                    <div class="slide-description">
-                        @Html.Raw(slide.Description)
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
+        </div>
+        @if (Model.BulletNavigation == 5)
+        {
+            <div class="swiper-pagination"></div>
+        }
+        @if (Model.ArrowNavigation == 5)
+        {
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         }
     </div>
 </div>
 
-<script>
-    $('#slider-@Model.Id').slick({
-        autoplay: @Model.AutoPlay.ToString().ToLower(),
-        autoplaySpeed: @Model.AutoPlayInterval, //скорость проигрования
-        speed: 500, //скорость анимации смены слайдов
-        infinite: true, //цыклическое повторение слайдов. В противном случае они будут повторятся в обратном порядке
-        centerMode: true, // выравнивание содержимого слайда по центру
-        centerPadding: '50px', //related to 'centerMode' property
-        arrows: @((Model.ArrowNavigation == (int)NavigationType.Always).ToString().ToLower()), //navigation arrows displaying. Not working on currrent moment
-        dots: @((Model.BulletNavigation == (int)NavigationType.Always).ToString().ToLower()),
-        swipe: true, //allows to change slides via finger swiping
-        swipeToSlide: true, //allows swipe slide with slide step ignore
-        touchThreshold: @Model.MinDragOffsetToSlide,
-        pauseOnFocus: true, // останавливать автоматическое проигрование слайдов при фокусе
-    });
+<script asp-location="Footer">
+    var swiper6 = new Swiper("#qbo-slider-@Model.Id", {
+       autoHeight: true,
+         grabCursor: true,
+         effect: "fade",
+         lazy: true,
+    @if (Model.AutoPlay)
+    {
+        <text>
+                 autoplay: {
+                    delay: @Model.AutoPlayInterval
+                 },
+        </text>
+    }
+    @if (Model.BulletNavigation == 5)
+    {
+        <text>
+                 pagination: {
+                     el: ".swiper-pagination",
+                     clickable: true,
+                 },
+        </text>
+    }
+    @if (Model.ArrowNavigation == 5)
+    {
+        <text>
+                 navigation: {
+                     nextEl: ".swiper-button-next",
+                     prevEl: ".swiper-button-prev",
+                 },
+        </text>
+    }
+     });
 </script>
 

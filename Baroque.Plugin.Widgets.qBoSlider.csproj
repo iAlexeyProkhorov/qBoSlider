@@ -46,12 +46,15 @@
 
 	<ItemGroup>
 		<None Remove="Content\images\b14.png" />
-		<None Remove="Scripts\jssor.js" />
-		<None Remove="Scripts\jssor.slider.js" />
-		<None Remove="Scripts\slideshow-transition-builder-controller.min.js" />
 		<None Remove="Views\_ViewImports.cshtml" />
 	</ItemGroup>
 	<ItemGroup>
+		<Content Include="Content\css\swiper-bundle.min.css">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\js\swiper-bundle.min.js">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		<Content Include="plugin.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
@@ -96,20 +99,11 @@
 		<None Update="Content\sample-images\banner3.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Content\slick-theme.css">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Content\slick.css">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Content\slider.css">
+		<None Update="Content\css\slider.css">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="logo.jpg">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Scripts\slick.min.js">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Views\Admin\Configure.cshtml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
