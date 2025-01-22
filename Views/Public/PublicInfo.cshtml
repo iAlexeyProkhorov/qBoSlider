@@ -10,7 +10,6 @@
     nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slick.css");
     nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/slider.css");
 
-    string autoPlay = Model.AutoPlay ? "True" : string.Empty;
     string alignment = string.Empty;
     switch (Model.AlignmentId)
     {
@@ -63,14 +62,17 @@
 <script>
     $('#slider-@Model.Id').slick({
         autoplay: @Model.AutoPlay.ToString().ToLower(),
-        autoplaySpeed: @Model.AutoPlayInterval,
+        autoplaySpeed: @Model.AutoPlayInterval, //скорость проигрования
+        speed: 500, //скорость анимации смены слайдов
+        infinite: true, //цыклическое повторение слайдов. В противном случае они будут повторятся в обратном порядке
         centerMode: true, // выравнивание содержимого слайда по центру
-        centerPadding: '50px',
-        arrows: true, //navigation arrows displaying. Not working on currrent moment
-        dots: true,
+        centerPadding: '50px', //related to 'centerMode' property
+        arrows: @((Model.ArrowNavigation == (int)NavigationType.Always).ToString().ToLower()), //navigation arrows displaying. Not working on currrent moment
+        dots: @((Model.BulletNavigation == (int)NavigationType.Always).ToString().ToLower()),
         swipe: true, //allows to change slides via finger swiping
-        swipeToSlide: true, //I don't know what is that shit
-        touchThreshold: @Model.MinDragOffsetToSlide
+        swipeToSlide: true, //allows swipe slide with slide step ignore
+        touchThreshold: @Model.MinDragOffsetToSlide,
+        pauseOnFocus: true, // останавливать автоматическое проигрование слайдов при фокусе
     });
 </script>
 

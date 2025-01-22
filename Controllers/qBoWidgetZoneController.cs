@@ -28,9 +28,6 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -183,7 +180,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         {
             var model = new WidgetZoneModel()
             {
-                ArrowNavigationDisplayingTypeId = (int)NavigationType.OnMouseDrag,
+                ArrowNavigationDisplayingTypeId = (int)NavigationType.Always,
                 BulletNavigationDisplayingTypeId = (int)NavigationType.Always,
                 SliderAlignmentId = (int)SliderAlignment.Center,
             };
