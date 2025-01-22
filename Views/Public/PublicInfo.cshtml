@@ -58,18 +58,18 @@
         </div>
         @if (Model.BulletNavigation == 5)
         {
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination" id="qbo-slider-pagination-@Model.Id"></div>
         }
         @if (Model.ArrowNavigation == 5)
         {
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev" id="qbo-slider-btn-previous-@Model.Id"></div>
+            <div class="swiper-button-next" id="qbo-slider-btn-next-@Model.Id"></div>
         }
     </div>
 </div>
 
 <script asp-location="Footer">
-    var swiper6 = new Swiper("#qbo-slider-@Model.Id", {
+    var swiper = new Swiper("#qbo-slider-@Model.Id", {
        autoHeight: true,
          grabCursor: true,
          effect: "fade",
@@ -77,27 +77,27 @@
     @if (Model.AutoPlay)
     {
         <text>
-                 autoplay: {
-                    delay: @Model.AutoPlayInterval
-                 },
+            autoplay: {
+                delay: @Model.AutoPlayInterval
+            },
         </text>
     }
     @if (Model.BulletNavigation == 5)
     {
         <text>
-                 pagination: {
-                     el: ".swiper-pagination",
-                     clickable: true,
-                 },
+            pagination: {
+                el: "#qbo-slider-pagination-@Model.Id",
+                clickable: true,
+            },
         </text>
     }
     @if (Model.ArrowNavigation == 5)
     {
         <text>
-                 navigation: {
-                     nextEl: ".swiper-button-next",
-                     prevEl: ".swiper-button-prev",
-                 },
+            navigation: {
+                nextEl: "#qbo-slider-btn-next-@Model.Id",
+                prevEl: "#qbo-slider-btn-previous-@Model.Id",
+            },
         </text>
     }
      });

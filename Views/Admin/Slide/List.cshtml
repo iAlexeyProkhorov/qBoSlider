@@ -29,56 +29,65 @@
                 @await Html.PartialAsync("~/Plugins/Widgets.qBoSlider/Views/Admin/_SlideSearch.cshtml", Model)
                 <div class="card card-default">
                     <div class="card-body">
-                        @await Html.PartialAsync("Table", new DataTablesModel
-                   {
-                       Name = "slider-grid",
-                       UrlRead = new DataUrl("List", "qBoSlide", null),
-                       UrlDelete = new DataUrl("Delete", "qBoSlide", null),
-                       Length = Model.PageSize,
-                       LengthMenu = Model.AvailablePageSizes,
-                       ColumnCollection = new List<ColumnProperty>
-                               {
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Picture))
-                                   {
-                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Picture").Text,
-                                       Width = "300",
-                                       Visible = true,
-                                       Render = new RenderPicture()
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Name))
-                                   {
-                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Name").Text,
-                                       Width = "300",
-                                       Visible = true
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.StartDateUtc))
-                                   {
-                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.StartDateUtc").Text,
-                                       Width = "100",
-                                       Render = new RenderDate()
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.EndDateUtc))
-                                   {
-                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.EndDateUtc").Text,
-                                       Width = "100",
-                                       Render = new RenderDate()
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Published))
-                                   {
-                                       Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Published").Text,
-                                       ClassName = NopColumnClassDefaults.CenterAll,
-                                       Width = "100",
-                                       Render = new RenderBoolean()
-                                   },
-                                   new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Id))
-                                   {
-                                       Title = T("Admin.Common.Edit").Text,
-                                       ClassName = NopColumnClassDefaults.Button,
-                                       Width = "100",
-                                       Render = new RenderButtonEdit(new DataUrl("Edit"))
-                                   }
-                               }
-                   })
+                       @await Html.PartialAsync("Table", new DataTablesModel
+                       {
+                           Name = "slider-grid",
+                           UrlRead = new DataUrl("List", "qBoSlide", null),
+                           UrlDelete = new DataUrl("Delete", "qBoSlide", null),
+                           SearchButtonId = "search-slides",
+                           Length = Model.PageSize,
+                           LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                            {
+                            new FilterParameter(nameof(Model.SearchName)),
+                            new FilterParameter(nameof(Model.SearchWidgetZoneId)),
+                            new FilterParameter(nameof(Model.SearchStartDateOnUtc)),
+                            new FilterParameter(nameof(Model.SearchFinishDateOnUtc)),
+                            new FilterParameter(nameof(Model.SearchPublicationStateId))
+                            },
+                           ColumnCollection = new List<ColumnProperty>
+                            {
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Picture))
+                            {
+                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Picture").Text,
+                            Width = "300",
+                            Visible = true,
+                            Render = new RenderPicture()
+                            },
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Name))
+                            {
+                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Name").Text,
+                            Width = "300",
+                            Visible = true
+                            },
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.StartDateUtc))
+                            {
+                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.StartDateUtc").Text,
+                            Width = "100",
+                            Render = new RenderDate()
+                            },
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.EndDateUtc))
+                            {
+                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.EndDateUtc").Text,
+                            Width = "100",
+                            Render = new RenderDate()
+                            },
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Published))
+                            {
+                            Title = T("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.Slide.List.Published").Text,
+                            ClassName = NopColumnClassDefaults.CenterAll,
+                            Width = "100",
+                            Render = new RenderBoolean()
+                            },
+                            new ColumnProperty(nameof(SlideSearchModel.SlideListItemModel.Id))
+                            {
+                            Title = T("Admin.Common.Edit").Text,
+                            ClassName = NopColumnClassDefaults.Button,
+                            Width = "100",
+                            Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                            }
+                       })
                         <input type="submit" id="btnRefresh" style="display: none" />
                     </div>
                 </div>
