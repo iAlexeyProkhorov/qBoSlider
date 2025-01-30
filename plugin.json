@@ -2,7 +2,7 @@
   "Group": "Widgets",
   "FriendlyName": "qBoSlider",
   "SystemName": "Widgets.qBoSlider",
-  "Version": "1.4.6",
+  "Version": "1.4.8",
   "SupportedVersions": [ "4.80" ],
   "Author": "Baroque team",
   "DisplayOrder": 1,
