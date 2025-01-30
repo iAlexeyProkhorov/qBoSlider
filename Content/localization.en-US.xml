@@ -78,17 +78,11 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.AutoPlayInterval.Hint">
 		<Value>Time interval between two slides(in milliseconds).</Value>
 	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AutoPlayInterval.MustBeGreaterThanZero">
-		<Value>Autoplay interval must be greater than zero.</Value>
-	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlideDuration">
 		<Value>Slide duration</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlideDuration.Hint">
 		<Value>Slide changing duration time(In milliseconds).</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideDuration.MustBeGreaterThanZero">
-		<Value>Slide duration must be greater than zero.</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinDragOffsetToSlide">
 		<Value>Min grag offset</Value>
@@ -96,35 +90,17 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinDragOffsetToSlide.Hint">
 		<Value>Minimum distance to slide change(in pixels).</Value>
 	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MinDragOffsetToSlide.MustBeGreaterThanZero">
-		<Value>Min drag offset must be greater than zero.</Value>
-	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlideSpacing">
 		<Value>Slide spacing</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlideSpacing.Hint">
 		<Value>Empty space between slides(in pixels).</Value>
 	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideSpacing.MustBeGreaterThanOrEqualsZero">
-		<Value>Slide spacing must be greater or equals zero.</Value>
-	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.AutoPlay">
 		<Value>Auto play</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.AutoPlay.Hint">
 		<Value>Play slides automatically.</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.ArrowNavigationDisplayingTypeId">
-		<Value>Arrow navigation</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.ArrowNavigationDisplayingTypeId.Hint">
-		<Value>Select slider arrow navigation displaying type.</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.BulletNavigationDisplayingTypeId">
-		<Value>Bullet navigation</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.BulletNavigationDisplayingTypeId.Hint">
-		<Value>Select slider bullet navigation displaying type.</Value>
 	</LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.Published">
 		<Value>Published</Value>
@@ -182,36 +158,6 @@
 	</LocaleResource>
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.deletedsuccessfully">
 		<Value>Widget zone deleted successfully.</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MaxSlideWidgetZoneWidth">
-		<Value>Max width</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MaxSlideWidgetZoneWidth.Hint">
-		<Value>Maximum slider box width</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth">
-		<Value>Min width</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.MinSlideWidgetZoneWidth.Hint">
-		<Value>Minimum slider box width</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MinSlideWidgetZoneWidth.MustBeGreaterThan200">
-		<Value>Minimum slider width must be greater or equals 200</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumWidth">
-		<Value>Maximum slider width must be greater than minimum slider width</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.MaxSlideWidgetZoneWidth.MustBeGreaterThanMinimumValueOnXPixels">
-		<Value>Maximum slider width must be greater then minimum slider width on {0} pixels</Value>
-	</LocaleResource> 
-	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.widgetzonealreadyreserved">
-		<Value>This system name is already reserved by another widget zone.</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SliderAlignment">
-		<Value>Alignment</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SliderAlignment.Hint">
-		<Value>Slider alignment for selected widget zone.</Value>
 	</LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">

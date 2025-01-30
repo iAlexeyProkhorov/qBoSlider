@@ -19,8 +19,6 @@ using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Components
 {

@@ -178,12 +178,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create()
         {
-            var model = new WidgetZoneModel()
-            {
-                ArrowNavigationDisplayingTypeId = (int)NavigationType.Always,
-                BulletNavigationDisplayingTypeId = (int)NavigationType.Always,
-                SliderAlignmentId = (int)SliderAlignment.Center,
-            };
+            var model = new WidgetZoneModel();
 
             //prepare widget zone model
             await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
@@ -216,16 +211,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var widgetZone = new WidgetZone()
             {
                 //put slider properties
-                ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId,
-                BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId,
-                AutoPlay = model.AutoPlay,
-                AutoPlayInterval = model.AutoPlayInterval,
-                MinDragOffsetToSlide = model.MinDragOffsetToSlide,
-                MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth,
-                MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth,
-                SlideDuration = model.SlideDuration,
+                AllowArrowNavigation = model.AllowArrowNavigation,
+                AllowBulletNavigation = model.AllowBulletNavigation,
+                AutoHeight = model.AutoHeight,
+                Autoplay = model.Autoplay,
+                AutoplayInterval = model.AutoplayInterval,
+                LazyLoading = model.LazyLoading,
+                Loop = model.Loop,
                 SlideSpacing = model.SlideSpacing,
-                SliderAlignmentId = model.SliderAlignmentId,
+                SlidesPerView = model.SlidesPerView,
                 //put widget zone properties
                 Name = model.Name,
                 SystemName = model.SystemName,
@@ -300,15 +294,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.Published = model.Published;
 
             //apply widget zone slider properties
-            widgetZone.ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId;
-            widgetZone.BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId;
-            widgetZone.SliderAlignmentId = model.SliderAlignmentId;
-            widgetZone.AutoPlay = model.AutoPlay;
-            widgetZone.AutoPlayInterval = model.AutoPlayInterval;
-            widgetZone.MinDragOffsetToSlide = model.MinDragOffsetToSlide;
-            widgetZone.MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth;
-            widgetZone.MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth;
-            widgetZone.SlideDuration = model.SlideDuration;
+            widgetZone.Autoplay = model.Autoplay;
+            widgetZone.AutoplayInterval = model.AutoplayInterval;
+            widgetZone.LazyLoading = model.LazyLoading;
+            widgetZone.AllowArrowNavigation = model.AllowArrowNavigation;
+            widgetZone.AllowBulletNavigation = model.AllowBulletNavigation;
+            widgetZone.AutoHeight = model.AutoHeight;
+            widgetZone.Loop = model.Loop;
+            widgetZone.SlidesPerView = model.SlidesPerView;
             widgetZone.SlideSpacing = model.SlideSpacing;
             widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
             widgetZone.LimitedToStores = model.SelectedStoreIds.Any();

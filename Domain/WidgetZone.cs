@@ -34,24 +34,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public string SystemName { get; set; }
 
         /// <summary>
-        /// Gets or sets widget zone slides transition effects collection
+        /// Gets or sets slideshow autoplay value
         /// </summary>
-        public string TransitionEffects { get; set; }
+        public bool Autoplay { get; set; }
 
         /// <summary>
         /// Gets or sets interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
         /// </summary>
-        public int AutoPlayInterval { get; set; } = 3000;
+        public int AutoplayInterval { get; set; } = 3000;
 
         /// <summary>
-        /// Gets or sets slide displaying time. In milliseconds. Default value is 500.
+        /// Gets or sets slider infinite loop flag.
         /// </summary>
-        public int SlideDuration { get; set; } = 500;
+        public bool Loop { get; set; }
 
         /// <summary>
-        /// Gets or sets minimal drag offset to trigger slide, default value is 20
+        /// Gets or sets slide image lazy loading sign
         /// </summary>
-        public int MinDragOffsetToSlide { get; set; } = 20;
+        public bool LazyLoading { get; set; }
 
         /// <summary>
         /// Gets or sets space between each slide in pixels, default value is 0
@@ -59,34 +59,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Domain
         public int SlideSpacing { get; set; }
 
         /// <summary>
-        /// Gets or sets slider alignment type
+        /// Gets or sets how many slides are displaying at slider view in one moment
         /// </summary>
-        public int SliderAlignmentId { get; set; }
+        public int SlidesPerView { get; set; }
 
         /// <summary>
-        /// Gets or sets minimum slider width
+        /// Gets or sets slider automtically height calculation sign
         /// </summary>
-        public int MinSlideWidgetZoneWidth { get; set; } = 200;
-
-        /// <summary>
-        /// Gets or sets maximum slider width
-        /// </summary>
-        public int MaxSlideWidgetZoneWidth { get; set; } = 1920;
-
-        /// <summary>
-        /// Gets or sets slideshow autoplay value
-        /// </summary>
-        public bool AutoPlay { get; set; }
+        public bool AutoHeight { get; set; }
 
         /// <summary>
         /// Gets or sets arrow navigation displaying type id
         /// </summary>
-        public int ArrowNavigationDisplayingTypeId { get; set; }
+        public bool AllowArrowNavigation { get; set; }
 
         /// <summary>
         /// Gets or sets bullet navigation displaying type id
         /// </summary>
-        public int BulletNavigationDisplayingTypeId { get; set; }
+        public bool AllowBulletNavigation{ get; set; }
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.

@@ -107,35 +107,26 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 model = new WidgetZoneModel()
                 {
-                    ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
-                    AvailableArrowNavigations = await NavigationType.Always.ToSelectListAsync(),
-                    AutoPlay = widgetZone.AutoPlay,
-                    AutoPlayInterval = widgetZone.AutoPlayInterval,
-                    BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
-                    AvailableBulletNavigations = await NavigationType.Always.ToSelectListAsync(),
+                    //slider properties
+                    AllowArrowNavigation = widgetZone.AllowArrowNavigation,
+                    AllowBulletNavigation = widgetZone.AllowBulletNavigation,
+                    AutoHeight = widgetZone.AutoHeight,
+                    Autoplay = widgetZone.Autoplay,
+                    AutoplayInterval = widgetZone.AutoplayInterval,
+                    LazyLoading = widgetZone.LazyLoading,
+                    Loop = widgetZone.Loop,
+                    SlidesPerView = widgetZone.SlidesPerView,
+                    SlideSpacing = widgetZone.SlideSpacing,
+                    //widget zone properties
                     Id = widgetZone.Id,
-                    MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                    SliderAlignmentId = widgetZone.SliderAlignmentId,
-                    AvailableSliderAlignments = await SliderAlignment.Center.ToSelectListAsync(),
-                    MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
-                    MaxSlideWidgetZoneWidth = widgetZone.MaxSlideWidgetZoneWidth,
                     Name = widgetZone.Name,
                     Published = widgetZone.Published,
-                    SlideDuration = widgetZone.SlideDuration,
-                    SlideSpacing = widgetZone.SlideSpacing,
                     SystemName = widgetZone.SystemName,
                 };
 
                 //put widget zone id number for slide searhing
                 model.SlideSearchModel.WidgetZoneId = widgetZone.Id;
             }
-
-            //prepare list of availbale navigation types
-            var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
-            var alignments = await SliderAlignment.Center.ToSelectListAsync();
-            model.AvailableArrowNavigations = navigationTypes;
-            model.AvailableBulletNavigations = navigationTypes;
-            model.AvailableSliderAlignments = alignments;
 
             //prepare slide search model
             model.SlideSearchModel.SetGridPageSize();

@@ -115,16 +115,15 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var model = new WidgetZoneModel()
             {
                 Id = widgetZone.Id,
-                AutoPlay = widgetZone.AutoPlay,
-                AutoPlayInterval = widgetZone.AutoPlayInterval,
-                MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                SlideDuration = widgetZone.SlideDuration,
+                AllowArrowNavigation = widgetZone.AllowArrowNavigation,
+                AllowBulletNavigation = widgetZone.AllowBulletNavigation,
+                AutoHeight = widgetZone.AutoHeight,
+                Autoplay = widgetZone.Autoplay,
+                AutoplayInterval = widgetZone.AutoplayInterval,
+                LazyLoading = widgetZone.LazyLoading,
+                Loop = widgetZone.Loop,
                 SlideSpacing = widgetZone.SlideSpacing,
-                ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
-                BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
-                AlignmentId = widgetZone.SliderAlignmentId,
-                MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
-                MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
+                SlidesPerView = widgetZone.SlidesPerView,
             };
 
             //add slide models to widget zone slider

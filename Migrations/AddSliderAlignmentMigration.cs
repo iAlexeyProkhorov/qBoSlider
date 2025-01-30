@@ -9,7 +9,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Migrations
     {
         public override void Up()
         {
-            Create.Column(nameof(WidgetZone.SliderAlignmentId))
+            Create.Column("SliderAlignmentId")
             .OnTable(nameof(WidgetZone))
             .AsInt32()
             .NotNullable()

@@ -134,16 +134,15 @@ namespace Nop.Plugin.Widgets.qBoSlider
 
             var widgetZone = new WidgetZone()
             {
-                AutoPlay = true,
-                AutoPlayInterval = 3000,
-                SlideDuration = 500,
-                MinDragOffsetToSlide = 20,
-                MinSlideWidgetZoneWidth = 200,
-                MaxSlideWidgetZoneWidth = 1920,
-                SliderAlignmentId = 5,
+                Autoplay = true,
+                AutoplayInterval = 3000,
                 SlideSpacing = 0,
-                BulletNavigationDisplayingTypeId = 2,
-                ArrowNavigationDisplayingTypeId = 1,
+                SlidesPerView = 1,
+                AllowArrowNavigation = true,
+                AllowBulletNavigation = true,
+                AutoHeight = true,
+                LazyLoading = true,
+                Loop = true,
                 Name = "Main homepage slider",
                 SystemName = "home_page_top",
                 Published = true
