@@ -122,6 +122,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
                 AutoplayInterval = widgetZone.AutoplayInterval,
                 LazyLoading = widgetZone.LazyLoading,
                 Loop = widgetZone.Loop,
+                SlidesPerGroupAuto = widgetZone.SlidesPerGroupAuto,
+                SlidesPerGroup = widgetZone.SlidesPerGroup,
                 SlideSpacing = widgetZone.SlideSpacing,
                 SlidesPerView = widgetZone.SlidesPerView,
             };

@@ -178,7 +178,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create()
         {
-            var model = new WidgetZoneModel();
+            var model = new WidgetZoneModel()
+            {
+                SlidesPerGroup = 1,
+                SlidesPerView = 1,
+            };
 
             //prepare widget zone model
             await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);
@@ -220,6 +224,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 Loop = model.Loop,
                 SlideSpacing = model.SlideSpacing,
                 SlidesPerView = model.SlidesPerView,
+                SlidesPerGroup = model.SlidesPerGroup,
+                SlidesPerGroupAuto = model.SlidesPerGroupAuto,
                 //put widget zone properties
                 Name = model.Name,
                 SystemName = model.SystemName,
@@ -303,6 +309,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.Loop = model.Loop;
             widgetZone.SlidesPerView = model.SlidesPerView;
             widgetZone.SlideSpacing = model.SlideSpacing;
+            widgetZone.SlidesPerGroupAuto = model.SlidesPerGroupAuto;
+            widgetZone.SlidesPerGroup = model.SlidesPerGroup;
             widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
             widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
 

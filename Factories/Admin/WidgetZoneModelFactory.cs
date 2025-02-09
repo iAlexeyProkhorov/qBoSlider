@@ -100,7 +100,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZoneModel model, WidgetZone widgetZone)
         {
             if (model == null)
-                throw new Exception("Widget zone model are nullable");
+                throw new ArgumentNullException($"Widget zone model are nullable");
 
             //prepare widget zone model if widget zone entity are exist
             if (widgetZone != null)
@@ -117,6 +117,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
                     Loop = widgetZone.Loop,
                     SlidesPerView = widgetZone.SlidesPerView,
                     SlideSpacing = widgetZone.SlideSpacing,
+                    SlidesPerGroup = widgetZone.SlidesPerGroup,
+                    SlidesPerGroupAuto = widgetZone.SlidesPerGroupAuto,
                     //widget zone properties
                     Id = widgetZone.Id,
                     Name = widgetZone.Name,
@@ -142,7 +144,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual async Task PrepareAclModelAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
         {
             if (widgetZoneModel == null)
-                throw new Exception("Widget zone model are null.");
+                throw new ArgumentNullException("Widget zone model are null.");
 
             //prepare widget zone customer roles
             if (widgetZone != null)
@@ -169,7 +171,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         public virtual async Task PrepareStoreMappingsAsync(WidgetZoneModel widgetZoneModel, WidgetZone widgetZone)
         {
             if (widgetZoneModel == null)
-                throw new Exception("Widget zone model are null.");
+                throw new ArgumentNullException("Widget zone model are null.");
 
             //load selected stores for current widget zone
             if (widgetZone != null)

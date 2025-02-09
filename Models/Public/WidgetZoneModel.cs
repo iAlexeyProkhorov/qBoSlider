@@ -39,6 +39,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
         public int SlidesPerView { get; set; }
 
         /// <summary>
+        /// Gets or sets numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1
+        /// </summary>
+        public int SlidesPerGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets slides per group authomatical calculation. This param intended to be used only with slidesPerView: 'auto' and slidesPerGroup: 1. When enabled, it will skip all slides in view on .slideNext() & .slidePrev() methods calls, on Navigation "buttons" clicks and in autoplay.
+        /// </summary>
+        public bool SlidesPerGroupAuto { get; set; }
+
+        /// <summary>
         /// Gets or sets slider automtically height calculation sign
         /// </summary>
         public bool AutoHeight { get; set; }

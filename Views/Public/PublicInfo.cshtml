@@ -7,26 +7,10 @@
 
     nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/css/swiper-bundle.min.css");
     nopHtml.AddCssFileParts("~/Plugins/Widgets.qBoSlider/Content/css/slider.css");
-
-    string alignment = string.Empty;
-    switch (Model.AlignmentId)
-    {
-        case (int)SliderAlignment.Left:
-            alignment = "margin-right: auto;";
-            break;
-        case (int)SliderAlignment.Center:
-            alignment = "margin-left: auto; margin-right: auto;";
-            break;
-        case (int)SliderAlignment.Right:
-            alignment = "margin-left: auto;";
-            break;
-        default:
-            break;
-    }
 }
 @using Nop.Web.Framework.UI
 
-<div class="slider-container" id="slider-container-@Model.Id" style="@alignment">
+<div class="slider-container" id="slider-container-@Model.Id">
     <div class="swiper qbo-slider" id="qbo-slider-@Model.Id">
         <div class="swiper-wrapper">
             @foreach (var slide in Model.Slides)
@@ -56,11 +40,11 @@
                 </div>
             }
         </div>
-        @if (Model.BulletNavigation == 5)
+        @if (Model.AllowBulletNavigation)
         {
             <div class="swiper-pagination" id="qbo-slider-pagination-@Model.Id"></div>
         }
-        @if (Model.ArrowNavigation == 5)
+        @if (Model.AllowArrowNavigation)
         {
             <div class="swiper-button-prev" id="qbo-slider-btn-previous-@Model.Id"></div>
             <div class="swiper-button-next" id="qbo-slider-btn-next-@Model.Id"></div>
@@ -70,19 +54,22 @@
 
 <script asp-location="Footer">
     var swiper = new Swiper("#qbo-slider-@Model.Id", {
-       autoHeight: true,
-         grabCursor: true,
-         effect: "fade",
-         lazy: true,
-    @if (Model.AutoPlay)
+        autoHeight: @Model.AutoHeight.ToString().ToLower(),
+        loop: @Model.Loop.ToString().ToLower(),
+        grabCursor: true,
+        effect: "fade",
+        slidesPerView: @Model.SlidesPerView,
+        slidesPerGroup: @Model.SlidesPerGroup,
+        // lazy: true,
+    @if (Model.Autoplay)
     {
         <text>
             autoplay: {
-                delay: @Model.AutoPlayInterval
+                delay: @Model.AutoplayInterval
             },
         </text>
     }
-    @if (Model.BulletNavigation == 5)
+    @if (Model.AllowBulletNavigation)
     {
         <text>
             pagination: {
@@ -91,7 +78,7 @@
             },
         </text>
     }
-    @if (Model.ArrowNavigation == 5)
+    @if (Model.AllowArrowNavigation)
     {
         <text>
             navigation: {
@@ -100,6 +87,6 @@
             },
         </text>
     }
-     });
+    });
 </script>
 

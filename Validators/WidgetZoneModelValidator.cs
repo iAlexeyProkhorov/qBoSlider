@@ -29,7 +29,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Validators
             //validate widget zone properties
             RuleFor(x => x.Name).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Name.IsRequired"));
             RuleFor(x => x.SystemName).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SystemName.IsRequired"));
-
+            RuleFor(x => x.SlidesPerView).GreaterThan(0).WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlidesPerView.GreaterThanZero"));
+            RuleFor(x => x.SlidesPerGroup).GreaterThan(0).WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlidesPerGroup.GreaterThanZero"));
             //validate slider properties
             //RuleFor(x => x.AutoPlayInterval).GreaterThan(0).WithMessageAwait(localizationService.GetResourceAsync("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.AutoPlayInterval.MustBeGreaterThanZero"));
             //RuleFor(x => x.SlideDuration).GreaterThan(0).WithMessageAwait(localizationService.GetResourceAsync("/*Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlideDuration.MustBeGreaterThanZero*/"));
