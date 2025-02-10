@@ -36,6 +36,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     /// </summary>
     [AuthorizeAdmin]
     [Area(AreaNames.ADMIN)]
+    [AutoValidateAntiforgeryToken]
     public class qBoWidgetZoneController : BasePluginController
     {
         #region Fields

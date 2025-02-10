@@ -6,7 +6,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Public
     /// <summary>
     /// Represents slider parameters and widgets for current widget zone
     /// </summary>
-    public record WidgetZoneModel : BaseNopEntityModel
+    public record PublicSliderModel : BaseNopEntityModel
     {
         /// <summary>
         /// Gets or sets slideshow autoplay value

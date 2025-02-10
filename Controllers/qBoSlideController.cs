@@ -40,7 +40,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     /// </summary>
     [AuthorizeAdmin]
     [Area(AreaNames.ADMIN)]
-
+    [AutoValidateAntiforgeryToken]
     public class qBoSlideController : BasePluginController
     {
         #region Fields

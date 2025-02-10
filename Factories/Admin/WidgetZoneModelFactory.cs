@@ -16,14 +16,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
 using Nop.Plugin.Widgets.qBoSlider.Service;
-using Nop.Services;
 using Nop.Services.Customers;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Models.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {

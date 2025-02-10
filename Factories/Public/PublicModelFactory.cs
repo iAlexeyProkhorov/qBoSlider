@@ -95,11 +95,11 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="widgetZoneSlide">Widget zone slide entity</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Slide model</returns>
-        protected virtual async Task<WidgetZoneModel.SlideModel> PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
+        protected virtual async Task<PublicSliderModel.SlideModel> PrepareSlideModel(WidgetZoneSlide widgetZoneSlide, Slide slide, int languageId)
         {
             var pictureId = await _localizationService.GetLocalizedAsync(slide, z => z.PictureId, languageId, true, false);
 
-            return new WidgetZoneModel.SlideModel()
+            return new PublicSliderModel.SlideModel()
             {
                 Id = slide.Id,
                 PictureUrl = await _pictureService.GetPictureUrlAsync(pictureId.GetValueOrDefault(0)),
@@ -109,10 +109,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             };
         }
 
-        protected virtual async Task<WidgetZoneModel> PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
+        protected virtual async Task<PublicSliderModel> PrepareSliderModel(WidgetZone widgetZone, int languageId, int storeId)
         {
             //prepare slider model
-            var model = new WidgetZoneModel()
+            var model = new PublicSliderModel()
             {
                 Id = widgetZone.Id,
                 AllowArrowNavigation = widgetZone.AllowArrowNavigation,
@@ -166,7 +166,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// </summary>
         /// <param name="widgetZone">Widget zone entity</param>
         /// <returns>Widget zone model</returns>
-        public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone)
+        public virtual async Task<PublicSliderModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone)
         {
             var languageId = (await _workContext.GetWorkingLanguageAsync()).Id;
             var storeId = _storeContext.GetCurrentStore().Id;
@@ -181,7 +181,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
         /// <param name="storeId">Store id number</param>
         /// <param name="languageId">Language entity id number</param>
         /// <returns>Widget zone model</returns>
-        public virtual async Task<WidgetZoneModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone, int languageId, int storeId)
+        public virtual async Task<PublicSliderModel> PrepareWidgetZoneModelAsync(WidgetZone widgetZone, int languageId, int storeId)
         {
             if (widgetZone == null)
                 throw new Exception("Widget zone can't be null");

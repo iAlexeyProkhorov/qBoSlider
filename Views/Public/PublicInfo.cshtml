@@ -1,5 +1,5 @@
 ﻿@using Nop.Plugin.Widgets.qBoSlider;
-@model WidgetZoneModel
+@model PublicSliderModel
 @{
     Layout = "";
     nopHtml.AddScriptParts(ResourceLocation.Footer, "~/Plugins/Widgets.qBoSlider/Content/js/swiper-bundle.min.js");
@@ -57,7 +57,7 @@
         autoHeight: @Model.AutoHeight.ToString().ToLower(),
         loop: @Model.Loop.ToString().ToLower(),
         grabCursor: true,
-        effect: "fade",
+        // effect: "fade",
         slidesPerView: @Model.SlidesPerView,
         slidesPerGroup: @Model.SlidesPerGroup,
         // lazy: true,
