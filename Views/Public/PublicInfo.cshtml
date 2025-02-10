@@ -57,9 +57,10 @@
         autoHeight: @Model.AutoHeight.ToString().ToLower(),
         loop: @Model.Loop.ToString().ToLower(),
         grabCursor: true,
-        // effect: "fade",
+        effect: "slide",
         slidesPerView: @Model.SlidesPerView,
         slidesPerGroup: @Model.SlidesPerGroup,
+        spaceBetween: @Model.SlideSpacing,
         // lazy: true,
     @if (Model.Autoplay)
     {

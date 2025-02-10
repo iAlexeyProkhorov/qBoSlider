@@ -64,7 +64,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
             protected string GenerateLocalizationXmlFilePathByCulture(string culture = "en-US")
             {
                 string fileName = string.Format("localization.{0}.xml", culture);
-                string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}{Path.DirectorySeparatorChar}Content{Path.DirectorySeparatorChar}";
+                string contentDirectoryPath = $"{_originalAssemblyFile.DirectoryName}{Path.DirectorySeparatorChar}Content{Path.DirectorySeparatorChar}localization{Path.DirectorySeparatorChar}";
 
             return $"{contentDirectoryPath}{fileName}";
         }

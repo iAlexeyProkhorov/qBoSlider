@@ -159,6 +159,48 @@
 	<LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.deletedsuccessfully">
 		<Value>Widget zone deleted successfully.</Value>
 	</LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.slidesperview">
+        <Value>Slides per view</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.slidesperview.hint">
+        <Value>Number of slides per view (slides visible at the same time on slider's container).</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlidesPerGroup">
+        <Value>Slides per group</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlidesPerGroup.hint">
+        <Value>Set numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1.</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.allowarrownavigation">
+        <Value>Arrow navigation</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.allowarrownavigation.hint">
+        <Value>Click this property 'true' to add arrow navigation into slider presentation.</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.allowbulletnavigation">
+        <Value>Bullet navigation</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.allowbulletnavigation.hint">
+        <Value>Check this property 'true' to add bullet navigation into slider presentation.</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.loop">
+        <Value>Loop</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.loop.hint">
+        <Value>Set to true to enable continuous loop mode.</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.autoheight">
+        <Value>Auto height</Value>
+    </LocaleResource>
+    <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.autoheight.hint">
+        <Value>Set to true and slider wrapper will adapt its height to the height of the currently active slide</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlidesPerView.GreaterThanZero">
+        <Value>Slides per view property should be greater than zero.</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlidesPerGroup.GreaterThanZero">
+        <Value>Slides per group property should be greater than zero.</Value>
+    </LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
 		<Value>Edit widget zone slide</Value>

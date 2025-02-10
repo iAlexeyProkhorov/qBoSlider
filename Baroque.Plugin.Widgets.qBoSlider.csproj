@@ -87,7 +87,7 @@
 		<None Update="Content\ajax-loader.gif">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="Content\localization.en-US.xml">
+		<None Update="Content\localization\localization.en-US.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Content\sample-images\banner1.jpg">
