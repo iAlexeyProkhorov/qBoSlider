@@ -201,6 +201,12 @@
     <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.SlidesPerGroup.GreaterThanZero">
         <Value>Slides per group property should be greater than zero.</Value>
     </LocaleResource>
+     <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.lazyloading">
+        <Value>Lazy loading</Value>
+    </LocaleResource>
+     <LocaleResource Name="nop.plugin.baroque.widgets.qboslider.admin.widgetzone.fields.lazyloading.hint">
+        <Value>Sets slider pictures lazy loading.</Value>
+    </LocaleResource>
 	<!--WIDGET ZONE SLIDE-->
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.EditWidgetZoneSlidePopup">
 		<Value>Edit widget zone slide</Value>

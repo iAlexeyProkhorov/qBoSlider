@@ -104,6 +104,15 @@
     </div>
     <div class="form-group row">
         <div class="col-md-3">
+            <nop-label asp-for="LazyLoading" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="LazyLoading" />
+            <span asp-validation-for="LazyLoading"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
             <nop-label asp-for="Loop" />
         </div>
         <div class="col-md-9">
@@ -111,7 +120,6 @@
             <span asp-validation-for="Loop"></span>
         </div>
     </div>
-
     <div class="form-group row">
         <div class="col-md-3">
             <nop-label asp-for="Published" />

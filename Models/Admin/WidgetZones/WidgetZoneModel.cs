@@ -54,7 +54,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// <summary>
         /// Gets or sets slides content lazy loading
         /// </summary>
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.Loop")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.LazyLoading")]
         public bool LazyLoading { get; set; }
 
         /// <summary>

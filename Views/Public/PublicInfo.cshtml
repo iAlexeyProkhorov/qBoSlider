@@ -21,7 +21,7 @@
                     {
                         <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
                             <div class="slide-background">
-                                <img src="@slide.PictureUrl" />
+                                <img src="@slide.PictureUrl" @(Model.LazyLoading ? "loading=lazy" : string.Empty) />
                             </div>
                             <div class="slide-description">
                                 @Html.Raw(slide.Description)
@@ -31,11 +31,15 @@
                     else
                     {
                         <div class="slide-background">
-                            <img src="@slide.PictureUrl" />
+                            <img src="@slide.PictureUrl" @(Model.LazyLoading ? "loading=lazy" : string.Empty) />
                         </div>
                         <div class="slide-description">
                             @Html.Raw(slide.Description)
                         </div>
+                    }
+                    @if (Model.LazyLoading)
+                    {
+                        <div class="swiper-lazy-preloader"></div>
                     }
                 </div>
             }
@@ -61,7 +65,6 @@
         slidesPerView: @Model.SlidesPerView,
         slidesPerGroup: @Model.SlidesPerGroup,
         spaceBetween: @Model.SlideSpacing,
-        // lazy: true,
     @if (Model.Autoplay)
     {
         <text>
