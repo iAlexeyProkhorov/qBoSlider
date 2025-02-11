@@ -10,32 +10,35 @@
 }
 @using Nop.Web.Framework.UI
 
+@{
+    void RenderSlide(PublicSliderModel.SlideModel slide)
+    {
+        <div class="slide-background">
+            <img src="@slide.PictureUrl" @(Model.LazyLoading ? "loading=lazy" : string.Empty) />
+        </div>
+        <div class="slide-description">
+            @Html.Raw(slide.Description)
+        </div>
+    }
+}
+
 <div class="slider-container" id="slider-container-@Model.Id">
     <div class="swiper qbo-slider" id="qbo-slider-@Model.Id">
         <div class="swiper-wrapper">
             @foreach (var slide in Model.Slides)
             {
                 <div class="swiper-slide">
-
                     @if (!string.IsNullOrEmpty(slide.Hyperlink))
                     {
                         <a href="@(string.IsNullOrEmpty(slide.Hyperlink) ? "#" : slide.Hyperlink)">
-                            <div class="slide-background">
-                                <img src="@slide.PictureUrl" @(Model.LazyLoading ? "loading=lazy" : string.Empty) />
-                            </div>
-                            <div class="slide-description">
-                                @Html.Raw(slide.Description)
-                            </div>
+                            @{
+                                RenderSlide(slide);
+                            }
                         </a>
                     }
                     else
                     {
-                        <div class="slide-background">
-                            <img src="@slide.PictureUrl" @(Model.LazyLoading ? "loading=lazy" : string.Empty) />
-                        </div>
-                        <div class="slide-description">
-                            @Html.Raw(slide.Description)
-                        </div>
+                        RenderSlide(slide);
                     }
                     @if (Model.LazyLoading)
                     {
@@ -68,27 +71,27 @@
     @if (Model.Autoplay)
     {
         <text>
-            autoplay: {
-                delay: @Model.AutoplayInterval
-            },
+                autoplay: {
+                    delay: @Model.AutoplayInterval
+                },
         </text>
     }
     @if (Model.AllowBulletNavigation)
     {
         <text>
-            pagination: {
-                el: "#qbo-slider-pagination-@Model.Id",
-                clickable: true,
-            },
+                pagination: {
+                    el: "#qbo-slider-pagination-@Model.Id",
+                    clickable: true,
+                },
         </text>
     }
     @if (Model.AllowArrowNavigation)
     {
         <text>
-            navigation: {
-                nextEl: "#qbo-slider-btn-next-@Model.Id",
-                prevEl: "#qbo-slider-btn-previous-@Model.Id",
-            },
+                navigation: {
+                    nextEl: "#qbo-slider-btn-next-@Model.Id",
+                    prevEl: "#qbo-slider-btn-previous-@Model.Id",
+                },
         </text>
     }
     });

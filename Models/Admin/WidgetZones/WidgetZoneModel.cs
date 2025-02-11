@@ -73,7 +73,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// Gets or sets how many slides are displaying at slider view in one moment
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlidesPerView")]
-        public int SlidesPerView { get; set; }
+        public int SlidesPerView { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets slides per group authomatical calculation. This param intended to be used only with slidesPerView: 'auto' and slidesPerGroup: 1. When enabled, it will skip all slides in view on .slideNext() & .slidePrev() methods calls, on Navigation "buttons" clicks and in autoplay.
@@ -85,7 +85,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones
         /// Gets or sets numbers of slides to define and enable group sliding. Useful to use with slidesPerView > 1
         /// </summary>
         [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.WidgetZone.Fields.SlidesPerGroup")]
-        public int SlidesPerGroup { get; set; }
+        public int SlidesPerGroup { get; set; } = 1;
 
         /// <summary>
         /// Gets or sets slide displaying for current widget zone. 'true' - display slider.

@@ -22,7 +22,6 @@ using Nop.Services.Security;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -31,6 +30,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
     /// </summary>
     [AuthorizeAdmin]
     [Area(AreaNames.ADMIN)]
+    [AutoValidateAntiforgeryToken]
     public class qBoConfigurationController : BasePluginController
     {
         #region Fields

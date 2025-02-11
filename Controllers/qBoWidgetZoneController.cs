@@ -179,11 +179,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create()
         {
-            var model = new WidgetZoneModel()
-            {
-                SlidesPerGroup = 1,
-                SlidesPerView = 1,
-            };
+            var model = new WidgetZoneModel();
 
             //prepare widget zone model
             await _widgetZoneModelFactory.PrepareWidgetZoneModelAsync(model, null);

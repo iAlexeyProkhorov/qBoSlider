@@ -132,6 +132,14 @@
 </div>
 
 <script>
+    function validateWidgetZoneExistance(){
+          let parameters = {
+                  widgetZoneId: '@Model.Id',
+                  systemName: $("#@Html.IdFor(model => model.SystemName)").val()
+              };
+         warningValidation('@Url.Action("SystemNameReservedWarning", "qBoWidgetZone")', '@Html.NameFor(model => model.SystemName)', parameters);
+      }
+
     $(document).ready(function () {
          $("#@Html.IdFor(model => model.SystemName)").autocomplete({
             delay: 200,
@@ -139,11 +147,11 @@
             source: '@Url.Action("FindNopCommerceWidgetZoneBySystemName", "qBoWidgetZone")'
          })
          $('#@Html.IdFor(model => model.SystemName)').on('input change', function () {
-              var parameters = {
-                  widgetZoneId: '@Model.Id',
-                  systemName: $(this).val()
-              };
-               warningValidation('@Url.Action("SystemNameReservedWarning", "qBoWidgetZone")', '@Html.NameFor(model => model.SystemName)', parameters);
+              validateWidgetZoneExistance();
          });
+
+         validateWidgetZoneExistance();
       });
+
+      
 </script>
