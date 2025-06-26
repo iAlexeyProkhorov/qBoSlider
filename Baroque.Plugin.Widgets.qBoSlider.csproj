@@ -51,10 +51,6 @@
 		<None Remove="Scripts\slideshow-transition-builder-controller.min.js" />
 		<None Remove="Views\_ViewImports.cshtml" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Include="Sliders\Jssor\JssorSlider.cs" />
-	</ItemGroup>
 	<ItemGroup>
 		<Content Include="plugin.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -170,7 +166,6 @@
 	<ItemGroup>
 	  <Folder Include="Sliders\Jssor\Components\" />
 	  <Folder Include="Sliders\Jssor\Controllers\" />
-	  <Folder Include="Sliders\Swiper\" />
 	</ItemGroup>
 	<!-- This target execute after "Build" target -->
 	<Target Name="NopTarget" AfterTargets="Build">

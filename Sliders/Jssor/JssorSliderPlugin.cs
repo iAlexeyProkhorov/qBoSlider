@@ -1,4 +1,5 @@
 ﻿using Baroque.Plugin.Widgets.qBoSlider.Service.Sliders;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 
@@ -11,14 +12,17 @@ public partial class JssorSlider : ISlider
 {
     #region Fields
 
+    private readonly IUrlHelperFactory _urlHelperFactory;
     private readonly IWebHelper _webHelper;
 
     #endregion
 
     #region Constructor
 
-    public JssorSlider(IWebHelper webHelper)
+    public JssorSlider(IUrlHelperFactory urlHelperFactory,
+        IWebHelper webHelper)
     {
+        _urlHelperFactory = urlHelperFactory;
         _webHelper = webHelper;
     }
 
