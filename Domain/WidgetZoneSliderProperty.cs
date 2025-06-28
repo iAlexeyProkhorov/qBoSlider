@@ -6,7 +6,7 @@ namespace Baroque.Plugin.Widgets.qBoSlider.Domain;
 /// <summary>
 /// Represents properties for specified 'WidgetZone' slider
 /// </summary>
-public partial class WidgetZoneProperty : BaseEntity, ILocalizedEntity
+public partial class WidgetZoneSliderProperty : BaseEntity, ILocalizedEntity
 {
     /// <summary>
     /// Gets or sets widget zone unique id number
