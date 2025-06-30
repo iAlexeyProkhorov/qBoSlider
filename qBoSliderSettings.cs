@@ -17,10 +17,5 @@ namespace Nop.Plugin.Widgets.qBoSlider
         /// Gets or sets selected slider system name
         /// </summary>
         public string SelectedDefaultSliderSystemName { get; set; }
-
-        /// <summary>
-        /// Gets or sets list of available sliders list
-        /// </summary>
-        public IList<SelectListItem> AvailableSliders { get; set; } = new List<SelectListItem>();
     }
 }

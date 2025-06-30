@@ -13,6 +13,7 @@
 //limitations under the License.
 
 using Baroque.Plugin.Widgets.qBoSlider.Service;
+using Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             services.AddScoped<IWidgetZoneModelFactory, WidgetZoneModelFactory>();
             services.AddScoped<IWidgetZoneSlideModelFactory, WidgetZoneSlideModelFactory>();
             services.AddScoped<IPublicModelFactory, PublicModelFactory>();
+
+            //slider
+            services.AddScoped<JssorSlider>();
         }
 
         /// <summary>

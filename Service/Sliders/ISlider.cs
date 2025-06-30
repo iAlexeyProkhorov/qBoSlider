@@ -8,6 +8,16 @@ namespace Baroque.Plugin.Widgets.qBoSlider.Service.Sliders;
 public partial interface ISlider
 {
     /// <summary>
+    /// Gets or sets slider name
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
+    /// Gets or sets slider extension short desription
+    /// </summary>
+    string Description { get; }
+
+    /// <summary>
     /// Gets or sets slider configuration type
     /// </summary>
     Type SliderConfigurationType { get; }

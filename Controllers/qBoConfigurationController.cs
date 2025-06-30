@@ -12,8 +12,11 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Baroque.Plugin.Widgets.qBoSlider.Service.Sliders;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core;
+using Nop.Core.Infrastructure;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
@@ -22,7 +25,6 @@ using Nop.Services.Security;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -37,8 +39,8 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         private readonly ILocalizationService _localizationService;
         private readonly INotificationService _notificationService;
-        private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
+        private readonly ITypeFinder _typeFinder;
 
         private readonly IStoreContext _storeContext;
 
@@ -48,14 +50,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 
         public qBoConfigurationController(ILocalizationService localizationService,
             INotificationService notificationService,
-            IPermissionService permissionService,
             ISettingService settingService,
+            ITypeFinder typeFinder,
             IStoreContext storeContext)
         {
             _localizationService = localizationService;
             _notificationService = notificationService;
-            _permissionService = permissionService;
             _settingService = settingService;
+            _typeFinder = typeFinder;
             _storeContext = storeContext;
         }
 
@@ -68,11 +70,22 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         {
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
             var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeScope);
+            var availableSliders = _typeFinder.FindClassesOfType<ISlider>();
 
             var model = new ConfigurationModel()
             {
                 ActiveStoreScopeConfiguration = storeScope,
-                UseStaticCache = settings.UseStaticCache
+                AvailableSliders = availableSliders.Select(x =>
+                {
+                    var instance = (ISlider)EngineContext.Current.Resolve(x);
+                    return new SelectListItem()
+                    {
+                        Value = x.FullName,
+                        Text = instance.Name,
+                    };
+                }).ToList(),
+                UseStaticCache = settings.UseStaticCache,
+                SelectedDefaultSliderSystemName = settings.SelectedDefaultSliderSystemName
             };
 
             return View("~/Plugins/Widgets.qBoSlider/Views/Admin/Configure.cshtml", model);
@@ -86,6 +99,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeScope);
 
             settings.UseStaticCache = model.UseStaticCache;
+            settings.SelectedDefaultSliderSystemName = model.SelectedDefaultSliderSystemName;
 
             await _settingService.SaveSettingAsync(settings, storeScope);
 
