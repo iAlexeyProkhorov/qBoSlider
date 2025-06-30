@@ -128,22 +128,23 @@ namespace Nop.Plugin.Widgets.qBoSlider
             //settings
             var settings = new qBoSliderSettings
             {
+                SelectedDefaultSliderSystemName = "Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor.JssorSliderPlugin",
             };
 
             await _settingService.SaveSettingAsync(settings);
 
             var widgetZone = new WidgetZone()
             {
-                AutoPlay = true,
-                AutoPlayInterval = 3000,
-                SlideDuration = 500,
-                MinDragOffsetToSlide = 20,
-                MinSlideWidgetZoneWidth = 200,
-                MaxSlideWidgetZoneWidth = 1920,
-                SliderAlignmentId = 5,
-                SlideSpacing = 0,
-                BulletNavigationDisplayingTypeId = 2,
-                ArrowNavigationDisplayingTypeId = 1,
+                //AutoPlay = true,
+                //AutoPlayInterval = 3000,
+                //SlideDuration = 500,
+                //MinDragOffsetToSlide = 20,
+                //MinSlideWidgetZoneWidth = 200,
+                //MaxSlideWidgetZoneWidth = 1920,
+                //SliderAlignmentId = 5,
+                //SlideSpacing = 0,
+                //BulletNavigationDisplayingTypeId = 2,
+                //ArrowNavigationDisplayingTypeId = 1,
                 Name = "Main homepage slider",
                 SystemName = "home_page_top",
                 Published = true

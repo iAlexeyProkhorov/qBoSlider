@@ -8,7 +8,7 @@ namespace Baroque.Plugin.Widgets.qBoSlider.Service;
 /// <summary>
 /// Represents widget zone propery service interface
 /// </summary>
-public partial interface IWidgetZoneSlidePropertyService
+public partial interface IWidgetZoneSliderPropertyService
 {
     /// <summary>
     /// Gets list of all searchable widget zone properties

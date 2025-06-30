@@ -164,6 +164,7 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Migrations\" />
 	  <Folder Include="Sliders\Jssor\Components\" />
 	  <Folder Include="Sliders\Jssor\Controllers\" />
 	</ItemGroup>

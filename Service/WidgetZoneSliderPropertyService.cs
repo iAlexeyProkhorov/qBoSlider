@@ -9,7 +9,7 @@ namespace Baroque.Plugin.Widgets.qBoSlider.Service;
 /// <summary>
 /// Represents widget zone property service
 /// </summary>
-public partial class WidgetZoneSliderPropertyService : IWidgetZoneSlidePropertyService
+public partial class WidgetZoneSliderPropertyService : IWidgetZoneSliderPropertyService
 {
     #region Fields
 

@@ -1,4 +1,5 @@
-﻿using FluentMigrator;
+﻿using Baroque.Plugin.Widgets.qBoSlider.Domain;
+using FluentMigrator;
 using Nop.Data.Extensions;
 using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
@@ -14,6 +15,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Mapping
             Create.TableFor<WidgetZone>();
             Create.TableFor<Slide>();
             Create.TableFor<WidgetZoneSlide>();
+            Create.TableFor<WidgetZoneSliderProperty>();
         }
     }
 }

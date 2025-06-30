@@ -1,4 +1,4 @@
-//Copyright 2020 Alexey Prokhorov
+﻿//Copyright 2020 Alexey Prokhorov
 
 //Licensed under the Apache License, Version 2.0 (the "License");
 //you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Baroque.Plugin.Widgets.qBoSlider.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<IWidgetZoneService, WidgetZoneService>();
             services.AddScoped<IWidgetZoneSlideService, WidgetZoneSlideService>();
+            services.AddScoped<IWidgetZoneSliderPropertyService, WidgetZoneSliderPropertyService>();
             services.AddScoped<IGarbageManager, GarbageManager>();
 
             //factories
