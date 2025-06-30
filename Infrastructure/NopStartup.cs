@@ -1,4 +1,4 @@
-//Copyright 2020 Alexey Prokhorov
+﻿//Copyright 2020 Alexey Prokhorov
 
 //Licensed under the Apache License, Version 2.0 (the "License");
 //you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +48,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Infrastructure
             services.AddScoped<IWidgetZoneModelFactory, WidgetZoneModelFactory>();
             services.AddScoped<IWidgetZoneSlideModelFactory, WidgetZoneSlideModelFactory>();
             services.AddScoped<IPublicModelFactory, PublicModelFactory>();
+
+            //validators
+            services.AddValidatorsFromAssemblyContaining(typeof(qBoSliderPlugin));
         }
 
         /// <summary>
