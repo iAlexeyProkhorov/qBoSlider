@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using Nop.Data.Mapping;
 using Nop.Data.Migrations;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 
