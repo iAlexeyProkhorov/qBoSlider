@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Models.Admin.WidgetZones;
@@ -107,23 +108,24 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             {
                 model = new WidgetZoneModel()
                 {
-                    ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
-                    AvailableArrowNavigations = await NavigationType.Always.ToSelectListAsync(),
-                    AutoPlay = widgetZone.AutoPlay,
-                    AutoPlayInterval = widgetZone.AutoPlayInterval,
-                    BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
-                    AvailableBulletNavigations = await NavigationType.Always.ToSelectListAsync(),
                     Id = widgetZone.Id,
-                    MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                    SliderAlignmentId = widgetZone.SliderAlignmentId,
-                    AvailableSliderAlignments = await SliderAlignment.Center.ToSelectListAsync(),
-                    MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
-                    MaxSlideWidgetZoneWidth = widgetZone.MaxSlideWidgetZoneWidth,
                     Name = widgetZone.Name,
                     Published = widgetZone.Published,
-                    SlideDuration = widgetZone.SlideDuration,
-                    SlideSpacing = widgetZone.SlideSpacing,
                     SystemName = widgetZone.SystemName,
+                    SliderSystemName = widgetZone.SliderSystemName,
+                    //ArrowNavigationDisplayingTypeId = widgetZone.ArrowNavigationDisplayingTypeId,
+                    //AvailableArrowNavigations = await NavigationType.Always.ToSelectListAsync(),
+                    //AutoPlay = widgetZone.AutoPlay,
+                    //AutoPlayInterval = widgetZone.AutoPlayInterval,
+                    //BulletNavigationDisplayingTypeId = widgetZone.BulletNavigationDisplayingTypeId,
+                    //AvailableBulletNavigations = await NavigationType.Always.ToSelectListAsync(),
+                    //MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                    //SliderAlignmentId = widgetZone.SliderAlignmentId,
+                    //AvailableSliderAlignments = await SliderAlignment.Center.ToSelectListAsync(),
+                    //MinSlideWidgetZoneWidth = widgetZone.MinSlideWidgetZoneWidth,
+                    //MaxSlideWidgetZoneWidth = widgetZone.MaxSlideWidgetZoneWidth,
+                    //SlideDuration = widgetZone.SlideDuration,
+                    //SlideSpacing = widgetZone.SlideSpacing,
                 };
 
                 //put widget zone id number for slide searhing
@@ -133,9 +135,9 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
             //prepare list of availbale navigation types
             var navigationTypes = await NavigationType.Always.ToSelectListAsync(false);
             var alignments = await SliderAlignment.Center.ToSelectListAsync();
-            model.AvailableArrowNavigations = navigationTypes;
-            model.AvailableBulletNavigations = navigationTypes;
-            model.AvailableSliderAlignments = alignments;
+            //model.AvailableArrowNavigations = navigationTypes;
+            //model.AvailableBulletNavigations = navigationTypes;
+            //model.AvailableSliderAlignments = alignments;
 
             //prepare slide search model
             model.SlideSearchModel.SetGridPageSize();

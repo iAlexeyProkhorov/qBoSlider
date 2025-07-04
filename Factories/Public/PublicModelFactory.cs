@@ -25,9 +25,6 @@ using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -115,16 +112,16 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             var model = new WidgetZoneModel()
             {
                 Id = widgetZone.Id,
-                AutoPlay = widgetZone.AutoPlay,
-                AutoPlayInterval = widgetZone.AutoPlayInterval,
-                MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
-                SlideDuration = widgetZone.SlideDuration,
-                SlideSpacing = widgetZone.SlideSpacing,
-                ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
-                BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
-                AlignmentId = widgetZone.SliderAlignmentId,
-                MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
-                MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
+                //AutoPlay = widgetZone.AutoPlay,
+                //AutoPlayInterval = widgetZone.AutoPlayInterval,
+                //MinDragOffsetToSlide = widgetZone.MinDragOffsetToSlide,
+                //SlideDuration = widgetZone.SlideDuration,
+                //SlideSpacing = widgetZone.SlideSpacing,
+                //ArrowNavigation = widgetZone.ArrowNavigationDisplayingTypeId,
+                //BulletNavigation = widgetZone.BulletNavigationDisplayingTypeId,
+                //AlignmentId = widgetZone.SliderAlignmentId,
+                //MinSliderWidth = widgetZone.MinSlideWidgetZoneWidth,
+                //MaxSliderWidth = widgetZone.MaxSlideWidgetZoneWidth
             };
 
             //add slide models to widget zone slider

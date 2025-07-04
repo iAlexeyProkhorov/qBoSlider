@@ -12,7 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-namespace Nop.Plugin.Widgets.qBoSlider
+namespace Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor
 {
     /// <summary>
     /// Represents navigation elements displaying type

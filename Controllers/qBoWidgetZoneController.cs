@@ -12,7 +12,10 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Baroque.Plugin.Widgets.qBoSlider.Service;
+using Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Plugin.Widgets.qBoSlider.Factories.Admin;
@@ -28,9 +31,6 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -53,11 +53,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly ISettingService _settingService;
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
+        private readonly IStoreContext _storeContext;
         private readonly IStoreService _storeService;
         private readonly IWidgetZoneModelFactory _widgetZoneModelFactory;
         private readonly IWidgetZoneSlideModelFactory _widgetZoneSlideModelFactory;
         private readonly IWidgetZoneService _widgetZoneService;
         private readonly IWidgetZoneSlideService _widgetZoneSlideService;
+        private readonly IWidgetZoneSliderPropertyService _widgetZoneSliderPropertyService;
 
         #endregion
 
@@ -72,11 +74,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             ISearchModelFactory searchModelFactory,
             ISettingService settingService,
             IStoreMappingService storeMappingService,
+            IStoreContext storeContext,
             IStoreService storeService,
             IWidgetZoneModelFactory widgetZoneModelFactory,
             IWidgetZoneSlideModelFactory widgetZoneSlideModelFactory,
             IWidgetZoneService widgetZoneService,
-            IWidgetZoneSlideService widgetZoneSlideService)
+            IWidgetZoneSlideService widgetZoneSlideService,
+            IWidgetZoneSliderPropertyService widgetZoneSliderPropertyService)
         {
             _aclService = aclService;
             _customerService = customerService;
@@ -87,11 +91,13 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             _searchModelFactory = searchModelFactory;
             _settingService = settingService;
             _storeMappingService = storeMappingService;
+            _storeContext = storeContext;
             _storeService = storeService;
             _widgetZoneModelFactory = widgetZoneModelFactory;
             _widgetZoneSlideModelFactory = widgetZoneSlideModelFactory;
             _widgetZoneService = widgetZoneService;
             _widgetZoneSlideService = widgetZoneSlideService;
+            _widgetZoneSliderPropertyService = widgetZoneSliderPropertyService;
         }
 
         #endregion
@@ -181,11 +187,14 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
         public virtual async Task<IActionResult> Create()
         {
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var settings = await _settingService.LoadSettingAsync<qBoSliderSettings>(storeScope);
             var model = new WidgetZoneModel()
             {
-                ArrowNavigationDisplayingTypeId = (int)NavigationType.OnMouseDrag,
-                BulletNavigationDisplayingTypeId = (int)NavigationType.Always,
-                SliderAlignmentId = (int)SliderAlignment.Center,
+                SliderSystemName = settings.SelectedDefaultSliderSystemName,
+                //ArrowNavigationDisplayingTypeId = (int)NavigationType.OnMouseDrag,
+                //BulletNavigationDisplayingTypeId = (int)NavigationType.Always,
+                //SliderAlignmentId = (int)SliderAlignment.Center,
             };
 
             //prepare widget zone model
@@ -219,19 +228,20 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             var widgetZone = new WidgetZone()
             {
                 //put slider properties
-                ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId,
-                BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId,
-                AutoPlay = model.AutoPlay,
-                AutoPlayInterval = model.AutoPlayInterval,
-                MinDragOffsetToSlide = model.MinDragOffsetToSlide,
-                MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth,
-                MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth,
-                SlideDuration = model.SlideDuration,
-                SlideSpacing = model.SlideSpacing,
-                SliderAlignmentId = model.SliderAlignmentId,
+                //ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId,
+                //BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId,
+                //AutoPlay = model.AutoPlay,
+                //AutoPlayInterval = model.AutoPlayInterval,
+                //MinDragOffsetToSlide = model.MinDragOffsetToSlide,
+                //MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth,
+                //MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth,
+                //SlideDuration = model.SlideDuration,
+                //SlideSpacing = model.SlideSpacing,
+                //SliderAlignmentId = model.SliderAlignmentId,
                 //put widget zone properties
                 Name = model.Name,
                 SystemName = model.SystemName,
+                SliderSystemName = model.SliderSystemName,
                 LimitedToStores = model.SelectedStoreIds.Any(),
                 SubjectToAcl = model.SelectedCustomerRoleIds.Any(),
                 Published = model.Published,
@@ -301,18 +311,19 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             widgetZone.Name = model.Name;
             widgetZone.SystemName = model.SystemName;
             widgetZone.Published = model.Published;
+            widgetZone.SliderSystemName = model.SliderSystemName;
 
             //apply widget zone slider properties
-            widgetZone.ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId;
-            widgetZone.BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId;
-            widgetZone.SliderAlignmentId = model.SliderAlignmentId;
-            widgetZone.AutoPlay = model.AutoPlay;
-            widgetZone.AutoPlayInterval = model.AutoPlayInterval;
-            widgetZone.MinDragOffsetToSlide = model.MinDragOffsetToSlide;
-            widgetZone.MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth;
-            widgetZone.MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth;
-            widgetZone.SlideDuration = model.SlideDuration;
-            widgetZone.SlideSpacing = model.SlideSpacing;
+            //widgetZone.ArrowNavigationDisplayingTypeId = model.ArrowNavigationDisplayingTypeId;
+            //widgetZone.BulletNavigationDisplayingTypeId = model.BulletNavigationDisplayingTypeId;
+            //widgetZone.SliderAlignmentId = model.SliderAlignmentId;
+            //widgetZone.AutoPlay = model.AutoPlay;
+            //widgetZone.AutoPlayInterval = model.AutoPlayInterval;
+            //widgetZone.MinDragOffsetToSlide = model.MinDragOffsetToSlide;
+            //widgetZone.MinSlideWidgetZoneWidth = model.MinSlideWidgetZoneWidth;
+            //widgetZone.MaxSlideWidgetZoneWidth = model.MaxSlideWidgetZoneWidth;
+            //widgetZone.SlideDuration = model.SlideDuration;
+            //widgetZone.SlideSpacing = model.SlideSpacing;
             widgetZone.SubjectToAcl = model.SelectedCustomerRoleIds.Any();
             widgetZone.LimitedToStores = model.SelectedStoreIds.Any();
 

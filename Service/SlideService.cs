@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor;
 using Nop.Core;
 using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;

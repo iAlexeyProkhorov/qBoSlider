@@ -147,6 +147,7 @@ namespace Nop.Plugin.Widgets.qBoSlider
                 //ArrowNavigationDisplayingTypeId = 1,
                 Name = "Main homepage slider",
                 SystemName = "home_page_top",
+                SliderSystemName = "Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor.JssorSliderPlugin",
                 Published = true
             };
             await _widgetZoneService.InsertWidgetZoneAsync(widgetZone);

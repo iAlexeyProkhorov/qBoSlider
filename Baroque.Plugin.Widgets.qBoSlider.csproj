@@ -164,9 +164,8 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Migrations\" />
 	  <Folder Include="Sliders\Jssor\Components\" />
-	  <Folder Include="Sliders\Jssor\Controllers\" />
+	  <Folder Include="Sliders\Jssor\Views\" />
 	</ItemGroup>
 	<!-- This target execute after "Build" target -->
 	<Target Name="NopTarget" AfterTargets="Build">

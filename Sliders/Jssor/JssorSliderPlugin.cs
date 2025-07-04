@@ -6,7 +6,7 @@ using Nop.Plugin.Widgets.qBoSlider.Domain;
 namespace Baroque.Plugin.Widgets.qBoSlider.Sliders.Jssor;
 
 /// <summary>
-/// Represents JSSOR slider 
+/// Represents JSSOR slider extension for qBoSlider plugin
 /// </summary>
 public partial class JssorSlider : ISlider
 {
@@ -60,6 +60,16 @@ public partial class JssorSlider : ISlider
             return typeof(JssorSliderConfiguration);
         }
     }
+
+    /// <summary>
+    /// Gets or sets slider name
+    /// </summary>
+    public string Name { get{ return "Jssor slider"; } }
+
+    /// <summary>
+    /// Gets or sets slider extension short desription
+    /// </summary>
+    public string Description { get { return "Allows to use jssor slider extension."; } }
 
     #endregion
 }
