@@ -23,9 +23,6 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -153,8 +150,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         {
             var slides = await _slideService.GetAllSlidesAsync(searchModel.SearchName,
                 searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId } : null,
-                searchModel.SearchStartDateOnUtc,
-                searchModel.SearchFinishDateOnUtc,
+                searchModel.SearchStartDateFromOnUtc,
+                searchModel.SearchStartDateToOnUtc,
+                searchModel.SearchFinishDateFromOnUtc,
+                searchModel.SearchFinishDateToOnUtc,
                 (PublicationState)searchModel.SearchPublicationStateId, pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize);
 
             var gridModel = await new SlideSearchModel.SlidePagedListModel().PrepareToGridAsync(searchModel, slides, () =>

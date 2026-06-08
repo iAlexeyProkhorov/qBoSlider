@@ -60,7 +60,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zone slides collection</returns>
-        public virtual IPagedList<WidgetZoneSlide> GetWidgetZoneSlides(int? widgetZoneId = null, int? slideId = null, int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual async Task<IPagedList<WidgetZoneSlide>> GetWidgetZoneSlidesAsync(int? widgetZoneId = null, int? slideId = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = _widgetZoneSlideRepository.Table;
 
@@ -74,7 +74,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
 
             query = query.OrderBy(x => x.Id);
 
-            return new PagedList<WidgetZoneSlide>(query.ToList(), pageIndex, pageSize);
+            return await query.ToPagedListAsync(pageIndex, pageSize);
         }
 
         /// <summary>

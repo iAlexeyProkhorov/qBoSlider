@@ -17,9 +17,6 @@ using Nop.Data;
 using Nop.Plugin.Widgets.qBoSlider.Domain;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Models.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Service
 {

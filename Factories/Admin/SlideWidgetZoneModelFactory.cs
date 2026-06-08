@@ -110,7 +110,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Slide widget zones list</returns>
         public virtual async Task<SlideWidgetZoneSearchModel.WidgetZonePagedList> PrepareWidgetZoneListAsync(SlideWidgetZoneSearchModel searchModel)
         {
-            var allSlideWidgetZones = _widgetZoneSlideService.GetWidgetZoneSlides(slideId: searchModel.SlideId);
+            var allSlideWidgetZones = await _widgetZoneSlideService.GetWidgetZoneSlidesAsync(slideId: searchModel.SlideId);
             var gridModel = await new SlideWidgetZoneSearchModel.WidgetZonePagedList().PrepareToGridAsync(searchModel, allSlideWidgetZones, () =>
             {
                 return allSlideWidgetZones.SelectAwait(async slideWidgetZone =>

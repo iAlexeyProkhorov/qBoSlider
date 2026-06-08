@@ -437,18 +437,30 @@
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchWidgetZoneId.hint">
 		<Value>Select searchable widnget zone</Value>
 	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateOnUtc">
-		<Value>Start date</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateOnUtc.hint">
-		<Value>Put slide start publication date</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateOnUtc">
-		<Value>Finish date</Value>
-	</LocaleResource>
-	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateOnUtc.hint">
-		<Value>Put slide finish publication date</Value>
-	</LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateFromOnUtc">
+        <Value>Start date from</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateFromOnUtc.hint">
+        <Value>Searchable period begin for slide publication start date.</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateToOnUtc">
+        <Value>to</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateToOnUtc.hint">
+        <Value>Searchable period end for slide publication start date.</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateFromOnUtc">
+        <Value>Finish date from</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateFromOnUtc.hint">
+        <Value>Searchable period begin for slide publication finish date.</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateToOnUtc">
+        <Value>to</Value>
+    </LocaleResource>
+    <LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateToOnUtc.hint">
+        <Value>Searchable period end for slide publication finish date.</Value>
+    </LocaleResource>
 	<LocaleResource Name="Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.PublicationStateId">
 		<Value>Published</Value>
 	</LocaleResource>

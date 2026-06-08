@@ -29,9 +29,6 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -460,7 +457,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
             if (slide == null)
                 throw new Exception($"Slide by id '{searchModel.SlideId}' isn't exist");
 
-            var slideWidgetZones = _widgetZoneSlideService.GetWidgetZoneSlides(null, searchModel.SlideId, searchModel.Page - 1, searchModel.PageSize);
+            var slideWidgetZones = await _widgetZoneSlideService.GetWidgetZoneSlidesAsync(null, searchModel.SlideId, searchModel.Page - 1, searchModel.PageSize);
 
             foreach (var widgetZoneId in searchModel.SelectedWidgetZoneIds)
                 await _widgetZoneSlideService.InsertWidgetZoneSlideAsync(new WidgetZoneSlide()

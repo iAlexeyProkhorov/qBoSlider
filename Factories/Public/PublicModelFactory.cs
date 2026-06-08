@@ -25,9 +25,6 @@ using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
 {
@@ -128,7 +125,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Public
             };
 
             //add slide models to widget zone slider
-            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(widgetZone.Id).OrderBy(s => s.DisplayOrder);
+            var widgetZoneSlides = (await _widgetZoneSlideService.GetWidgetZoneSlidesAsync(widgetZone.Id)).OrderBy(s => s.DisplayOrder);
             foreach (var widgetSlide in widgetZoneSlides)
             {
                 var slide = await _slideService.GetSlideByIdAsync(widgetSlide.SlideId);

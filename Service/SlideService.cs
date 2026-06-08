@@ -65,8 +65,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="name">Searching slider name</param>
         /// <param name="widgetZoneIds">Slides for widget zones</param>
-        /// <param name="startDate">Publication start date</param>
-        /// <param name="endDate">Publication end date</param>
+        /// <param name="startDateFrom">Start date searching period begin</param>
+        /// <param name="startDateTo">Start date searching period end</param>
+        /// <param name="endDateFrom">End date searching period begin</param>
+        /// <param name="endDateTo">End date searching period finish</param>
         /// <param name="publicationState">Searching slides publication state</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page sizer</param>
@@ -74,8 +76,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <returns>Paged slides list</returns>
         public virtual async Task<IPagedList<Slide>> GetAllSlidesAsync(string name = null,
             int[] widgetZoneIds = null,
-            DateTime? startDate = null,
-            DateTime? endDate = null,
+            DateTime? startDateFrom = null,
+            DateTime? startDateTo = null,
+            DateTime? endDateFrom = null,
+            DateTime? endDateTo = null,
             PublicationState publicationState = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
@@ -95,12 +99,18 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
                             select slide;
 
                 //filter by start date
-                if (startDate.HasValue)
-                    query = query.Where(x => !x.StartDateUtc.HasValue || x.StartDateUtc >= startDate.Value);
+                if (startDateFrom.HasValue)
+                    query = query.Where(x => x.StartDateUtc.HasValue && x.StartDateUtc >= startDateFrom.Value);
+
+                if (startDateTo.HasValue)
+                    query = query.Where(x => x.StartDateUtc.HasValue && x.StartDateUtc <= startDateTo.Value);
 
                 //filter by end publishing date
-                if (endDate.HasValue)
-                    query = query.Where(x => !x.EndDateUtc.HasValue || x.EndDateUtc <= endDate.Value);
+                if (endDateFrom.HasValue)
+                    query = query.Where(x => x.EndDateUtc.HasValue && x.EndDateUtc >= endDateFrom.Value);
+
+                if (endDateTo.HasValue)
+                    query = query.Where(x => x.EndDateUtc.HasValue && x.EndDateUtc <= endDateTo.Value);
 
                 //filter unpublished slides
                 if (publicationState == PublicationState.Published)
@@ -113,7 +123,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
                     query = await _storeMappingService.ApplyStoreMapping(query, storeId);
 
                 return query;
-            });
+            }, pageIndex, pageSize);
 
             return result;
         }

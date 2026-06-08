@@ -37,7 +37,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>Widget zone slides collection</returns>
-        IPagedList<WidgetZoneSlide> GetWidgetZoneSlides(int? widgetZoneId = null, int? slideId = null, int pageIndex = 0, int pageSize = int.MaxValue);
+        Task<IPagedList<WidgetZoneSlide>> GetWidgetZoneSlidesAsync(int? widgetZoneId = null, int? slideId = null, int pageIndex = 0, int pageSize = int.MaxValue);
 
         /// <summary>
         /// Insert new widget zone slide mapping

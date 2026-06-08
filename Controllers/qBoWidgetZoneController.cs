@@ -28,9 +28,6 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Framework.Mvc.Filters;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Controllers
 {
@@ -51,7 +48,6 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         private readonly IPermissionService _permissionService;
         private readonly ISearchModelFactory _searchModelFactory;
         private readonly ISettingService _settingService;
-        private readonly IStaticCacheManager _staticCacheManager;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
         private readonly IWidgetZoneModelFactory _widgetZoneModelFactory;
@@ -161,7 +157,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
         #region Widget Zone
 
         [CheckPermission(StandardPermission.Configuration.MANAGE_WIDGETS)]
-        public virtual async Task<IActionResult> List()
+        public virtual IActionResult List()
         {
             var model = new WidgetZoneSearchModel();
             model.SetGridPageSize();
@@ -466,7 +462,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Controllers
                 throw new Exception($"Widget zone by id '{model.WidgetZoneId}' aren't exist.");
 
             //calculate maximum dispay order to add slide in end of list
-            var widgetZoneSlides = _widgetZoneSlideService.GetWidgetZoneSlides(model.WidgetZoneId);
+            var widgetZoneSlides = await _widgetZoneSlideService.GetWidgetZoneSlidesAsync(model.WidgetZoneId);
             var displayOrder = widgetZoneSlides.Any() ? widgetZoneSlides.Max(x => x.DisplayOrder) : 0;
 
             foreach (var slideId in model.SelecetedSlideIds)

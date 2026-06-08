@@ -35,8 +35,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// </summary>
         /// <param name="name">Searching slider name</param>
         /// <param name="widgetZoneIds">Slides for widget zones</param>
-        /// <param name="startDate">Publication start date</param>
-        /// <param name="endDate">Publication end date</param>
+        /// <param name="startDateFrom">Start date searching period begin</param>
+        /// <param name="startDateTo">Start date searching period end</param>
+        /// <param name="endDateFrom">End date searching period begin</param>
+        /// <param name="endDateTo">End date searching period finish</param>
         /// <param name="publicationState">Searching slides publication state</param>
         /// <param name="pageIndex">Page index</param>
         /// <param name="pageSize">Page sizer</param>
@@ -44,8 +46,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Service
         /// <returns>Paged slides list</returns>
         Task<IPagedList<Slide>> GetAllSlidesAsync(string name = null,
             int[] widgetZoneIds = null,
-            DateTime? startDate = null,
-            DateTime? endDate = null,
+            DateTime? startDateFrom = null,
+            DateTime? startDateTo = null,
+            DateTime? endDateFrom = null,
+            DateTime? endDateTo = null,
             PublicationState publicationState = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,

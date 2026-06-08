@@ -18,9 +18,6 @@ using Nop.Plugin.Widgets.qBoSlider.Service;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Web.Framework.Models.Extensions;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
 {
@@ -68,7 +65,7 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         /// <returns>Widget zone slides paged list</returns>
         public virtual async Task<WidgetZoneSlideSearchModel.SlideList> PrepareSlidePagedListModelAsync(WidgetZoneSlideSearchModel searchModel)
         {
-            var slides = _widgetZoneSlideService.GetWidgetZoneSlides(searchModel.WidgetZoneId, null, searchModel.Page - 1, searchModel.PageSize);
+            var slides = await _widgetZoneSlideService.GetWidgetZoneSlidesAsync(searchModel.WidgetZoneId, null, searchModel.Page - 1, searchModel.PageSize);
             var gridModel = await new WidgetZoneSlideSearchModel.SlideList().PrepareToGridAsync(searchModel, slides, () =>
             {
                 return slides.SelectAwait(async widgetZoneSlide =>
@@ -102,8 +99,10 @@ namespace Nop.Plugin.Widgets.qBoSlider.Factories.Admin
         {
             var slides = await _slideService.GetAllSlidesAsync(name: searchModel.SearchName,
                widgetZoneIds: searchModel.SearchWidgetZoneId > 0 ? new int[1] { searchModel.SearchWidgetZoneId } : null,
-               startDate: searchModel.SearchStartDateOnUtc,
-               endDate: searchModel.SearchFinishDateOnUtc,
+               startDateFrom: searchModel.SearchStartDateFromOnUtc,
+               startDateTo: searchModel.SearchStartDateToOnUtc,
+               endDateFrom: searchModel.SearchFinishDateFromOnUtc,
+               endDateTo: searchModel.SearchFinishDateToOnUtc,
                publicationState: (PublicationState)searchModel.SearchPublicationStateId,
                pageIndex: searchModel.Page - 1,
                pageSize: searchModel.PageSize);

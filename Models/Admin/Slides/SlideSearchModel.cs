@@ -47,16 +47,30 @@ namespace Nop.Plugin.Widgets.qBoSlider.Models.Admin.Slides
         /// <summary>
         /// Gets or sets slide search start date
         /// </summary>
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateOnUtc")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateFromOnUtc")]
         [UIHint("DateTimeNullable")]
-        public DateTime? SearchStartDateOnUtc { get; set; }
+        public DateTime? SearchStartDateFromOnUtc { get; set; }
 
         /// <summary>
-        /// Gets or sets slide search finish date
+        /// Gets or sets slide search start date
         /// </summary>
-        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateOnUtc")]
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchStartDateToOnUtc")]
         [UIHint("DateTimeNullable")]
-        public DateTime? SearchFinishDateOnUtc { get; set; }
+        public DateTime? SearchStartDateToOnUtc { get; set; }
+
+        /// <summary>
+        /// Gets or sets slide finish date search period begin
+        /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateFromOnUtc")]
+        [UIHint("DateTimeNullable")]
+        public DateTime? SearchFinishDateFromOnUtc { get; set; }
+
+        /// <summary>
+        /// Gets or sets slide  finish date search period end
+        /// </summary>
+        [NopResourceDisplayName("Nop.Plugin.Baroque.Widgets.qBoSlider.Admin.SlideSearch.SearchFinishDateToOnUtc")]
+        [UIHint("DateTimeNullable")]
+        public DateTime? SearchFinishDateToOnUtc { get; set; }
 
         /// <summary>
         /// Gets or sets slide search publication status
